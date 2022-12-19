@@ -1,0 +1,23 @@
+.main {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs {
+    display: flex;
+    height: 56px;
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0
+}
+
+.listItem {
+    list-style-type: none;
+    width: 240px;
+    height: 120px;
+}

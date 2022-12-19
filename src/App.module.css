@@ -1,0 +1,21 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1920px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #131316;
+
+}
+
+
+
+.content {
+  width: 1240px;
+  display: flex;
+  height: 912px;
+}
