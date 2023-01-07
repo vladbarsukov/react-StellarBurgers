@@ -1,0 +1,33 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    width: 720px;
+
+}
+
+.image {
+    align-self: center;
+    width: 480px;
+    height: 240px;
+}
+
+.ingredient_name {
+    align-self: center;
+}
+
+.food_value {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    list-style-type: none;
+    justify-content: space-between;
+    width: 516px;
+    height: 56px;
+    color: #8585AD;
+}
+
+.food_value_item {
+    display: flex;
+    flex-direction: column;
+}
