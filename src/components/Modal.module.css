@@ -12,7 +12,6 @@
     pointer-events: none;
     transition: 0.5s;
     z-index: 2;
-
 }
 
 .modal_active {
@@ -26,8 +25,16 @@
     background: #1C1C21;
     transform: scale(0.5);
     transition: 0.4s all;
+    position: relative;
 }
 
 .modal_content_active {
     transform: scale(1);
+}
+
+.close_icon {
+    position: absolute;
+    right: 40px;
+    top: 63px;
+    cursor: pointer;
 }

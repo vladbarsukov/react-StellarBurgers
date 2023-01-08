@@ -1,2 +1,9 @@
+.orderPrice {
+    display: flex;
+}
 
+.price {
+    display: flex;
+    align-items: center;
+}
 

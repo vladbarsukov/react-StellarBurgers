@@ -1,14 +1,22 @@
 import React, {useEffect, useRef, useState} from 'react';
 import classes from "./BurgerIngredients.module.css";
-import data from '../utils/data'
 import TabList from "./TabList";
 import IngredientsList from "./IngredientsList";
 
-const BurgerIngredients = ({setActive, setIngredientDetails}) => {
-  const [ingredients, setIngredients] = useState(data)
-  const [buns, setBuns] = useState(ingredients.filter(x => x.type === 'bun'))
-  const [sauces, setSauces] = useState(ingredients.filter(x => x.type === "sauce"))
-  const [main, setMain] = useState(ingredients.filter(x => x.type === "main"))
+
+const BurgerIngredients = ({setActive, setIngredientDetails, ingredientsData=[]}) => {
+  const [buns, setBuns] = useState([])
+  const [sauces, setSauces] = useState([])
+  const [main, setMain] = useState([])
+
+
+  useEffect(() => {
+    setBuns(ingredientsData.filter(x => x.type === 'bun'))
+    setSauces(ingredientsData.filter(x => x.type === "sauce"))
+    setMain(ingredientsData.filter(x => x.type === "main"))
+
+  }, [ingredientsData])
+
 
   const [selectedBuns, setSelectedBuns] = useState(null)
   const [selectedToppings, setSelectedToppings] = useState([])

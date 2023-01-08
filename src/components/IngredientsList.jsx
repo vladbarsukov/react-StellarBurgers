@@ -39,11 +39,9 @@ const IngredientsList = ({ingredients, addSelectedBuns, addSelectedTopping, setA
 
 
   return (
-    <div className='ml-4 mr-4'>
-      <ul className={style.list}>
+      <ul className={style.list + ' ' + 'ml-4 mr-4'}>
         {
           ingredients.map((ing) =>
-
             <li onClick={() => handleModalIngredientDetails(ing)} key={ing._id} style={{
               listStyleType: 'none',
               width: '272px',
@@ -75,8 +73,6 @@ const IngredientsList = ({ingredients, addSelectedBuns, addSelectedTopping, setA
           )
         }
       </ul>
-    </div>
-
   );
 };
 
