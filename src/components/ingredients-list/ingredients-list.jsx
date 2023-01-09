@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./IngredientsList.module.css";
+import styles from "./ingredients-list.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const IngredientsList = ({ ingredients, addSelectedBuns, addSelectedTopping, setActive, setIngredientDetails }) => {

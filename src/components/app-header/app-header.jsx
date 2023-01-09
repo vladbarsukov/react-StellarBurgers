@@ -1,7 +1,7 @@
 import React from "react";
 import { Logo, BurgerIcon, ProfileIcon, ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./AppHeader.module.css";
-import NavButton from "./NavButton";
+import styles from "./app-header.module.css";
+import NavButton from "../nav-button/nav-button";
 const AppHeader = () => {
   return (
     <div className={styles.header + " " + "mt-10"}>

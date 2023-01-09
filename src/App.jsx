@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import style from "./App.module.css";
-import AppHeader from "./components/AppHeader";
-import BurgerIngredients from "./components/BurgerIngredients";
-import BurgerConstructor from "./components/BurgerConstructor";
-import Modal from "./components/Modal";
-import IngredientDetails from "./components/IngredientDetails";
-import OrderDetails from "./components/OrderDetails";
+import AppHeader from "./components/app-header/app-header";
+import BurgerIngredients from "./components/burger-ingredients/burger-ingredients";
+import BurgerConstructor from "./components/burger-constructor/burger-constructor";
+import Modal from "./components/modal/modal";
+import IngredientDetails from "./components/ingredient-details/ingredient-details";
+import OrderDetails from "./components/order-details/order-details";
 
 function App() {
   const [modalIngredientDetailsActive, setModalIngredientDetailsActive] = useState(false);

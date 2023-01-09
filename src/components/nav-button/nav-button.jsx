@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './NavButton.module.css';
+import styles from './nav-button.module.css';
 const NavButton = ({IconComponent, type, description}) => {
 
   if (type === "primary") {

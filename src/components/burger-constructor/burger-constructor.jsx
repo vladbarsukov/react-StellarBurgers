@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./BurgerConstructor.module.css";
+import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
   const [orderPrice, setOrderPrice] = useState(610);

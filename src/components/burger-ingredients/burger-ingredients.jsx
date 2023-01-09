@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./BurgerIngredients.module.css";
-import TabList from "./TabList";
-import IngredientsList from "./IngredientsList";
+import styles from "./burger-ingredients.module.css";
+import TabList from "../tab-list/tab-list";
+import IngredientsList from "../ingredients-list/ingredients-list";
 
 const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = [] }) => {
   const [buns, setBuns] = useState([]);

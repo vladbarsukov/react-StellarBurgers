@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "./Modal.module.css"
+import styles from "./modal.module.css"
 import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 const Modal = ({active, setActive, children}) => {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./TabList.module.css";
+import styles from "./tab-list.module.css";
 
 const TabList = ({ scrollMain, scrollSauce, scrollBuns }) => {
   const [current, setCurrent] = React.useState("Булки");
