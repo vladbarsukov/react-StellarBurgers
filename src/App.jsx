@@ -50,8 +50,8 @@ function App() {
         <div className='mr-5 mt-10'>
           <BurgerIngredients ingredientsData={data.ingredients.data} setActive={setModalActive} setIngredientDetails={setIngredientDetails}/>
         </div>
-        <div className='mt-10'>
-          <BurgerConstructor  setActive={setModalOrderActive}/>
+        <div className=''>
+          <BurgerConstructor ingredientDetails={data.ingredients.data} setActive={setModalOrderActive}/>
         </div>
 
       </div>

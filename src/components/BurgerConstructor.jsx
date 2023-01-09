@@ -1,71 +1,56 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './BurgerConstructor.module.css'
-import {ConstructorElement, Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import data from '../utils/data'
-const BurgerConstructor = ({setActive}) => {
+import {ConstructorElement, Button, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+const BurgerConstructor = ({setActive, ingredientDetails =[]}) => {
 
   const [orderPrice, setOrderPrice] = useState(610)
 
+
   return (
-    <div style={{width: '600px', display: "flex", flexDirection: "column", alignItems: 'end'}} className='mt-25'>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <div className='mb-4'>
+    <div className={styles.main + " " + 'mt-25'}>
+
+
+
+          <div className='mb-4 ml-6'>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={ingredientDetails[0]?.name + " "+"(верх)"}
+              price={200}
+              thumbnail={ingredientDetails[0]?.image}
+            />
+          </div>
+
+        <ul  style={{height: '464px', overflowY: 'scroll'}} className='mb-4'>
+          {ingredientDetails.map((ing, index) =>
+            <li key={ing._id} className={styles.listItem + ' ' + 'mb-4'}>
+              <div className={'pr-1'}>
+                <DragIcon type={"primary"}/>
+              </div>
+              <ConstructorElement
+                text={ing.name}
+                price={ing.price}
+                thumbnail={ing.image}
+              />
+            </li>
+
+          )}
+
+        </ul>
+
+
+        <div className='mb-4 ml-6'>
           <ConstructorElement
-            type="top"
+            type="bottom"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
+            text={ingredientDetails[0]?.name + " "+"(низ)"}
             price={200}
-            thumbnail={data[0].img}
+            thumbnail={ingredientDetails[0]?.image}
           />
         </div>
 
-        <div  style={{height: '464px', overflowY: 'scroll'}} className='mb-4'>
-          {/*<ConstructorElement*/}
-          {/*  text="Краторная булка N-200i (верх)"*/}
-          {/*  price={50}*/}
-          {/*  thumbnail={data[0].img}*/}
-          {/*/>*/}
-          {/*<ConstructorElement*/}
-          {/*  text="Краторная булка N-200i (верх)"*/}
-          {/*  price={50}*/}
-          {/*  thumbnail={data[0].img}*/}
-          {/*/>*/}
-          {/*<ConstructorElement*/}
-          {/*  text="Краторная булка N-200i (верх)"*/}
-          {/*  price={50}*/}
-          {/*  thumbnail={data[0].img}*/}
-          {/*/>*/}
-          {/*<ConstructorElement*/}
-          {/*  text="Краторная булка N-200i (верх)"*/}
-          {/*  price={50}*/}
-          {/*  thumbnail={data[0].img}*/}
-          {/*/>*/}
-          {/*<ConstructorElement*/}
-          {/*  text="Краторная булка N-200i (верх)"*/}
-          {/*  price={50}*/}
-          {/*  thumbnail={data[0].img}*/}
-          {/*/>*/}
-          {/*<ConstructorElement*/}
-          {/*  text="Краторная булка N-200i (верх)"*/}
-          {/*  price={50}*/}
-          {/*  thumbnail={data[0].img}*/}
-          {/*/>*/}
-          {/*<ConstructorElement*/}
-          {/*  text="Краторная булка N-200i (верх)"*/}
-          {/*  price={50}*/}
-          {/*  thumbnail={data[0].img}*/}
-          {/*/>*/}
-        </div>
 
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={data[0].img}
-        />
-      </div>
-      <div className={"mt-10" + ' ' + styles.orderPrice}>
+      <div className={"mt-6" + ' ' + styles.orderPrice}>
         <div className={"mr-10" + ' ' + styles.price}>
           <p className={"text text_type_digits-medium mr-2"}>{orderPrice}</p>
           <CurrencyIcon type="primary" />

@@ -8,12 +8,6 @@ const TabList = ({scrollMain, scrollSauce, scrollBuns}) => {
 
   return (
     <div className={style.tabs}>
-      {/*{arr.map((arr, index) =>(<p key={index}>{arr}</p>)*/}
-      {/*    // (<Tab value={arr} active={current === {arr}} onClick={setCurrent}>*/}
-      {/*    //   {arr}*/}
-      {/*    // </Tab>)*/}
-
-        {/*)}*/}
         <div onClick={scrollBuns}>
           <Tab value="Булки" active={current === 'Булки'}  onClick={setCurrent}>
             Булки

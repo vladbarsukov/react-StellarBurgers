@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './OrderDetails.module.css';
-import { CheckMarkIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import img from '../images/graphics.svg';
 
 

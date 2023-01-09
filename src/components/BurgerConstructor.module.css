@@ -7,3 +7,15 @@
     align-items: center;
 }
 
+.main {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+
+}
