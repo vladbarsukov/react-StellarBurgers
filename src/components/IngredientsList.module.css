@@ -9,9 +9,10 @@
 
 }
 
-.listItem {
+.list_item {
     list-style-type: none;
     width: 272px;
+    position: relative;
 }
 
 .price {
@@ -19,10 +20,23 @@
     align-items: center;
 }
 
-
 .description {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.counter {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+}
+
+.image {
+    cursor: pointer;
+}
+
+.item_name {
+    height: 48px;
 }

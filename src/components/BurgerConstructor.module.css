@@ -14,8 +14,12 @@
     align-items: end;
 }
 
-.listItem {
+.list_item {
     display: flex;
     align-items: center;
+}
 
+.list {
+    height: 464px;
+    overflow: scroll;
 }

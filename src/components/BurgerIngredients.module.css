@@ -5,7 +5,7 @@
     flex-wrap: wrap;
 }
 
-.ingList {
+.list {
     height: 716px;
     overflow-y: scroll;
 }

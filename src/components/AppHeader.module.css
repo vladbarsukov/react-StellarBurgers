@@ -3,22 +3,21 @@
     height: 88px;
     display: flex;
     justify-content: space-between;
+    justify-self: center;
     padding-left: 320px;
     padding-right: 320px;
-    margin-top: 40px;
     align-items: center;
     position: relative;
     z-index: 1;
     background-color: #1C1C21;
-
 }
 
 
-.navigationBlock {
+.navigation_block {
     display: flex;
 }
 
-.navigationDescription {
+.navigation_description {
     font-family: 'JetBrainsMono', Arial, sans-serif;
     font-style: normal;
     font-weight: 400;
