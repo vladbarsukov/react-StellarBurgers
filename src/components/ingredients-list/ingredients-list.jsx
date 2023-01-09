@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./ingredients-list.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
-const IngredientsList = ({ ingredients, addSelectedBuns, addSelectedTopping, setActive, setIngredientDetails }) => {
+const IngredientsList = ({ ingredients, addSelectedBuns, setActive, setIngredientDetails }) => {
   const [selectedBun, setSelectedBun] = useState([]);
   const [topping, setTopping] = useState([]);
 
@@ -56,5 +57,13 @@ const IngredientsList = ({ ingredients, addSelectedBuns, addSelectedTopping, set
     </ul>
   );
 };
+
+IngredientsList.propTypes = {
+  ingredients: PropTypes.array,
+  setIngredientDetails: PropTypes.func,
+  setActive: PropTypes.func,
+  addSelectedBuns: PropTypes.func,
+  addSelectedTopping: PropTypes.func,
+}
 
 export default IngredientsList;

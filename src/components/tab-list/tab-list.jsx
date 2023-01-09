@@ -1,6 +1,7 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./tab-list.module.css";
+import PropTypes from "prop-types";
 
 const TabList = ({ scrollMain, scrollSauce, scrollBuns }) => {
   const [current, setCurrent] = React.useState("Булки");
@@ -27,5 +28,11 @@ const TabList = ({ scrollMain, scrollSauce, scrollBuns }) => {
     </div>
   );
 };
+
+TabList.propTypes = {
+  scrollMain: PropTypes.func,
+  scrollSauce: PropTypes.func,
+  scrollBuns: PropTypes.func,
+}
 
 export default TabList;

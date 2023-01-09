@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
+import PropTypes from "prop-types";
+
 
 const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = [] }) => {
   const [buns, setBuns] = useState([]);
@@ -70,5 +72,11 @@ const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = 
     </div>
   );
 };
+
+BurgerIngredients.propTypes = {
+  setActive: PropTypes.func,
+  setIngredientDetails: PropTypes.func,
+  ingredientsData: PropTypes.array,
+}
 
 export default BurgerIngredients;
