@@ -1,8 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from "./modal.module.css"
 import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 const Modal = ({active, setActive, children}) => {
+
+  useEffect(() => {
+    const closeByEsc = (e) => {
+      if(e.keyCode === 27){
+        setActive(false)
+      }
+    }
+    window.addEventListener('keydown', closeByEsc)
+    return () => window.removeEventListener('keydown', closeByEsc)
+  },[])
+
   return (
     <div className={active ? styles.modal_active + ' ' + styles.modal : styles.modal} onClick={() => setActive(false)}>
       <div className={active ? styles.modal_content_active + ' ' + styles.modal_content : styles.modal_content} onClick={e => e.stopPropagation()}>
