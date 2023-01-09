@@ -55,7 +55,7 @@ const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredientDetails: PropTypes.array,
+  ingredientDetails: PropTypes.array.isRequired,
   setActive: PropTypes.func,
 }
 

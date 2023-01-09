@@ -32,15 +32,15 @@ const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = 
   };
 
   const scrollMain = () => {
-    mainRef.current.scrollIntoView();
+    mainRef.current.scrollIntoView({behavior: "smooth"});
   };
 
   const scrollSauce = () => {
-    saucesRef.current.scrollIntoView();
+    saucesRef.current.scrollIntoView({behavior: "smooth"});
   };
 
   const scrollBuns = () => {
-    bunsRef.current.scrollIntoView();
+    bunsRef.current.scrollIntoView({behavior: "smooth"});
   };
 
   return (
@@ -76,7 +76,7 @@ const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = 
 BurgerIngredients.propTypes = {
   setActive: PropTypes.func,
   setIngredientDetails: PropTypes.func,
-  ingredientsData: PropTypes.array,
+  ingredientsData: PropTypes.array.isRequired,
 }
 
 export default BurgerIngredients;

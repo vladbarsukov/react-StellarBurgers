@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import style from "./App.module.css";
-import AppHeader from "./components/app-header/app-header";
-import BurgerIngredients from "./components/burger-ingredients/burger-ingredients";
-import BurgerConstructor from "./components/burger-constructor/burger-constructor";
-import Modal from "./components/modal/modal";
-import IngredientDetails from "./components/ingredient-details/ingredient-details";
-import OrderDetails from "./components/order-details/order-details";
+import style from "./app.module.css";
+import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
 
 function App() {
   const [modalIngredientDetailsActive, setModalIngredientDetailsActive] = useState(false);
@@ -19,6 +19,14 @@ function App() {
   });
 
   const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients";
+
+  const closeIngredientPopup = () => {
+    setModalIngredientDetailsActive(false)
+  }
+
+  const closeOrderPopup = () => {
+    setModalOrderActive(false)
+  }
 
   useEffect(() => {
     const getIngredients = () => {
@@ -42,21 +50,21 @@ function App() {
   return (
     <div className={style.app}>
       <AppHeader />
-      <div className={style.content}>
+      <main className={style.content}>
         <div className={"mr-5 mt-10"}>
           <BurgerIngredients ingredientsData={data.ingredients.data} setActive={setModalIngredientDetailsActive} setIngredientDetails={setIngredientDetails} />
         </div>
         <div>
           <BurgerConstructor ingredientDetails={data.ingredients.data} setActive={setModalOrderActive} />
         </div>
-      </div>
+      </main>
       {modalIngredientDetailsActive ? (
-        <Modal active={modalIngredientDetailsActive} setActive={setModalIngredientDetailsActive}>
+        <Modal active={modalIngredientDetailsActive} setActive={closeIngredientPopup}>
           <IngredientDetails ingredientDetails={ingredientDetails} />
         </Modal>
       ) : null}
       {modalOrderActive ? (
-        <Modal active={modalOrderActive} setActive={setModalOrderActive}>
+        <Modal active={modalOrderActive} setActive={closeOrderPopup}>
           <OrderDetails />
         </Modal>
       ) : null}

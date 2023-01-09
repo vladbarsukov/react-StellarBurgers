@@ -59,7 +59,7 @@ const IngredientsList = ({ ingredients, addSelectedBuns, setActive, setIngredien
 };
 
 IngredientsList.propTypes = {
-  ingredients: PropTypes.array,
+  ingredients: PropTypes.array.isRequired,
   setIngredientDetails: PropTypes.func,
   setActive: PropTypes.func,
   addSelectedBuns: PropTypes.func,

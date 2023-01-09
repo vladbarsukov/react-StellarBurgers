@@ -4,7 +4,7 @@ import styles from "./app-header.module.css";
 import NavButton from "../nav-button/nav-button";
 const AppHeader = () => {
   return (
-    <div className={styles.header + " " + "mt-10"}>
+    <header className={styles.header + " " + "mt-10"}>
       <nav className={styles.navigation_block}>
         <NavButton type={"primary"} IconComponent={BurgerIcon} description={"Конструктор"} />
         <div className={styles.navigation_description + " " + "ml-2"}>
@@ -15,7 +15,7 @@ const AppHeader = () => {
         <Logo></Logo>
       </div>
       <NavButton type={"secondary"} IconComponent={ProfileIcon} description={"Личный кабинет"} />
-    </div>
+    </header>
   );
 };
 
