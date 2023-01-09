@@ -13,7 +13,7 @@ const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
   }, [ingredientDetails]);
 
   useEffect(() => {
-    setOrderPrice(topping.reduce((prev, next) => prev + next.price, 0) + bun?.price);
+    setOrderPrice(String(topping.reduce((prev, next) => prev + next.price, 0) + bun?.price));
   }, [topping, bun]);
 
   const removeIngredient = (ing) => {
