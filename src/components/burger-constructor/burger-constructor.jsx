@@ -2,16 +2,27 @@ import React, { useEffect, useState } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
-  const [orderPrice, setOrderPrice] = useState(610);
+  const [orderPrice, setOrderPrice] = useState(null);
+  const [topping, setTopping] = useState([]);
+  const [bun, setBun] = useState(null);
+
+  useEffect(() => {
+    setBun(ingredientDetails[0]);
+    setTopping(ingredientDetails.filter((x) => x.type === "sauce" || x.type === "main"));
+  }, [ingredientDetails]);
+
+  useEffect(() => {
+    setOrderPrice(topping.reduce((prev, next) => prev + next.price, 0) + bun?.price);
+  }, [topping, bun]);
 
   return (
     <div className={styles.main + " " + "mt-25 ml-1"}>
       <div className={"mb-4 ml-6"}>
-        <ConstructorElement type="top" isLocked={true} text={ingredientDetails[0]?.name + " " + "(верх)"} price={200} thumbnail={ingredientDetails[0]?.image} />
+        <ConstructorElement type="top" isLocked={true} text={bun?.name + " " + "(верх)"} price={bun?.price} thumbnail={bun?.image} />
       </div>
 
       <ul className={styles.list + " " + "mb-4"}>
-        {ingredientDetails.map((ing, index) => (
+        {topping.map((ing) => (
           <li key={ing._id} className={styles.list_item + " " + "mb-4"}>
             <div className={"pr-1"}>
               <DragIcon type={"primary"} />
@@ -22,7 +33,7 @@ const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
       </ul>
 
       <div className={"mb-4 ml-6"}>
-        <ConstructorElement type="bottom" isLocked={true} text={ingredientDetails[0]?.name + " " + "(низ)"} price={200} thumbnail={ingredientDetails[0]?.image} />
+        <ConstructorElement type="bottom" isLocked={true} text={ingredientDetails[0]?.name + " " + "(низ)"} price={bun?.price} thumbnail={ingredientDetails[0]?.image} />
       </div>
 
       <div className={"mt-6" + " " + styles.orderPrice}>
