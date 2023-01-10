@@ -21,7 +21,7 @@ const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
   }
 
   return (
-    <div className={styles.main + " " + "mt-25 ml-1"}>
+    <div className={styles.main + " " + "mt-25 ml-10"}>
       <div className={"mb-4 ml-6"}>
         <ConstructorElement type="top" isLocked={true} text={bun?.name + " " + "(верх)"} price={bun?.price} thumbnail={bun?.image} />
       </div>
@@ -29,7 +29,7 @@ const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
       <ul className={styles.list + " " + "mb-4"}>
         {topping.map((ing) => (
           <li key={ing._id} className={styles.list_item + " " + "mb-4"}>
-            <div className={"pr-1"}>
+            <div className={"mr-1"}>
               <DragIcon type={"primary"} />
             </div>
             <ConstructorElement handleClose={() => removeIngredient(ing)} text={ing.name} price={ing.price} thumbnail={ing.image} />
