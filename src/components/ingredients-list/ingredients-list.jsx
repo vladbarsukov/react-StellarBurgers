@@ -3,7 +3,7 @@ import styles from "./ingredients-list.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-const IngredientsList = ({ ingredients, addSelectedBuns, setActive, setIngredientDetails }) => {
+const IngredientsList = ({ ingredients, addSelectedBuns, openPopup, setIngredientDetails }) => {
   const [selectedBun, setSelectedBun] = useState([]);
   const [topping, setTopping] = useState([]);
 
@@ -32,7 +32,7 @@ const IngredientsList = ({ ingredients, addSelectedBuns, setActive, setIngredien
   };
   const handleModalIngredientDetails = (ing) => {
     setIngredientDetails(ing);
-    setActive(true);
+    openPopup(true);
   };
 
   return (
@@ -61,7 +61,7 @@ const IngredientsList = ({ ingredients, addSelectedBuns, setActive, setIngredien
 IngredientsList.propTypes = {
   ingredients: PropTypes.array.isRequired,
   setIngredientDetails: PropTypes.func,
-  setActive: PropTypes.func,
+  openPopup: PropTypes.func,
   addSelectedBuns: PropTypes.func,
   addSelectedTopping: PropTypes.func,
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
+const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
   const [orderPrice, setOrderPrice] = useState(null);
   const [topping, setTopping] = useState([]);
   const [bun, setBun] = useState(null);
@@ -46,7 +46,7 @@ const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
           <p className={"text text_type_digits-medium mr-2"}>{orderPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button onClick={() => setActive(true)} htmlType="button" type="primary" size="large">
+        <Button onClick={() => openPopup(true)} htmlType="button" type="primary" size="large">
           Оформить заказ
         </Button>
       </div>
@@ -56,7 +56,7 @@ const BurgerConstructor = ({ setActive, ingredientDetails = [] }) => {
 
 BurgerConstructor.propTypes = {
   ingredientDetails: PropTypes.array.isRequired,
-  setActive: PropTypes.func,
+  openPopup: PropTypes.func,
 }
 
 export default BurgerConstructor;

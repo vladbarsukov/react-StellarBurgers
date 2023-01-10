@@ -5,7 +5,7 @@ import IngredientsList from "../ingredients-list/ingredients-list";
 import PropTypes from "prop-types";
 
 
-const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = [] }) => {
+const BurgerIngredients = ({ openPopup, setIngredientDetails, ingredientsData}) => {
   const [buns, setBuns] = useState([]);
   const [sauces, setSauces] = useState([]);
   const [main, setMain] = useState([]);
@@ -54,19 +54,19 @@ const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = 
           Булки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} setActive={setActive} ingredients={buns} addSelectedBuns={addSelectedBuns} addSelectedTopping={addSelectedTopping} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={buns} addSelectedBuns={addSelectedBuns} addSelectedTopping={addSelectedTopping} />
         </div>
         <h2 ref={saucesRef} className={"mt-10 text text_type_main-medium"}>
           Соусы
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} setActive={setActive} ingredients={sauces} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={sauces} />
         </div>
         <h2 ref={mainRef} className={"mt-10 text text_type_main-medium"}>
           Начинки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} setActive={setActive} ingredients={main} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={main} />
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ const BurgerIngredients = ({ setActive, setIngredientDetails, ingredientsData = 
 };
 
 BurgerIngredients.propTypes = {
-  setActive: PropTypes.func,
+  openPopup: PropTypes.func,
   setIngredientDetails: PropTypes.func,
   ingredientsData: PropTypes.array.isRequired,
 }

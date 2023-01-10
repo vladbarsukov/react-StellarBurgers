@@ -8,8 +8,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
 function App() {
-  const [modalIngredientDetailsActive, setModalIngredientDetailsActive] = useState(false);
-  const [modalOrderActive, setModalOrderActive] = useState(false);
+  const [isModalIngredientDetailsOpen, setIsModalIngredientDetailsOpen] = useState(false);
+  const [isModalOrderOpen, setIsModalOrderOpen] = useState(false);
   const [ingredientDetails, setIngredientDetails] = useState(null);
 
   const [data, setData] = React.useState({
@@ -21,18 +21,23 @@ function App() {
   const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients";
 
   const closeIngredientPopup = () => {
-    setModalIngredientDetailsActive(false)
+    setIsModalIngredientDetailsOpen(false)
   }
 
   const closeOrderPopup = () => {
-    setModalOrderActive(false)
+    setIsModalOrderOpen(false)
   }
 
   useEffect(() => {
     const getIngredients = () => {
       setData({ ...data, hasError: false, isLoading: true });
       fetch(ingredientsUrl)
-        .then((res) => res.json())
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+          return Promise.reject(`Ошибка ${res.status}`);
+        })
         .then((ingredients) => setData({ ...data, ingredients, isLoading: false }))
         .catch((e) => {
           setData({ ...data, hasError: true, isLoading: false });
@@ -42,29 +47,30 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!modalIngredientDetailsActive) {
+    if (!isModalIngredientDetailsOpen) {
       setIngredientDetails(null);
     }
-  }, [modalIngredientDetailsActive]);
+  }, [isModalIngredientDetailsOpen]);
 
   return (
     <div className={style.app}>
       <AppHeader />
       <main className={style.content}>
         <div className={"mr-5 mt-10"}>
-          <BurgerIngredients ingredientsData={data.ingredients.data} setActive={setModalIngredientDetailsActive} setIngredientDetails={setIngredientDetails} />
+          {data.ingredients.data? <BurgerIngredients ingredientsData={data.ingredients.data} openPopup={setIsModalIngredientDetailsOpen} setIngredientDetails={setIngredientDetails} /> : null}
+
         </div>
         <div>
-          <BurgerConstructor ingredientDetails={data.ingredients.data} setActive={setModalOrderActive} />
+          {data.ingredients.data ? <BurgerConstructor ingredientDetails={data.ingredients.data} openPopup={setIsModalOrderOpen} /> : null}
         </div>
       </main>
-      {modalIngredientDetailsActive ? (
-        <Modal active={modalIngredientDetailsActive} setActive={closeIngredientPopup}>
+      {isModalIngredientDetailsOpen ? (
+        <Modal isPopupOpen={isModalIngredientDetailsOpen} closePopup={closeIngredientPopup}>
           <IngredientDetails ingredientDetails={ingredientDetails} />
         </Modal>
       ) : null}
-      {modalOrderActive ? (
-        <Modal active={modalOrderActive} setActive={closeOrderPopup}>
+      {isModalOrderOpen ? (
+        <Modal isPopupOpen={isModalOrderOpen} closePopup={closeOrderPopup}>
           <OrderDetails />
         </Modal>
       ) : null}
