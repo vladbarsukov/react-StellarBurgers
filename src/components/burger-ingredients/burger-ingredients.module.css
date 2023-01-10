@@ -1,0 +1,11 @@
+.main {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.list {
+    height: 716px;
+    overflow-y: scroll;
+}
