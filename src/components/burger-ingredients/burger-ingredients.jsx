@@ -6,14 +6,22 @@ import PropTypes from "prop-types";
 
 
 const BurgerIngredients = ({ openPopup, setIngredientDetails, ingredientsData}) => {
-  const [buns, setBuns] = useState([]);
-  const [sauces, setSauces] = useState([]);
-  const [main, setMain] = useState([]);
+  const [ingredients, setIngredients] = useState({
+    buns: [],
+    sauces: [],
+    main: [],
+  })
+
+  const filterIngredients = (filteredObj, filter) => {
+    return filteredObj.filter((x) => x.type === filter)
+  }
 
   useEffect(() => {
-    setBuns(ingredientsData.filter((x) => x.type === "bun"));
-    setSauces(ingredientsData.filter((x) => x.type === "sauce"));
-    setMain(ingredientsData.filter((x) => x.type === "main"));
+    setIngredients({
+      buns: filterIngredients(ingredientsData, "bun"),
+      sauces: filterIngredients(ingredientsData, "sauce"),
+      main: filterIngredients(ingredientsData, "main")
+    })
   }, [ingredientsData]);
 
   const [selectedBuns, setSelectedBuns] = useState(null);
@@ -54,19 +62,19 @@ const BurgerIngredients = ({ openPopup, setIngredientDetails, ingredientsData}) 
           Булки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={buns} addSelectedBuns={addSelectedBuns} addSelectedTopping={addSelectedTopping} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={ingredients.buns} addSelectedBuns={addSelectedBuns} addSelectedTopping={addSelectedTopping} />
         </div>
         <h2 ref={saucesRef} className={"mt-10 text text_type_main-medium"}>
           Соусы
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={sauces} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={ingredients.sauces} />
         </div>
         <h2 ref={mainRef} className={"mt-10 text text_type_main-medium"}>
           Начинки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={main} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={ingredients.main} />
         </div>
       </div>
     </div>
