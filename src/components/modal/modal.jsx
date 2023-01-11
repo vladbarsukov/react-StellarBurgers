@@ -16,7 +16,7 @@ const Modal = ({isPopupOpen, closePopup, children}) => {
   },[])
 
   return (
-    <ModalOverlay isPopupOpen={isPopupOpen} closePopup={closePopup} >
+    <ModalOverlay closePopup={closePopup} >
       <div className={styles.modal_content_active + ' ' + styles.modal_content} onClick={e => e.stopPropagation()}>
         <div  onClick={() => closePopup()}  className={styles.close_icon}>
           <CloseIcon type="primary"/>

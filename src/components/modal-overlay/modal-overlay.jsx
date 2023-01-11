@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "../modal-overlay/modal-overlay.module.css";
 import PropTypes from "prop-types";
 
-const ModalOverlay = ({isPopupOpen, children, closePopup}) => {
+const ModalOverlay = ({children, closePopup}) => {
   return (
     <div className={styles.modal_active + ' ' + styles.modal} onClick={() => closePopup()}>
       {children}
