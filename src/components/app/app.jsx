@@ -65,7 +65,7 @@ function App() {
         </div>
       </main>
       {isModalIngredientDetailsOpen ? (
-        <Modal isPopupOpen={isModalIngredientDetailsOpen} closePopup={closeIngredientPopup}>
+        <Modal closePopup={closeIngredientPopup}>
           <IngredientDetails ingredientDetails={ingredientDetails} />
         </Modal>
       ) : null}

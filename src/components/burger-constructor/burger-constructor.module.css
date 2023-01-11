@@ -1,5 +1,6 @@
 .orderPrice {
     display: flex;
+    align-self: end;
 }
 
 .price {

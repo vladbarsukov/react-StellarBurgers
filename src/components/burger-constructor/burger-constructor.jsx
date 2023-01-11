@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
+  const [ingredients, setIngredients] = useState({ bun: null, topping: [] });
   const [orderPrice, setOrderPrice] = useState(null);
-  const [ingredients, setIngredients] = useState({
-    bun: null,
-    topping: [],
-  })
+
+  const filteredIngredients = useMemo(() => ingredientDetails.filter(ingredient => ingredient.type === "sauce" || ingredient.type === "main"), [ingredientDetails])
 
   useEffect(() => {
-    setIngredients({
-      bun: ingredientDetails[0],
-      topping: ingredientDetails.filter((x) => x.type === "sauce" || x.type === "main")
-    })
-  }, [ingredientDetails]);
+    setIngredients({ bun: ingredientDetails[0], topping: filteredIngredients });
+  }, [filteredIngredients]);
 
   useEffect(() => {
-    setOrderPrice(String(ingredients.topping.reduce((prev, next) => prev + next.price, 0) + ingredients.bun?.price));
+    setOrderPrice(ingredients.topping.reduce((prev, next) => prev + next.price, 0) + (ingredients.bun?.price || 0));
   }, [ingredients]);
 
   const removeIngredient = (ing) => {
@@ -50,9 +46,12 @@ const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
           <p className={"text text_type_digits-medium mr-2"}>{orderPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button onClick={() => openPopup(true)} htmlType="button" type="primary" size="large">
-          Оформить заказ
-        </Button>
+        <div>
+          <Button onClick={() => openPopup(true)} htmlType="button" type="primary" size="large">
+            Оформить заказ
+          </Button>
+        </div>
+
       </div>
     </div>
   );
