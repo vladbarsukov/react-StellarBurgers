@@ -26,7 +26,7 @@ const BurgerConstructor = ({ openPopup}) => {
 
       <ul className={styles.list + " " + "mb-4"}>
         {data.selectedIngredients.topping.map((ing) => (
-          <li key={Date.now()} className={styles.list_item + " " + "mb-4"}>
+          <li key={ing._id} className={styles.list_item + " " + "mb-4"}>
             <div className={"mr-1"}>
               <DragIcon type={"primary"} />
             </div>
