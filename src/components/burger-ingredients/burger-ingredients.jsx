@@ -1,43 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback, useContext } from "react";
 import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
 import PropTypes from "prop-types";
+import {IngredientsDataContext} from "../services/app-context";
 
 
-const BurgerIngredients = ({ openPopup, setIngredientDetails, ingredientsData}) => {
-  const [ingredients, setIngredients] = useState({
-    buns: [],
-    sauces: [],
-    main: [],
-  })
+const BurgerIngredients = ({ openPopup, setIngredientDetails}) => {
+  const {data} = useContext(IngredientsDataContext)
 
-  const filterIngredients = (filteredObj, filter) => {
-    return filteredObj.filter((x) => x.type === filter)
-  }
-
-  useEffect(() => {
-    setIngredients({
-      buns: filterIngredients(ingredientsData, "bun"),
-      sauces: filterIngredients(ingredientsData, "sauce"),
-      main: filterIngredients(ingredientsData, "main")
-    })
-  }, [ingredientsData]);
-
-  const [selectedBuns, setSelectedBuns] = useState(null);
-  const [selectedToppings, setSelectedToppings] = useState([]);
+  const filterIngredients = useCallback((filteredObj, filter) => {
+    return filteredObj.filter((x) => x.type === filter);
+  }, []);
 
   const mainRef = useRef(null);
   const saucesRef = useRef(null);
   const bunsRef = useRef(null);
-
-  const addSelectedBuns = (bun) => {
-    setSelectedBuns(bun);
-  };
-
-  const addSelectedTopping = (topping) => {
-    setSelectedToppings([...selectedToppings, topping]);
-  };
 
   const scrollMain = () => {
     mainRef.current.scrollIntoView({behavior: "smooth"});
@@ -62,19 +40,19 @@ const BurgerIngredients = ({ openPopup, setIngredientDetails, ingredientsData}) 
           Булки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={ingredients.buns} addSelectedBuns={addSelectedBuns} addSelectedTopping={addSelectedTopping} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={filterIngredients(data.ingredients.data, "bun")} />
         </div>
         <h2 ref={saucesRef} className={"mt-10 text text_type_main-medium"}>
           Соусы
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={ingredients.sauces} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={filterIngredients(data.ingredients.data, "sauce")}  />
         </div>
         <h2 ref={mainRef} className={"mt-10 text text_type_main-medium"}>
           Начинки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={ingredients.main} />
+          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={filterIngredients(data.ingredients.data, "main")} />
         </div>
       </div>
     </div>
@@ -84,7 +62,6 @@ const BurgerIngredients = ({ openPopup, setIngredientDetails, ingredientsData}) 
 BurgerIngredients.propTypes = {
   openPopup: PropTypes.func,
   setIngredientDetails: PropTypes.func,
-  ingredientsData: PropTypes.array.isRequired,
 }
 
 export default BurgerIngredients;

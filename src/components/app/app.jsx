@@ -6,6 +6,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
+import {IngredientsDataContext} from "../services/app-context";
 
 function App() {
   const [isModalIngredientDetailsOpen, setIsModalIngredientDetailsOpen] = useState(false);
@@ -16,6 +17,7 @@ function App() {
     isLoading: false,
     hasError: false,
     ingredients: [],
+    selectedIngredients: {bun: null, topping: []},
   });
 
   const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients";
@@ -55,15 +57,18 @@ function App() {
   return (
     <div className={style.app}>
       <AppHeader />
-      <main className={style.content}>
-        <div className={"mr-5 mt-10"}>
-          {data.ingredients.data? <BurgerIngredients ingredientsData={data.ingredients.data} openPopup={setIsModalIngredientDetailsOpen} setIngredientDetails={setIngredientDetails} /> : null}
+      <IngredientsDataContext.Provider value={{ data, setData }}>
+        <main className={style.content}>
+          <div className={"mr-5 mt-10"}>
+            {data.ingredients.data? <BurgerIngredients openPopup={setIsModalIngredientDetailsOpen} setIngredientDetails={setIngredientDetails} /> : null}
 
-        </div>
-        <div>
-          {data.ingredients.data ? <BurgerConstructor ingredientDetails={data.ingredients.data} openPopup={setIsModalOrderOpen} /> : null}
-        </div>
-      </main>
+          </div>
+          <div>
+            {data.ingredients.data ? <BurgerConstructor openPopup={setIsModalOrderOpen} /> : null}
+          </div>
+        </main>
+      </IngredientsDataContext.Provider>
+
       {isModalIngredientDetailsOpen ? (
         <Modal closePopup={closeIngredientPopup}>
           <IngredientDetails ingredientDetails={ingredientDetails} />

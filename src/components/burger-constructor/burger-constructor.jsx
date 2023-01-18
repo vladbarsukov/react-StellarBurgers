@@ -1,34 +1,32 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useContext  } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {IngredientsDataContext} from "../services/app-context";
 import PropTypes from "prop-types";
-const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
-  const [ingredients, setIngredients] = useState({ bun: null, topping: [] });
+const BurgerConstructor = ({ openPopup}) => {
+  const {data, setData} = useContext(IngredientsDataContext)
   const [orderPrice, setOrderPrice] = useState(null);
 
-  const filteredIngredients = useMemo(() => ingredientDetails.filter(ingredient => ingredient.type === "sauce" || ingredient.type === "main"), [ingredientDetails])
-
   useEffect(() => {
-    setIngredients({ bun: ingredientDetails[0], topping: filteredIngredients });
-  }, [filteredIngredients]);
-
-  useEffect(() => {
-    setOrderPrice(ingredients.topping.reduce((prev, next) => prev + next.price, 0) + (ingredients.bun?.price || 0));
-  }, [ingredients]);
+    setOrderPrice(data.selectedIngredients.topping.reduce((prev, next) => prev + next.price, 0) + (data.selectedIngredients.bun?.price || 0));
+  }, [data]);
 
   const removeIngredient = (ing) => {
-    setIngredients({...ingredients, topping: ingredients.topping.filter(i => i._id !== ing._id) })
+    setData({ ...data, selectedIngredients: {...data.selectedIngredients, topping: [...data.selectedIngredients.topping.filter(i => i._id !== ing._id)]} })
+    ing["__v"] -= 1
   }
 
   return (
     <div className={styles.main + " " + "mt-25 ml-10"}>
-      <div className={"mb-4 ml-6"}>
-        <ConstructorElement type="top" isLocked={true} text={ingredients.bun?.name + " " + "(верх)"} price={ingredients.bun?.price} thumbnail={ingredients.bun?.image} />
+      <div className={"mb-4 ml-6" + ' ' + styles.bun}>
+        {data.selectedIngredients.bun ?
+          <ConstructorElement type="top" isLocked={true} text={data.selectedIngredients.bun?.name + " " + "(верх)"} price={data.selectedIngredients.bun?.price} thumbnail={data.selectedIngredients.bun?.image} />
+          : null }
       </div>
 
       <ul className={styles.list + " " + "mb-4"}>
-        {ingredients.topping.map((ing) => (
-          <li key={ing._id} className={styles.list_item + " " + "mb-4"}>
+        {data.selectedIngredients.topping.map((ing) => (
+          <li key={Date.now()} className={styles.list_item + " " + "mb-4"}>
             <div className={"mr-1"}>
               <DragIcon type={"primary"} />
             </div>
@@ -37,8 +35,10 @@ const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
         ))}
       </ul>
 
-      <div className={"mb-4 ml-6"}>
-        <ConstructorElement type="bottom" isLocked={true} text={ingredients.bun?.name + " " + "(низ)"} price={ingredients.bun?.price} thumbnail={ingredients.bun?.image} />
+      <div className={"mb-4 ml-6" + ' ' + styles.bun}>
+        {data.selectedIngredients.bun ?
+          <ConstructorElement type="top" isLocked={true} text={data.selectedIngredients.bun?.name + " " + "(верх)"} price={data.selectedIngredients.bun?.price} thumbnail={data.selectedIngredients.bun?.image} />
+          : null }
       </div>
 
       <div className={"mt-6" + " " + styles.orderPrice}>
@@ -46,7 +46,7 @@ const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
           <p className={"text text_type_digits-medium mr-2"}>{orderPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <div>
+        <div className={"mr-10"}>
           <Button onClick={() => openPopup(true)} htmlType="button" type="primary" size="large">
             Оформить заказ
           </Button>
@@ -58,7 +58,6 @@ const BurgerConstructor = ({ openPopup, ingredientDetails}) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredientDetails: PropTypes.array.isRequired,
   openPopup: PropTypes.func,
 }
 
