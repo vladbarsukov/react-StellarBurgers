@@ -7,6 +7,8 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import {IngredientsDataContext, OrderDataContext} from "../services/app-context";
+import {BASE_URL} from "../../utils/constants";
+import {request} from "../../utils/api";
 
 function App() {
   const [isModalIngredientDetailsOpen, setIsModalIngredientDetailsOpen] = useState(false);
@@ -14,15 +16,12 @@ function App() {
   const [ingredientDetails, setIngredientDetails] = useState(null);
   const [orderData, setOrderData] = useState({})
 
-
   const [data, setData] = React.useState({
     isLoading: false,
     hasError: false,
     ingredients: [],
     selectedIngredients: {bun: null, topping: []},
   });
-
-  const ingredientsUrl = "https://norma.nomoreparties.space/api/ingredients";
 
   const closeIngredientPopup = () => {
     setIsModalIngredientDetailsOpen(false)
@@ -35,19 +34,14 @@ function App() {
   useEffect(() => {
     const getIngredients = () => {
       setData({ ...data, hasError: false, isLoading: true });
-      fetch(ingredientsUrl)
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(`Ошибка ${res.status}`);
-        })
+      request(`${BASE_URL}/ingredients`)
         .then((ingredients) => setData({ ...data, ingredients, isLoading: false }))
         .catch((e) => {
           setData({ ...data, hasError: true, isLoading: false });
         });
     };
     getIngredients();
+
   }, []);
 
   useEffect(() => {
