@@ -3,7 +3,7 @@ import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
 import PropTypes from "prop-types";
-import {IngredientsDataContext} from "../services/app-context";
+import {IngredientsDataContext} from "../../services/app-context";
 
 
 const BurgerIngredients = ({ openPopup, setIngredientDetails}) => {

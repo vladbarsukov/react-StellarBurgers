@@ -6,7 +6,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
-import {IngredientsDataContext, OrderDataContext} from "../services/app-context";
+import {IngredientsDataContext, OrderDataContext} from "../../services/app-context";
 import {BASE_URL} from "../../utils/constants";
 import {request} from "../../utils/api";
 

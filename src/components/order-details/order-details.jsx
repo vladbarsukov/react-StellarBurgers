@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import styles from './order-details.module.css';
 import img from '../../images/graphics.svg';
-import {OrderDataContext} from "../services/app-context";
+import {OrderDataContext} from "../../services/app-context";
 
 const OrderDetails = () => {
   const {orderData} = useContext(OrderDataContext)

@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from "react";
 import PropTypes from "prop-types";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import {IngredientsDataContext} from "../services/app-context";
+import {IngredientsDataContext} from "../../services/app-context";
 import styles from "./ingredients-list.module.css";
 
 

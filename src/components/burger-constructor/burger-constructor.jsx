@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext  } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import {IngredientsDataContext, OrderDataContext} from "../services/app-context";
+import {IngredientsDataContext, OrderDataContext} from "../../services/app-context";
 import PropTypes from "prop-types";
 import {BASE_URL} from "../../utils/constants";
 import {request} from "../../utils/api";
-import { v4 as uuidv4 } from 'uuid';
+
 
 const BurgerConstructor = ({ openPopup}) => {
   const {data, setData} = useContext(IngredientsDataContext)
@@ -65,7 +65,7 @@ const BurgerConstructor = ({ openPopup}) => {
 
       <div className={"mb-4 ml-6" + ' ' + styles.bun}>
         {data.selectedIngredients.bun ?
-          <ConstructorElement type="top" isLocked={true} text={data.selectedIngredients.bun?.name + " " + "(верх)"} price={data.selectedIngredients.bun?.price} thumbnail={data.selectedIngredients.bun?.image} />
+          <ConstructorElement type="bottom" isLocked={true} text={data.selectedIngredients.bun?.name + " " + "(низ)"} price={data.selectedIngredients.bun?.price} thumbnail={data.selectedIngredients.bun?.image} />
           : null }
       </div>
 
