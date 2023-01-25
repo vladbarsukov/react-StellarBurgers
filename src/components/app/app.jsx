@@ -6,12 +6,14 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
-import {IngredientsDataContext} from "../services/app-context";
+import {IngredientsDataContext, OrderDataContext} from "../services/app-context";
 
 function App() {
   const [isModalIngredientDetailsOpen, setIsModalIngredientDetailsOpen] = useState(false);
   const [isModalOrderOpen, setIsModalOrderOpen] = useState(false);
   const [ingredientDetails, setIngredientDetails] = useState(null);
+  const [orderData, setOrderData] = useState({})
+
 
   const [data, setData] = React.useState({
     isLoading: false,
@@ -57,6 +59,7 @@ function App() {
   return (
     <div className={style.app}>
       <AppHeader />
+      <OrderDataContext.Provider value={{orderData, setOrderData}}>
       <IngredientsDataContext.Provider value={{ data, setData }}>
         <main className={style.content}>
           <div className={"mr-5 mt-10"}>
@@ -79,6 +82,7 @@ function App() {
           <OrderDetails />
         </Modal>
       ) : null}
+      </OrderDataContext.Provider>
     </div>
   );
 }
