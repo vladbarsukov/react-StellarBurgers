@@ -12,7 +12,6 @@ const BurgerConstructor = ({ openPopup}) => {
   // const [ingredientList, setIngredientList] = useState([]);
 
   const post = () => {
-    console.log(uuidv4())
     const ingredient =[]
      data.selectedIngredients.topping.forEach((ing) => {ingredient.push(ing._id) })
     if (data.selectedIngredients.bun) {
@@ -43,11 +42,8 @@ const BurgerConstructor = ({ openPopup}) => {
   }
 
   useEffect(() => {
-    // setIngredientList([data.selectedIngredients.topping])
-    // ingredientList.forEach((ing) => {ing.id = uuidv4()})
     data.selectedIngredients.topping.forEach((ing) => {ing.id = uuidv4()})
     setOrderPrice(data.selectedIngredients.topping.reduce((prev, next) => prev + next.price, 0) + (data.selectedIngredients.bun?.price * 2 || 0));
-    console.log(data.selectedIngredients.topping)
   }, [data.selectedIngredients]);
 
   const removeIngredient = (ing) => {

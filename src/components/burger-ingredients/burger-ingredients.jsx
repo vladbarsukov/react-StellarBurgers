@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback, useContext } from "react";
+import React, { useRef, useCallback, useContext } from "react";
 import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
