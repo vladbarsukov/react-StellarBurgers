@@ -9,12 +9,24 @@ import OrderDetails from "../order-details/order-details";
 import {IngredientsDataContext, OrderDataContext} from "../../services/app-context";
 import {BASE_URL} from "../../utils/constants";
 import {request} from "../../utils/api";
+import { useDispatch, useSelector } from 'react-redux';
+import {getItems} from "../../services/actions/BurgerIngredients";
+import {ADD_INGREDIENT_DETAILS, REMOVE_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
 
 function App() {
   const [isModalIngredientDetailsOpen, setIsModalIngredientDetailsOpen] = useState(false);
   const [isModalOrderOpen, setIsModalOrderOpen] = useState(false);
   const [ingredientDetails, setIngredientDetails] = useState(null);
   const [orderData, setOrderData] = useState({})
+
+
+  const dispatch = useDispatch();
+  const { items } = useSelector(
+    state => state.ingredients
+  );
+  const { bun, selectedItems } = useSelector(
+    state => state.ingredientsConstructor
+  );
 
   const [data, setData] = React.useState({
     isLoading: false,
@@ -25,24 +37,35 @@ function App() {
 
   const closeIngredientPopup = () => {
     setIsModalIngredientDetailsOpen(false)
+    dispatch({
+      type: REMOVE_INGREDIENT_DETAILS,
+    });
   }
 
   const closeOrderPopup = () => {
     setIsModalOrderOpen(false)
+
   }
 
-  useEffect(() => {
-    const getIngredients = () => {
-      setData({ ...data, hasError: false, isLoading: true });
-      request(`${BASE_URL}/ingredients`)
-        .then((ingredients) => setData({ ...data, ingredients, isLoading: false }))
-        .catch((e) => {
-          setData({ ...data, hasError: true, isLoading: false });
-        });
-    };
-    getIngredients();
+  // useEffect(() => {
+  //   const getIngredients = () => {
+  //     setData({ ...data, hasError: false, isLoading: true });
+  //     request(`${BASE_URL}/ingredients`)
+  //       .then((ingredients) => setData({ ...data, ingredients, isLoading: false }))
+  //       .catch((e) => {
+  //         setData({ ...data, hasError: true, isLoading: false });
+  //       });
+  //   };
+  //   getIngredients();
+  //
+  // }, []);
 
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getItems());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (!isModalIngredientDetailsOpen) {
@@ -57,18 +80,19 @@ function App() {
       <IngredientsDataContext.Provider value={{ data, setData }}>
         <main className={style.content}>
           <div className={"mr-5 mt-10"}>
-            {data.ingredients.data? <BurgerIngredients openPopup={setIsModalIngredientDetailsOpen} setIngredientDetails={setIngredientDetails} /> : null}
+            {items? <BurgerIngredients openPopup={setIsModalIngredientDetailsOpen} setIngredientDetails={setIngredientDetails} /> : null}
 
           </div>
           <div>
-            {data.ingredients.data ? <BurgerConstructor openPopup={setIsModalOrderOpen} /> : null}
+            <BurgerConstructor openPopup={setIsModalOrderOpen} />
+            {/*{items ? <BurgerConstructor openPopup={setIsModalOrderOpen} /> : null}*/}
           </div>
         </main>
       </IngredientsDataContext.Provider>
 
       {isModalIngredientDetailsOpen ? (
         <Modal closePopup={closeIngredientPopup}>
-          <IngredientDetails ingredientDetails={ingredientDetails} />
+          <IngredientDetails/>
         </Modal>
       ) : null}
       {isModalOrderOpen ? (
