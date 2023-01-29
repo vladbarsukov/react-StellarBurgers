@@ -13,6 +13,7 @@ export const OPEN_BURGER_INGREDIENT_MODAL = "OPEN_BURGER_INGREDIENT_MODAL"
 
 export const CLOSE_BURGER_INGREDIENT_MODAL = "CLOSE_BURGER_INGREDIENT_MODAL"
 
+
 export function getItems() {
   return function(dispatch) {
     dispatch({

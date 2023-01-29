@@ -1,17 +1,14 @@
 import {
   ADD_ITEMS_TO_CONSTRUCTOR,
   REMOVE_ITEMS_IN_CONSTRUCTOR,
-  CALCULATE_PRICE, OPEN_ORDER_MODAL, CLOSE_ORDER_MODAL, ADD_ORDER
+  CALCULATE_PRICE, OPEN_ORDER_MODAL, CLOSE_ORDER_MODAL
 } from "../actions/BurgerConstructor";
 
 const initialState = {
   selectedItems: [],
   bun: null,
-  postRequest: false,
-  postFailed: false,
   orderPrice: 0,
   isModalOrderOpen: false,
-  order: {}
 };
 
 export const BurgerConstructorReducer = (state = initialState, action) => {
@@ -22,12 +19,7 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
         isModalOrderOpen: true
       };
     }
-    case ADD_ORDER: {
-      return {
-        ...state,
-        order: action.order
-      };
-    }
+
     case CLOSE_ORDER_MODAL: {
       return {
         ...state,

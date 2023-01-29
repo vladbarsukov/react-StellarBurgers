@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import PropTypes from "prop-types";
-import {BASE_URL} from "../../utils/constants";
-import {request} from "../../utils/api";
 import {useDispatch, useSelector} from "react-redux";
 import {pushData} from "../../services/actions/Order";
 
@@ -27,28 +24,7 @@ const BurgerConstructor = () => {
     if (bun) {
       ingredient.push(bun._id)
     }
-    // request(`${BASE_URL}/orders`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({'ingredients': ingredient})
-    //   })
-    //   .then(res => {
-    //     dispatch({
-    //       type: "ADD_ORDER",
-    //       order: res
-    //     })
-    //   })
-    //
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
     dispatch(pushData(ingredient));
-    // dispatch({
-    //   type: "OPEN_ORDER_MODAL",
-    // })
   }
 
   useEffect(() => {
