@@ -12,12 +12,6 @@ const BurgerConstructor = () => {
     state => state.ingredientsConstructor
   );
 
-  const { items } = useSelector(
-    state => state.ingredients
-  );
-
-
-
   const post = () => {
     const ingredient =[]
     selectedItems.forEach((ing) => {ingredient.push(ing._id) })
@@ -35,7 +29,10 @@ const BurgerConstructor = () => {
   }, [selectedItems, bun, dispatch]);
 
   const removeIngredient = (ing) => {
-    items.find(item => item._id === ing._id)["__v"] -= 1
+    dispatch({
+      type: "DECREASE_ITEM",
+      id: ing._id
+    }, );
     dispatch({
       type: "REMOVE_ITEMS_IN_CONSTRUCTOR",
       selectedItems: [ing]

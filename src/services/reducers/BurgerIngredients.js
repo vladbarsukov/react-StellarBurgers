@@ -63,7 +63,7 @@ export const BurgerIngredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         items: [...state.items].map(item =>
-          item.id === action.id ? { ...item, __v: --item["__v"] } : item
+          item._id === action.id ? { ...item, __v: item["__v"] -= 1 } : item
         )
       };
     }
