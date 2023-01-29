@@ -14,12 +14,12 @@ const BurgerConstructor = () => {
   );
 
   const post = () => {
-    const ingredient =[]
-    selectedItems.forEach((ing) => {ingredient.push(ing._id) })
+    const ingredients =[]
+    selectedItems.forEach((ing) => {ingredients.push(ing._id) })
     if (bun) {
-      ingredient.push(bun._id)
+      ingredients.push(bun._id)
     }
-    dispatch(pushData(ingredient));
+    dispatch(pushData(ingredients));
   }
 
   useEffect(() => {
