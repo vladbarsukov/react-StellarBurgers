@@ -3,7 +3,8 @@ import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {pushData} from "../../services/actions/Order";
+import {pushData} from "../../services/actions/BurgerConstructor";
+
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
