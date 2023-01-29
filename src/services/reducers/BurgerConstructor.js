@@ -49,18 +49,9 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
         orderPrice: action.orderPrice
       };
     case ADD_ITEMS_TO_CONSTRUCTOR:
-      if (action.selectedItems.type === "bun") {
-        return {
-          ...state,
-          bun: action.selectedItems
-        }
-      } else {
-        return {
-          ...state,
-          selectedItems: [...state.selectedItems, action.selectedItems]
-        };
-      }
-
+      return action.selectedItems.type === "bun"
+        ? {...state, bun: action.selectedItems}
+        : {...state, selectedItems: [...state.selectedItems, action.selectedItems]}
     case REMOVE_ITEMS_IN_CONSTRUCTOR:
       return {
         ...state,
