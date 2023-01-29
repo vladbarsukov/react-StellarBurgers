@@ -1,13 +1,26 @@
-import {GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, INCREASE_ITEM, DECREASE_ITEM} from "../actions/BurgerIngredients";
+import {GET_ITEMS_FAILED, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, INCREASE_ITEM, DECREASE_ITEM, OPEN_BURGER_INGREDIENT_MODAL, CLOSE_BURGER_INGREDIENT_MODAL} from "../actions/BurgerIngredients";
 import {filterIngredients} from "../../utils/filterIngredients";
 const initialState = {
   items: [],
   itemsRequest: false,
   itemsFailed: false,
+  isModalIngredientDetailsOpen: false,
 };
 
 export const BurgerIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case OPEN_BURGER_INGREDIENT_MODAL: {
+      return {
+        ...state,
+        isModalIngredientDetailsOpen: true
+      };
+    }
+    case CLOSE_BURGER_INGREDIENT_MODAL: {
+      return {
+        ...state,
+        isModalIngredientDetailsOpen: false
+      };
+    }
     case GET_ITEMS_REQUEST: {
       return {
         ...state,

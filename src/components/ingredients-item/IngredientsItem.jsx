@@ -1,25 +1,22 @@
 
-import React, {useState, useContext, useEffect} from "react";
+import React from "react";
 import styles from "../ingredients-list/ingredients-list.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {IngredientsDataContext} from "../../services/app-context";
-import { useDispatch, useSelector } from 'react-redux';
-import {INCREASE_ITEM} from "../../services/actions/BurgerIngredients";
-import {ADD_ITEMS_TO_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
-import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
+import { useDispatch } from 'react-redux';
 
-const IngredientsItem = ({ing, openPopup, setIngredientDetails}) => {
+
+const IngredientsItem = ({ing}) => {
   const dispatch = useDispatch();
 
-  const {data, setData} = useContext(IngredientsDataContext)
-  const handleModalIngredientDetails = (ing) => {
-    setIngredientDetails(ing);
-    openPopup(true);
+  const handleModalIngredientDetails = () => {
+    dispatch({
+      type: "OPEN_BURGER_INGREDIENT_MODAL",
+    })
   };
 
   const increase = () => {
     dispatch({
-      type: ADD_INGREDIENT_DETAILS,
+      type: "ADD_INGREDIENT_DETAILS",
       item: ing,
     });
     dispatch({
@@ -29,7 +26,7 @@ const IngredientsItem = ({ing, openPopup, setIngredientDetails}) => {
     }, );
     dispatch({
         type: "ADD_ITEMS_TO_CONSTRUCTOR",
-        selectedItems: [ing],
+        selectedItems: ing,
     });
   };
 
@@ -38,7 +35,7 @@ const IngredientsItem = ({ing, openPopup, setIngredientDetails}) => {
       <div className={styles.counter}>
         {ing["__v"]  ? <Counter count={Number(ing["__v"])} size="default" extraClass="m-1" /> : null}
       </div>
-      <img onClick={() => increase()} className={`${styles.image} ml-4 mr-4`} alt={ing.type} src={ing.image} />
+      <img onClick={() => increase(ing)} className={`${styles.image} ml-4 mr-4`} alt={ing.type} src={ing.image} />
       <div className={`${styles.description} mt-1`}>
         <div className={styles.price}>
           <p className="mr-1 text text_type_digits-default">{ing.price}</p>

@@ -1,16 +1,13 @@
-import React, { useRef, useCallback, useContext } from "react";
+import React, { useRef} from "react";
 import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
 import PropTypes from "prop-types";
-import {IngredientsDataContext} from "../../services/app-context";
 import {useSelector} from "react-redux";
 import {filterIngredients} from "../../utils/filterIngredients";
 
 
-const BurgerIngredients = ({ openPopup, setIngredientDetails}) => {
-  const {data} = useContext(IngredientsDataContext)
-
+const BurgerIngredients = () => {
 
   const { items } = useSelector(
     state => state.ingredients
@@ -43,19 +40,19 @@ const BurgerIngredients = ({ openPopup, setIngredientDetails}) => {
           Булки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={filterIngredients(items, "bun")} />
+          <IngredientsList ingredients={filterIngredients(items, "bun")} />
         </div>
         <h2 ref={saucesRef} className={"mt-10 text text_type_main-medium"}>
           Соусы
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={filterIngredients(items, "sauce")}  />
+          <IngredientsList ingredients={filterIngredients(items, "sauce")}  />
         </div>
         <h2 ref={mainRef} className={"mt-10 text text_type_main-medium"}>
           Начинки
         </h2>
         <div>
-          <IngredientsList setIngredientDetails={setIngredientDetails} openPopup={openPopup} ingredients={filterIngredients(items, "main")} />
+          <IngredientsList ingredients={filterIngredients(items, "main")} />
         </div>
       </div>
     </div>
