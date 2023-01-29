@@ -27,29 +27,28 @@ const BurgerConstructor = () => {
     if (bun) {
       ingredient.push(bun._id)
     }
-    request(`${BASE_URL}/orders`,
-      {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'ingredients': ingredient})
-      })
-      .then(res => {
-        dispatch({
-          type: "ADD_ORDER",
-          order: res
-        })
-      })
-
-      .catch((e) => {
-        console.log(e);
-      });
-
-    // dispatch(pushData(ingredient));
-    dispatch({
-      type: "OPEN_ORDER_MODAL",
-    })
+    // request(`${BASE_URL}/orders`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({'ingredients': ingredient})
+    //   })
+    //   .then(res => {
+    //     dispatch({
+    //       type: "ADD_ORDER",
+    //       order: res
+    //     })
+    //   })
+    //
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+    dispatch(pushData(ingredient));
+    // dispatch({
+    //   type: "OPEN_ORDER_MODAL",
+    // })
   }
 
   useEffect(() => {

@@ -29,5 +29,10 @@ export function pushData (ingredients)  {
         });
       }
     })
+      .then(()=> {
+        dispatch({
+          type: "OPEN_ORDER_MODAL",
+        })
+      })
   };
 }
