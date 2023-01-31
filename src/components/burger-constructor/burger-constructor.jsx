@@ -4,7 +4,7 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktiku
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {pushData} from "../../services/actions/BurgerConstructor";
-
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -12,6 +12,27 @@ const BurgerConstructor = () => {
   const { selectedBun, selectedToppings, orderPrice} = useSelector(
     state => state.ingredientsConstructor
   );
+
+  const [, dropTarget] = useDrop({
+    accept: "ing",
+    drop(itemId) {
+      // onDropHandler(itemId);
+      increase(itemId)
+    },
+  });
+
+  const increase = (ing) => {
+    dispatch({
+      type: "INCREASE_ITEM",
+      _id: ing._id,
+      ingType: ing.type,
+    }, );
+    dispatch({
+      type: "ADD_ITEMS_TO_CONSTRUCTOR",
+      selectedIngredients: ing,
+    });
+  };
+
 
   const priceCalculator = (topping, bun) => {
     return  topping.reduce((prev, next) => prev + next.price, 0) + (bun?.price * 2 || 0)
@@ -45,7 +66,7 @@ const BurgerConstructor = () => {
   }
 
   return (
-    <div className={`${styles.main} mt-25 ml-10`}>
+    <div ref={dropTarget} className={`${styles.main} mt-25 ml-10`}>
       <div className={`mb-4 ml-6 ${styles.bun}`}>
         {selectedBun ?
           <ConstructorElement

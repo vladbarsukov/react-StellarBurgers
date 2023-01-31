@@ -13,7 +13,7 @@ const initialState = {
   isModalOrderOpen: false,
   postRequest: false,
   postFailed: false,
-  orderDetails: {}
+  orderDetails: {},
 };
 
 export const BurgerConstructorReducer = (state = initialState, action) => {

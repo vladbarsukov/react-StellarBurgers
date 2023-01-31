@@ -8,6 +8,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from 'react-redux';
 import {getItems} from "../../services/actions/BurgerIngredients";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +46,7 @@ function App() {
   return (
     <div className={style.app}>
       <AppHeader />
+      <DndProvider backend={HTML5Backend}>
         <main className={style.content}>
           <div className={"mr-5 mt-10"}>
             {items ? <BurgerIngredients /> : null}
@@ -52,6 +55,7 @@ function App() {
             <BurgerConstructor />
           </div>
         </main>
+        </DndProvider>
       {isModalIngredientDetailsOpen ? (
         <Modal closePopup={closeIngredientPopup}>
           <IngredientDetails/>

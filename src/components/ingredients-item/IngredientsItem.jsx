@@ -2,10 +2,19 @@ import React from "react";
 import styles from "../ingredients-list/ingredients-list.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
 
 
 const IngredientsItem = ({ing}) => {
   const dispatch = useDispatch();
+
+  const [{isDrag}, dragRef] = useDrag({
+    type: "ing",
+    item: ing,
+    // collect: monitor => ({
+    //   isDrag: monitor.isDragging()
+    // })
+  });
 
   const handleModalIngredientDetails = () => {
     dispatch({
@@ -18,19 +27,11 @@ const IngredientsItem = ({ing}) => {
       type: "ADD_INGREDIENT_DETAILS",
       item: ing,
     });
-    dispatch({
-      type: "INCREASE_ITEM",
-      _id: ing._id,
-      ingType: ing.type,
-    }, );
-    dispatch({
-      type: "ADD_ITEMS_TO_CONSTRUCTOR",
-      selectedIngredients: ing,
-    });
   };
 
   return (
     <li
+      ref={dragRef}
       onClick={() => handleModalIngredientDetails(ing)}
       key={ing._id}
       className={`${styles.list_item} mt-6`}
