@@ -8,12 +8,9 @@ import { useDrag } from "react-dnd";
 const IngredientsItem = ({ing}) => {
   const dispatch = useDispatch();
 
-  const [{isDrag}, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: "ing",
     item: ing,
-    // collect: monitor => ({
-    //   isDrag: monitor.isDragging()
-    // })
   });
 
   const handleModalIngredientDetails = () => {
