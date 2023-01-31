@@ -9,15 +9,19 @@ import {pushData} from "../../services/actions/BurgerConstructor";
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
-  const { bun, selectedItems, orderPrice} = useSelector(
+  const { selectedBun, selectedToppings, orderPrice} = useSelector(
     state => state.ingredientsConstructor
   );
 
+  const priceCalculator = (topping, bun) => {
+    return  topping.reduce((prev, next) => prev + next.price, 0) + (bun?.price * 2 || 0)
+  }
+
   const post = () => {
     const ingredients =[]
-    selectedItems.forEach((ing) => {ingredients.push(ing._id) })
-    if (bun) {
-      ingredients.push(bun._id)
+    selectedToppings.forEach((ing) => {ingredients.push(ing._id) })
+    if (selectedBun) {
+      ingredients.push(selectedBun._id)
     }
     dispatch(pushData(ingredients));
   }
@@ -25,9 +29,9 @@ const BurgerConstructor = () => {
   useEffect(() => {
     dispatch({
       type: "CALCULATE_PRICE",
-      orderPrice: selectedItems.reduce((prev, next) => prev + next.price, 0) + (bun?.price * 2 || 0)
+      orderPrice: priceCalculator(selectedToppings, selectedBun)
     }, );
-  }, [selectedItems, bun, dispatch]);
+  }, [selectedToppings, selectedBun, dispatch]);
 
   const removeIngredient = (ing) => {
     dispatch({
@@ -36,33 +40,49 @@ const BurgerConstructor = () => {
     }, );
     dispatch({
       type: "REMOVE_ITEMS_IN_CONSTRUCTOR",
-      selectedItems: [ing]
+      selectedToppings: [ing]
     }, );
   }
 
   return (
     <div className={`${styles.main} mt-25 ml-10`}>
       <div className={`mb-4 ml-6 ${styles.bun}`}>
-        {bun ?
-          <ConstructorElement type="top" isLocked={true} text={`${bun?.name} (верх)`} price={bun?.price} thumbnail={bun?.image} />
+        {selectedBun ?
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${selectedBun?.name} (верх)`} price={selectedBun?.price}
+            thumbnail={selectedBun?.image}
+          />
           : null }
       </div>
 
       <ul className={`${styles.list} mb-4`}>
 
-        { selectedItems.map((ing, index) => (
+        { selectedToppings.map((ing, index) => (
           <li key={index} className={`${styles.list_item} mb-4`}>
             <div className={"mr-1"}>
               <DragIcon type={"primary"} />
             </div>
-            <ConstructorElement handleClose={() => removeIngredient(ing)} text={ing.name} price={ing.price} thumbnail={ing.image} />
+            <ConstructorElement
+              handleClose={() => removeIngredient(ing)}
+              text={ing.name}
+              price={ing.price}
+              thumbnail={ing.image}
+            />
           </li>
         ))}
       </ul>
 
       <div className={`mb-4 ml-6 ${styles.bun}`}>
-        {bun ?
-          <ConstructorElement type="bottom" isLocked={true} text={`${bun?.name} (низ)`} price={bun?.price} thumbnail={bun?.image} />
+        {selectedBun ?
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={`${selectedBun?.name} (низ)`}
+            price={selectedBun?.price}
+            thumbnail={selectedBun?.image}
+          />
           : null }
       </div>
 

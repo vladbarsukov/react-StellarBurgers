@@ -7,7 +7,7 @@ import {
   OPEN_BURGER_INGREDIENT_MODAL,
   CLOSE_BURGER_INGREDIENT_MODAL,
 } from "../actions/BurgerIngredients";
-import {filterIngredients} from "../../utils/filterIngredients";
+
 const initialState = {
   items: [],
   itemsRequest: false,
@@ -46,7 +46,8 @@ export const BurgerIngredientsReducer = (state = initialState, action) => {
       const items = state.items.map(item => {
         if (item._id === action._id) {
           if (item.type === "bun") {
-            filterIngredients(state.items, "bun").filter(i => i["_id"] !== item["_id"]).map((ing) => ing["__v"] = 0);
+            // обнуляю счетчик остальных булок кроме выбранной
+            state.items.filter(i => i.type === "bun" && i["_id"] !== item["_id"]).forEach(ing => ing["__v"] = 0);
             return { ...item, __v: 1 };
           } else {
             return { ...item, __v: item.__v + 1 };

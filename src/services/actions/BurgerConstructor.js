@@ -26,7 +26,7 @@ export function pushData (ingredients)  {
       if (res && res.success) {
         dispatch({
           type: POST_ORDER_SUCCESS,
-          items: res
+          orderDetails: res
         });
 
       } else {

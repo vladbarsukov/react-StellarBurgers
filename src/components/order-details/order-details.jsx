@@ -4,14 +4,14 @@ import img from '../../images/graphics.svg';
 import {useSelector} from "react-redux";
 
 const OrderDetails = () => {
-  const { item } = useSelector(
+  const { orderDetails } = useSelector(
     state => state.ingredientsConstructor
   );
 
   return (
     <div className={`${styles.main} mt-30`}>
       <h2 className={`${styles.order_number} text text_type_digits-large  mb-8`}>
-        {item.order.number}
+        {orderDetails.order.number}
       </h2>
       <p className={"text text_type_main-medium  mb-15"}>идентификатор заказа</p>
       <img alt={"готов"} className={"mb-15"} src={img}/>

@@ -6,15 +6,14 @@ import {
   POST_ORDER_SUCCESS, POST_ORDER_FAILED
 } from "../actions/BurgerConstructor";
 
-
 const initialState = {
-  selectedItems: [],
-  bun: null,
+  selectedToppings: [],
+  selectedBun: null,
   orderPrice: 0,
   isModalOrderOpen: false,
   postRequest: false,
   postFailed: false,
-  item: {}
+  orderDetails: {}
 };
 
 export const BurgerConstructorReducer = (state = initialState, action) => {
@@ -26,7 +25,7 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
       };
     }
     case POST_ORDER_SUCCESS: {
-      return { ...state, postFailed: false, postRequest: false, item: action.items };
+      return { ...state, postFailed: false, postRequest: false, orderDetails: action.orderDetails };
     }
     case POST_ORDER_FAILED: {
       return { ...state, postFailed: true, postRequest: false };
@@ -49,13 +48,13 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
         orderPrice: action.orderPrice
       };
     case ADD_ITEMS_TO_CONSTRUCTOR:
-      return action.selectedItems.type === "bun"
-        ? {...state, bun: action.selectedItems}
-        : {...state, selectedItems: [...state.selectedItems, action.selectedItems]}
+      return action.selectedIngredients.type === "bun"
+        ? {...state, selectedBun: action.selectedIngredients}
+        : {...state, selectedToppings: [...state.selectedToppings, action.selectedIngredients]}
     case REMOVE_ITEMS_IN_CONSTRUCTOR:
       return {
         ...state,
-        selectedItems: state.selectedItems.filter(item => !action.selectedItems.includes(item))
+        selectedToppings: state.selectedToppings.filter(item => !action.selectedToppings.includes(item))
       };
 
     default:
