@@ -3,6 +3,9 @@ import styles from "../burger-constructor/burger-constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch} from "react-redux";
 import { useDrag,useDrop } from "react-dnd";
+import PropTypes from "prop-types";
+import {DECREASE_ITEM} from "../../services/actions/BurgerIngredients";
+import {REMOVE_ITEMS_IN_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
 
 const ConstructorItem = ({ing, index, moveToppingItem}) => {
   const dispatch = useDispatch();
@@ -33,11 +36,11 @@ const ConstructorItem = ({ing, index, moveToppingItem}) => {
   const dragDropRef = dragRef(dropRef(ref))
   const removeIngredient = (ing) => {
     dispatch({
-      type: "DECREASE_ITEM",
+      type: DECREASE_ITEM,
       id: ing._id
     }, );
     dispatch({
-      type: "REMOVE_ITEMS_IN_CONSTRUCTOR",
+      type: REMOVE_ITEMS_IN_CONSTRUCTOR,
       selectedToppings: [ing]
     }, );
   }
@@ -55,5 +58,11 @@ const ConstructorItem = ({ing, index, moveToppingItem}) => {
     </li>
   );
 };
+
+ConstructorItem.propTypes = {
+  ing: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  moveToppingItem: PropTypes.func.isRequired
+}
 
 export default ConstructorItem;

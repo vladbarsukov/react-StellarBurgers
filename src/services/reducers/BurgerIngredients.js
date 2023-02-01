@@ -4,31 +4,17 @@ import {
   GET_ITEMS_SUCCESS,
   INCREASE_ITEM,
   DECREASE_ITEM,
-  OPEN_BURGER_INGREDIENT_MODAL,
-  CLOSE_BURGER_INGREDIENT_MODAL,
 } from "../actions/BurgerIngredients";
+import {bun} from "../../utils/constants";
 
 const initialState = {
-  items: [],
+  items: null,
   itemsRequest: false,
   itemsFailed: false,
-  isModalIngredientDetailsOpen: false,
 };
 
 export const BurgerIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case OPEN_BURGER_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        isModalIngredientDetailsOpen: true
-      };
-    }
-    case CLOSE_BURGER_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        isModalIngredientDetailsOpen: false
-      };
-    }
     case GET_ITEMS_REQUEST: {
       return {
         ...state,
@@ -41,13 +27,12 @@ export const BurgerIngredientsReducer = (state = initialState, action) => {
     case GET_ITEMS_FAILED: {
       return { ...state, itemsFailed: true, itemsRequest: false };
     }
-
     case INCREASE_ITEM: {
       const items = state.items.map(item => {
         if (item._id === action._id) {
-          if (item.type === "bun") {
+          if (item.type === bun) {
             // обнуляю счетчик остальных булок кроме выбранной
-            state.items.filter(i => i.type === "bun" && i["_id"] !== item["_id"]).forEach(ing => ing["__v"] = 0);
+            state.items.filter(i => i.type === bun && i["_id"] !== item["_id"]).forEach(ing => ing["__v"] = 0);
             return { ...item, __v: 1 };
           } else {
             return { ...item, __v: item.__v + 1 };
@@ -59,7 +44,6 @@ export const BurgerIngredientsReducer = (state = initialState, action) => {
 
       return { ...state, items };
     }
-
     case DECREASE_ITEM: {
       return {
         ...state,

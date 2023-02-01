@@ -16,9 +16,7 @@ const IngredientsList = ({ ingredients}) => {
 };
 
 IngredientsList.propTypes = {
-  ingredients: PropTypes.array.isRequired,
-  setIngredientDetails: PropTypes.func,
-  openPopup: PropTypes.func,
+  ingredients: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default IngredientsList;

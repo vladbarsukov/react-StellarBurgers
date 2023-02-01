@@ -1,4 +1,4 @@
-import {request} from "../../utils/api";
+import {onResponse, request} from "../../utils/api";
 import {BASE_URL} from "../../utils/constants";
 
 export const GET_ITEMS_REQUEST = 'GET_ITEMS_REQUEST';
@@ -9,28 +9,24 @@ export const INCREASE_ITEM = 'INCREASE_ITEM'
 
 export const DECREASE_ITEM = 'DECREASE_ITEM'
 
-export const OPEN_BURGER_INGREDIENT_MODAL = "OPEN_BURGER_INGREDIENT_MODAL"
-
-export const CLOSE_BURGER_INGREDIENT_MODAL = "CLOSE_BURGER_INGREDIENT_MODAL"
-
-
-
 export function getItems() {
   return function(dispatch) {
     dispatch({
       type: GET_ITEMS_REQUEST
     });
-    request(`${BASE_URL}/ingredients`).then(res => {
-      if (res && res.success) {
+    request(`${BASE_URL}/ingredients`)
+      .then(onResponse)
+      .then(res => {
         dispatch({
           type: GET_ITEMS_SUCCESS,
           items: res.data
         });
-      } else {
+    })
+      .catch(error => {
+        console.log(error)
         dispatch({
           type: GET_ITEMS_FAILED
         });
-      }
-    });
+      })
   };
 }

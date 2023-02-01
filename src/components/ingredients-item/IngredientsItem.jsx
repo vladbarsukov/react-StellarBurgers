@@ -1,11 +1,14 @@
 import React from "react";
 import styles from "../ingredients-list/ingredients-list.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { useDrag } from "react-dnd";
+import PropTypes from "prop-types";
+import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
 
 
 const IngredientsItem = ({ing}) => {
+
   const dispatch = useDispatch();
 
   const [, dragRef] = useDrag({
@@ -13,15 +16,9 @@ const IngredientsItem = ({ing}) => {
     item: ing,
   });
 
-  const handleModalIngredientDetails = () => {
-    dispatch({
-      type: "OPEN_BURGER_INGREDIENT_MODAL",
-    })
-  };
-
   const addIngredientDetails = () => {
     dispatch({
-      type: "ADD_INGREDIENT_DETAILS",
+      type: ADD_INGREDIENT_DETAILS,
       item: ing,
     });
   };
@@ -29,14 +26,13 @@ const IngredientsItem = ({ing}) => {
   return (
     <li
       ref={dragRef}
-      onClick={() => handleModalIngredientDetails(ing)}
       key={ing._id}
       className={`${styles.list_item} mt-6`}
     >
       <div className={styles.counter}>
         {ing["__v"]
           ? <Counter count={Number(ing["__v"])} size="default" extraClass="m-1" />
-          : null}
+            : null}
       </div>
       <img
         onClick={() => addIngredientDetails(ing)}
@@ -55,5 +51,9 @@ const IngredientsItem = ({ing}) => {
     </li>
   );
 };
+
+IngredientsItem.propTypes = {
+  ing: PropTypes.object.isRequired,
+}
 
 export default IngredientsItem;

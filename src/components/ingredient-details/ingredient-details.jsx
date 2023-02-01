@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './ingredient-details.module.css';
-import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
 
 const IngredientDetails = () => {
@@ -9,10 +8,10 @@ const IngredientDetails = () => {
   );
 
   return (
-    <div className={styles.main + ' ' + 'pt-10 pb-15'}>
-      <h2 className= {styles.title + ' ' + 'pl-10 pr-10 text text_type_main-large'}>Детали ингредиента</h2>
+    <div className={`${styles.main} pt-10 pb-15`}>
+      <h2 className= {`${styles.title} pl-10 pr-10 text text_type_main-large`}>Детали ингредиента</h2>
       <img className={styles.image} alt={item?.name} src={item?.image_large}/>
-      <p className={styles.ingredient_name + ' ' + 'mt-4 mb-8 text text_type_main-medium'}>{item?.name}</p>
+      <p className={`${styles.ingredient_name} mt-4 mb-8 text text_type_main-medium`}>{item?.name}</p>
       <ul className={styles.food_value}>
         <li  className={styles.food_value_item}>
           <p className='text text_type_main-default'>Калории,ккал</p>

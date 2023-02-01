@@ -13,7 +13,7 @@ const Modal = ({closePopup, children}) => {
     }
     window.addEventListener('keydown', closeByEsc)
     return () => window.removeEventListener('keydown', closeByEsc)
-  },[])
+  },[closePopup])
 
   return (
     <ModalOverlay closePopup={closePopup} >
@@ -28,9 +28,7 @@ const Modal = ({closePopup, children}) => {
 };
 
 Modal.propTypes = {
-  isPopupOpen: PropTypes.bool,
-  setActive: PropTypes.func,
-  children: PropTypes.element,
+  children: PropTypes.element.isRequired,
 }
 
 export default Modal;
