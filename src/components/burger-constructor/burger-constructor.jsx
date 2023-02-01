@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import styles from "./burger-constructor.module.css";
-import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {pushData} from "../../services/actions/BurgerConstructor";
-import { useDrop } from "react-dnd";
+import {useDrop} from "react-dnd";
+import ConstructorItem from "../constructor-item/constructor-item";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -12,16 +13,23 @@ const BurgerConstructor = () => {
   const { selectedBun, selectedToppings, orderPrice} = useSelector(
     state => state.ingredientsConstructor
   );
-
   const [, dropTarget] = useDrop({
     accept: "ing",
-    drop(itemId) {
-      // onDropHandler(itemId);
-      increase(itemId)
+    drop(item) {
+      console.log(selectedToppings.indexOf(item))
+      addIngredientToConstructor(item)
     },
   });
-
-  const increase = (ing) => {
+  const [, dropTargetTopping] = useDrop({
+    accept: "constructorIngredient",
+    drop(item) {
+      dispatch({
+        type: "SWAP_ITEM",
+        item: item
+      });
+    },
+  });
+  const addIngredientToConstructor = (ing) => {
     dispatch({
       type: "INCREASE_ITEM",
       _id: ing._id,
@@ -32,12 +40,9 @@ const BurgerConstructor = () => {
       selectedIngredients: ing,
     });
   };
-
-
   const priceCalculator = (topping, bun) => {
     return  topping.reduce((prev, next) => prev + next.price, 0) + (bun?.price * 2 || 0)
   }
-
   const post = () => {
     const ingredients =[]
     selectedToppings.forEach((ing) => {ingredients.push(ing._id) })
@@ -46,24 +51,12 @@ const BurgerConstructor = () => {
     }
     dispatch(pushData(ingredients));
   }
-
   useEffect(() => {
     dispatch({
       type: "CALCULATE_PRICE",
       orderPrice: priceCalculator(selectedToppings, selectedBun)
     }, );
   }, [selectedToppings, selectedBun, dispatch]);
-
-  const removeIngredient = (ing) => {
-    dispatch({
-      type: "DECREASE_ITEM",
-      id: ing._id
-    }, );
-    dispatch({
-      type: "REMOVE_ITEMS_IN_CONSTRUCTOR",
-      selectedToppings: [ing]
-    }, );
-  }
 
   return (
     <div ref={dropTarget} className={`${styles.main} mt-25 ml-10`}>
@@ -77,21 +70,9 @@ const BurgerConstructor = () => {
           />
           : null }
       </div>
-
-      <ul className={`${styles.list} mb-4`}>
-
+      <ul ref={dropTargetTopping} className={`${styles.list} mb-4`}>
         { selectedToppings.map((ing, index) => (
-          <li key={index} className={`${styles.list_item} mb-4`}>
-            <div className={"mr-1"}>
-              <DragIcon type={"primary"} />
-            </div>
-            <ConstructorElement
-              handleClose={() => removeIngredient(ing)}
-              text={ing.name}
-              price={ing.price}
-              thumbnail={ing.image}
-            />
-          </li>
+          <ConstructorItem index={index} key={index} ing={ing}/>
         ))}
       </ul>
 

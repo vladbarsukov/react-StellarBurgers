@@ -3,7 +3,8 @@ import {
   REMOVE_ITEMS_IN_CONSTRUCTOR,
   CALCULATE_PRICE, OPEN_ORDER_MODAL,
   CLOSE_ORDER_MODAL, POST_ORDER_REQUEST,
-  POST_ORDER_SUCCESS, POST_ORDER_FAILED
+  POST_ORDER_SUCCESS, POST_ORDER_FAILED,
+  SWAP_ITEM
 } from "../actions/BurgerConstructor";
 
 const initialState = {
@@ -18,6 +19,18 @@ const initialState = {
 
 export const BurgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SWAP_ITEM: {
+      // console.log(action.item.ing)
+      // console.log(action.item.index)
+      // console.log(state.selectedToppings.map((item, index) => {
+      //   return index
+      // }) )
+
+
+      return {
+        ...state,
+      }
+    }
     case POST_ORDER_REQUEST: {
       return {
         ...state,

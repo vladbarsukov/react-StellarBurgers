@@ -19,7 +19,7 @@ const IngredientsItem = ({ing}) => {
     })
   };
 
-  const increase = () => {
+  const addIngredientDetails = () => {
     dispatch({
       type: "ADD_INGREDIENT_DETAILS",
       item: ing,
@@ -39,7 +39,7 @@ const IngredientsItem = ({ing}) => {
           : null}
       </div>
       <img
-        onClick={() => increase(ing)}
+        onClick={() => addIngredientDetails(ing)}
         className={`${styles.image} ml-4 mr-4`}
         alt={ing.type}
         src={ing.image} />

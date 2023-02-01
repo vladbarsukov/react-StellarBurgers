@@ -11,6 +11,8 @@ export const CALCULATE_PRICE = "CALCULATE_PRICE"
 export const OPEN_ORDER_MODAL = "OPEN_ORDER_MODAL"
 export const CLOSE_ORDER_MODAL = "CLOSE_ORDER_MODAL"
 
+export const SWAP_ITEM = "SWAP_ITEM"
+
 export function pushData (ingredients)  {
   return function(dispatch) {
     dispatch({
