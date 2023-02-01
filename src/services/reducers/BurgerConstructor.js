@@ -10,7 +10,6 @@ import {bun} from "../../utils/constants";
 const initialState = {
   selectedToppings: [],
   selectedBun: null,
-  orderPrice: 0,
   postRequest: false,
   postFailed: false,
   orderDetails: null,
