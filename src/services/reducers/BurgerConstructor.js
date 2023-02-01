@@ -20,15 +20,9 @@ const initialState = {
 export const BurgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case SWAP_ITEM: {
-      // console.log(action.item.ing)
-      // console.log(action.item.index)
-      // console.log(state.selectedToppings.map((item, index) => {
-      //   return index
-      // }) )
-
-
       return {
         ...state,
+        selectedToppings: action.updatedList
       }
     }
     case POST_ORDER_REQUEST: {

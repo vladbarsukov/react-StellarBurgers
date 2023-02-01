@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useCallback, useMemo} from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
@@ -16,19 +16,28 @@ const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "ing",
     drop(item) {
-      console.log(selectedToppings.indexOf(item))
       addIngredientToConstructor(item)
     },
   });
-  const [, dropTargetTopping] = useDrop({
-    accept: "constructorIngredient",
-    drop(item) {
+
+  const toppingsList = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragItem = selectedToppings[dragIndex]
+      const hoverItem = selectedToppings[hoverIndex]
+      const updatedList = () => {
+        const list = [...selectedToppings]
+        list[dragIndex] = hoverItem
+        list[hoverIndex] = dragItem
+        return list
+      }
       dispatch({
         type: "SWAP_ITEM",
-        item: item
+        updatedList: updatedList()
       });
     },
-  });
+    [selectedToppings, dispatch],
+  )
+
   const addIngredientToConstructor = (ing) => {
     dispatch({
       type: "INCREASE_ITEM",
@@ -40,9 +49,10 @@ const BurgerConstructor = () => {
       selectedIngredients: ing,
     });
   };
-  const priceCalculator = (topping, bun) => {
-    return  topping.reduce((prev, next) => prev + next.price, 0) + (bun?.price * 2 || 0)
-  }
+  const priceCalculator = useMemo(() => (topping, bun) => {
+    return  topping?.reduce((prev, next) => prev + next.price, 0) + (bun?.price * 2 || 0)
+  },[])
+
   const post = () => {
     const ingredients =[]
     selectedToppings.forEach((ing) => {ingredients.push(ing._id) })
@@ -51,12 +61,13 @@ const BurgerConstructor = () => {
     }
     dispatch(pushData(ingredients));
   }
+
   useEffect(() => {
     dispatch({
       type: "CALCULATE_PRICE",
       orderPrice: priceCalculator(selectedToppings, selectedBun)
     }, );
-  }, [selectedToppings, selectedBun, dispatch]);
+  }, [selectedToppings, selectedBun, dispatch, priceCalculator]);
 
   return (
     <div ref={dropTarget} className={`${styles.main} mt-25 ml-10`}>
@@ -70,9 +81,10 @@ const BurgerConstructor = () => {
           />
           : null }
       </div>
-      <ul ref={dropTargetTopping} className={`${styles.list} mb-4`}>
+
+      <ul  className={`${styles.list} mb-4`}>
         { selectedToppings.map((ing, index) => (
-          <ConstructorItem index={index} key={index} ing={ing}/>
+          <ConstructorItem toppingsList={toppingsList} index={index} key={index} ing={ing}/>
         ))}
       </ul>
 
