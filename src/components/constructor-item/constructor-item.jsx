@@ -4,7 +4,7 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import {useDispatch} from "react-redux";
 import { useDrag,useDrop } from "react-dnd";
 
-const ConstructorItem = ({ing, index, toppingsList}) => {
+const ConstructorItem = ({ing, index, moveToppingItem}) => {
   const dispatch = useDispatch();
   const [{ isDragging }, dragRef]   = useDrag({
     type: "constructorIngredient",
@@ -24,7 +24,7 @@ const ConstructorItem = ({ing, index, toppingsList}) => {
       const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top
       if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return
       if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return
-      toppingsList(dragIndex, hoverIndex)
+      moveToppingItem(dragIndex, hoverIndex)
       item.index = hoverIndex
     },
   })

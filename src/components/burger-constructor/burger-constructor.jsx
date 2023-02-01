@@ -20,7 +20,7 @@ const BurgerConstructor = () => {
     },
   });
 
-  const toppingsList = useCallback(
+  const moveToppingItem = useCallback(
     (dragIndex, hoverIndex) => {
       const dragItem = selectedToppings[dragIndex]
       const hoverItem = selectedToppings[hoverIndex]
@@ -84,7 +84,7 @@ const BurgerConstructor = () => {
 
       <ul  className={`${styles.list} mb-4`}>
         { selectedToppings.map((ing, index) => (
-          <ConstructorItem toppingsList={toppingsList} index={index} key={index} ing={ing}/>
+          <ConstructorItem moveToppingItem={moveToppingItem} index={index} key={index} ing={ing}/>
         ))}
       </ul>
 
