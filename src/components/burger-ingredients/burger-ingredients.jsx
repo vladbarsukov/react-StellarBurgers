@@ -72,6 +72,7 @@ const BurgerIngredients = () => {
           </div>
         </div>
       </div>
+
         {(item !== null) ? (
           <Modal closePopup={closeIngredientPopup}>
             <IngredientDetails/>
