@@ -3,28 +3,32 @@ import style from "./login.module.css";
 import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
 import Form from "../form/form";
+import {useDispatch, useSelector} from "react-redux";
+import {setParticipantFormValue} from "../../services/actions/form";
 
 const Login = () => {
-  const [value, setValue] = React.useState({login:'', pass: ''})
-  const onChangeLog = e => {
-    setValue({...value, login: e.target.value})
+  const dispatch = useDispatch();
+  const { loginData} = useSelector(
+    state => state.Form
+  );
+  const onFormChange = (e) => {
+    dispatch(setParticipantFormValue(e.target.name, e.target.value, 'login'))
   }
-
   const inputRef = React.useRef(null)
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
+    dispatch(setParticipantFormValue("isPasswordHidden", !loginData.isPasswordHidden, 'loginPassHide'))
   }
   return (
     <Form formName={'Вход'}>
-      <EmailInput onChange={onChangeLog} value={value.login} name={"email"} isIcon={false} extraClass="mt-6" />
+      <EmailInput onChange={onFormChange} value={loginData.email} name={"email"} isIcon={false} extraClass="mt-6" />
       <Input
-        type={"text"}
+        type={loginData.isPasswordHidden ? 'password' : 'text'}
         placeholder={"Пароль"}
-        onChange={(e) => setValue({ ...value, pass: e.target.value })}
-        icon={"ShowIcon"}
-        value={value.pass}
-        name={"name"}
+        onChange={onFormChange}
+        icon={loginData.isPasswordHidden ? 'HideIcon' : 'ShowIcon'}
+        value={loginData.pass}
+        name={"pass"}
         error={false}
         ref={inputRef}
         onIconClick={onIconClick}
