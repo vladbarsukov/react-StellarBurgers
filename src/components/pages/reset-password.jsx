@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {setParticipantFormValue} from "../../services/actions/form";
+import {forgotPassApi, resetPass, setParticipantFormValue} from "../../services/actions/form";
 import Form from "../form/form";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./reset-password.module.css";
@@ -18,6 +18,13 @@ const ResetPassword = () => {
   }
   const onFormChange = (e) => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'resetPass'))
+  }
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(resetPass({
+      password: resetPassData.pass,
+      token: resetPassData.token
+    }))
   }
   return (
     <Form formName={'Восстановление пароля'}>
@@ -48,7 +55,7 @@ const ResetPassword = () => {
         extraClass="mt-6"
       />
 
-      <Button  extraClass={`${style.button} mt-6 mb-20`} htmlType="button" type="primary" size="large">
+      <Button onClick={onFormSubmit} extraClass={`${style.button} mt-6 mb-20`} htmlType="button" type="primary" size="large">
         Сохранить
       </Button>
       <h2 className={`${style.text} text text_type_main-default text_color_inactive mb-4`} >Уже зарегистрированы?<Link to='/login' className={`${style.link} text text_type_main-default ml-2`}>Войти</Link></h2>

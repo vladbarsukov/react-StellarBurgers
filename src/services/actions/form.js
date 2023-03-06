@@ -23,6 +23,10 @@ export const PARTICIPANT_FORGOT_PASS_FORM_SUBMIT = 'PARTICIPANT_FORGOT_PASS_FORM
 export const PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS = 'PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS';
 export const PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED = 'PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED';
 
+export const PARTICIPANT_PROFILE_FORM_SET_VALUE = 'PARTICIPANT_PROFILE_FORM_SET_VALUE';
+export const PARTICIPANT_PROFILE_FORM_SUBMIT = 'PARTICIPANT_PROFILE_FORM_SUBMIT';
+export const PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS = 'PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS';
+export const PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED = 'PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED';
 
 export const setParticipantFormValue = (field, value, form) => {
   switch (form) {
@@ -75,6 +79,13 @@ export const setParticipantFormValue = (field, value, form) => {
         value
       };
     }
+    case 'profile': {
+      return {
+        type: PARTICIPANT_PROFILE_FORM_SET_VALUE,
+        field,
+        value
+      };
+    }
     default :
       return null
   }
@@ -84,9 +95,36 @@ export const setParticipantFormValue = (field, value, form) => {
 export function register (data)  {
   return function(dispatch) {
     dispatch({
-      type: PARTICIPANT_RESET_PASS_FORM_SUBMIT
+      type: PARTICIPANT_REGISTER_FORM_SUBMIT
     });
     fetch(`${BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(data)
+    }).then(res=>{
+      return res.json();
+    }).then(data => {
+      dispatch({
+        type: PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS,
+        data
+      });
+    }).catch(err => {
+      dispatch({
+        type: PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED,
+      });
+    })
+  };
+}
+
+export function resetPass (data)  {
+  return function(dispatch) {
+    dispatch({
+      type: PARTICIPANT_RESET_PASS_FORM_SUBMIT
+    });
+    fetch(`${BASE_URL}/password-reset/reset`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -108,12 +146,12 @@ export function register (data)  {
   };
 }
 
-export function resetPass (data)  {
+export function forgotPassApi (data)  {
   return function(dispatch) {
     dispatch({
-      type: PARTICIPANT_REGISTER_FORM_SUBMIT
+      type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT
     });
-    fetch(`${BASE_URL}/password-reset/reset`, {
+    fetch(`${BASE_URL}/password-reset`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -124,12 +162,12 @@ export function resetPass (data)  {
       return res.json();
     }).then(data => {
       dispatch({
-        type: PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS,
+        type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS,
         data
       });
     }).catch(err => {
       dispatch({
-        type: PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED,
+        type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED,
       });
     })
   };
