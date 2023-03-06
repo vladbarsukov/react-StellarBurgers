@@ -4,7 +4,8 @@ import style from "./register.module.css"
 import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {register, setParticipantFormValue} from "../../services/actions/form";
+import {setParticipantFormValue} from "../../services/actions/form";
+import {register} from "../../utils/api";
 
 const Register = () => {
   const inputRef = React.useRef(null)

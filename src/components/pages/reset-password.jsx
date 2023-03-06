@@ -1,10 +1,11 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {forgotPassApi, resetPass, setParticipantFormValue} from "../../services/actions/form";
+import {setParticipantFormValue} from "../../services/actions/form";
 import Form from "../form/form";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./reset-password.module.css";
 import {Link} from "react-router-dom";
+import { resetPass} from "../../utils/api";
 
 const ResetPassword = () => {
   const inputRef = React.useRef(null)

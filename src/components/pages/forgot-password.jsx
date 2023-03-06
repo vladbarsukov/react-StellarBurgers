@@ -4,7 +4,8 @@ import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-compon
 import style from './forgot-passwprd.module.css'
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {forgotPassApi, register, setParticipantFormValue} from "../../services/actions/form";
+import {setParticipantFormValue} from "../../services/actions/form";
+import {forgotPassApi} from "../../utils/api";
 
 const ForgotPassword = () => {
   const { forgotPassData} = useSelector(

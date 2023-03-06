@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Form from "../form/form";
 import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
+import { loginRequest} from "../../utils/api";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,16 @@ const Login = () => {
     setTimeout(() => inputRef.current.focus(), 0)
     dispatch(setParticipantFormValue("isPasswordHidden", !loginData.isPasswordHidden, 'loginPassHide'))
   }
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginRequest({
+      email: loginData.email,
+      password: loginData.pass
+    })
+    )
+
+  }
+
   return (
     <Form formName={'Вход'}>
       <EmailInput onChange={onFormChange} value={loginData.email} name={"email"} isIcon={false} extraClass="mt-6" />
@@ -36,7 +47,7 @@ const Login = () => {
         size={"default"}
         extraClass="mt-6"
       />
-      <Button extraClass={`${style.button} mt-6 mb-20`} htmlType="button" type="primary" size="large">
+      <Button onClick={onFormSubmit} extraClass={`${style.button} mt-6 mb-20`} htmlType="button" type="primary" size="large">
         Войти
       </Button>
         <h2 className={`${style.text} text text_type_main-default text_color_inactive mb-4`} >Вы — новый пользователь?<Link to='/register' className={`${style.link} text text_type_main-default ml-2`}>Зарегистрироваться</Link></h2>

@@ -4,12 +4,16 @@ import {
   PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED,
   PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS,
   PARTICIPANT_FORGOT_PASS_SET_VALUE,
-  PARTICIPANT_LOGIN_FORM_SET_VALUE, PARTICIPANT_PROFILE_FORM_SET_VALUE,
+  PARTICIPANT_LOGIN_FORM_SET_VALUE,
+  PARTICIPANT_LOGIN_FORM_SUBMIT, PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
+  PARTICIPANT_LOGIN_FORM_SUBMIT_SUCCESS,
+  PARTICIPANT_PROFILE_FORM_SET_VALUE,
   PARTICIPANT_REGISTER_FORM_SET_VALUE,
   PARTICIPANT_REGISTER_FORM_SUBMIT,
   PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED,
   PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_RESET_PASS_FORM_SUBMIT, PARTICIPANT_RESET_PASS_FORM_SUBMIT_FAILED,
+  PARTICIPANT_RESET_PASS_FORM_SUBMIT,
+  PARTICIPANT_RESET_PASS_FORM_SUBMIT_FAILED,
   PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS,
   PARTICIPANT_RESET_PASS_SET_VALUE,
   REGISTER_PASS_HIDE,
@@ -22,6 +26,8 @@ const initialState = {
     email: "",
     pass: "",
     isPasswordHidden: true,
+    loginRequest: false,
+    loginFailed: false,
   },
   forgotPassData: {
     email: "",
@@ -194,6 +200,37 @@ export const Form = (state = initialState, action) => {
         }
       }
     }
+    case PARTICIPANT_LOGIN_FORM_SUBMIT: {
+      return {
+        ...state,
+        loginData: {
+          ...state.loginData,
+          loginRequest: true,
+          loginFailed: false
+        }
+      }
+    }
+
+    case PARTICIPANT_LOGIN_FORM_SUBMIT_SUCCESS: {
+      return {
+        ...state,
+        loginData: {
+          ...initialState.loginData,
+        }
+      }
+    }
+
+    case PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED: {
+      return {
+        ...state,
+        loginData: {
+          ...state.loginData,
+          loginRequest: false,
+          loginFailed: true
+        }
+      }
+    }
+
     case LOGIN_PASS_HIDE: {
       return {
         ...state,
