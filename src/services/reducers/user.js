@@ -2,6 +2,7 @@ import {SET_USER} from "../actions/user";
 
 const initialState = {
   authData: null,
+  isUserLoaded: false
 };
 
 export const User = (state = initialState, action) => {
@@ -9,7 +10,8 @@ export const User = (state = initialState, action) => {
     case SET_USER: {
       return {
         ...state,
-        authData: action.authData
+        authData: action.authData,
+        isUserLoaded: true,
       };
     }
     default:

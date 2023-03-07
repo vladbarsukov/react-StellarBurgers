@@ -106,7 +106,7 @@ export function forgotPassApi(data) {
   };
 }
 
-export function loginRequest(data) {
+export function loginRequest(data, navigate) {
   return function (dispatch) {
     dispatch({
       type: PARTICIPANT_LOGIN_FORM_SUBMIT
@@ -129,7 +129,6 @@ export function loginRequest(data) {
       return res.json();
     })
       .then(data => {
-        let authToken
       dispatch({
         type: PARTICIPANT_LOGIN_FORM_SUBMIT_SUCCESS,
         data
@@ -138,12 +137,13 @@ export function loginRequest(data) {
         type: SET_USER,
         authData: data
       });
-
+        let authToken
         authToken = data.accessToken.split('Bearer ')[1];
-
         setCookie('accessToken', authToken, 1200);
         setCookie('refreshToken', data.refreshToken, 1200);
-    }).catch(err => {
+    })
+      .then(()=> navigate('/'))
+      .catch(err => {
       dispatch({
         type: PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
       });

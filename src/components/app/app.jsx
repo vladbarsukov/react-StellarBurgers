@@ -10,6 +10,7 @@ import Register from "../pages/register";
 import ForgotPassword from "../pages/forgot-password";
 import ResetPassword from "../pages/reset-password";
 import Profile from "../pages/profile";
+import ProtectedRouteElement from "../ProtectedRouteElement";
 
 function App() {
 
@@ -19,8 +20,10 @@ function App() {
       <BrowserRouter>
         <AppHeader/>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          {/*<Route path="/" element={<Home />} />*/}
+          <Route path="/" element={<ProtectedRouteElement element={<Home />}/>} />
+          {/*<Route path="/profile" element={<Profile />} />*/}
+          <Route path="/profile" element={<ProtectedRouteElement element={<Profile />}/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

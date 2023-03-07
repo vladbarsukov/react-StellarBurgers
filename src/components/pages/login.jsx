@@ -6,8 +6,11 @@ import Form from "../form/form";
 import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
 import { loginRequest} from "../../utils/api";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loginData} = useSelector(
     state => state.Form
@@ -25,8 +28,11 @@ const Login = () => {
     dispatch(loginRequest({
       email: loginData.email,
       password: loginData.pass
-    })
+    }, navigate)
     )
+      // .then( () =>
+      //   navigate('/')
+      // )
 
   }
 
