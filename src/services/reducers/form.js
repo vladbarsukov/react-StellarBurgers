@@ -5,9 +5,13 @@ import {
   PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS,
   PARTICIPANT_FORGOT_PASS_SET_VALUE,
   PARTICIPANT_LOGIN_FORM_SET_VALUE,
-  PARTICIPANT_LOGIN_FORM_SUBMIT, PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
+  PARTICIPANT_LOGIN_FORM_SUBMIT,
+  PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
   PARTICIPANT_LOGIN_FORM_SUBMIT_SUCCESS,
   PARTICIPANT_PROFILE_FORM_SET_VALUE,
+  PARTICIPANT_PROFILE_FORM_SUBMIT,
+  PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED,
+  PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS,
   PARTICIPANT_REGISTER_FORM_SET_VALUE,
   PARTICIPANT_REGISTER_FORM_SUBMIT,
   PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED,
@@ -33,6 +37,7 @@ const initialState = {
     email: "",
     forgotPassRequest: false,
     forgotPassFailed: false,
+    forgotPassSuccess: false,
   },
   resetPassData: {
     pass: "",
@@ -40,6 +45,7 @@ const initialState = {
     resetRequest: false,
     resetFailed: false,
     isPasswordHidden: true,
+    resetPassSuccess: false,
   },
   registration: {
     name: '',
@@ -53,6 +59,8 @@ const initialState = {
     name: '',
     email: '',
     pass: '',
+    profileRequest: false,
+    profileFailed: false
   }
 };
 
@@ -246,6 +254,36 @@ export const Form = (state = initialState, action) => {
         profile: {
           ...state.profile,
           [action.field]: action.value
+        }
+      }
+    }
+
+    case PARTICIPANT_PROFILE_FORM_SUBMIT: {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          profileRequest: true,
+          profileFailed: false
+        }
+      }
+    }
+    case PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS: {
+      return {
+        ...state,
+        profile: {
+          name: action.name,
+          login: action.email
+        }
+      }
+    }
+    case PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED: {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          profileRequest: false,
+          profileFailed: true
         }
       }
     }

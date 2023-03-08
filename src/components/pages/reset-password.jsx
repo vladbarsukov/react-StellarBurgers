@@ -5,11 +5,12 @@ import Form from "../form/form";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./reset-password.module.css";
 import {Link} from "react-router-dom";
-import { resetPass} from "../../utils/api";
+import {useProvideAuth} from "../../services/auth";
 
 const ResetPassword = () => {
   const inputRef = React.useRef(null)
   const dispatch = useDispatch();
+  const auth = useProvideAuth();
   const {resetPassData} = useSelector(
     state => state.Form
   );
@@ -22,10 +23,10 @@ const ResetPassword = () => {
   }
   const onFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(resetPass({
+    auth.resetPassword({
       password: resetPassData.pass,
       token: resetPassData.token
-    }))
+    })
   }
   return (
     <Form formName={'Восстановление пароля'}>

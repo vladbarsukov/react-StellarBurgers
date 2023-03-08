@@ -7,13 +7,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
 import { loginRequest} from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
+import {useProvideAuth} from "../../services/auth";
 
 
 const Login = () => {
-  const navigate = useNavigate();
+  const auth = useProvideAuth();
   const dispatch = useDispatch();
   const { loginData} = useSelector(
     state => state.Form
+  );
+  const {user} = useSelector(
+    state => state.User
   );
   const onFormChange = (e) => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'login'))
@@ -25,15 +30,17 @@ const Login = () => {
   }
   const onFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginRequest({
-      email: loginData.email,
-      password: loginData.pass
-    }, navigate)
-    )
-      // .then( () =>
-      //   navigate('/')
-      // )
-
+    auth.signIn({
+        email: loginData.email,
+        password: loginData.pass
+      })
+  }
+  if (user) {
+    return (
+      <Navigate
+        to={'/'}
+      />
+    );
   }
 
   return (

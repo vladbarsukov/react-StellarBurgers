@@ -1,26 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Form from "../form/form";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './forgot-passwprd.module.css'
-import {Link} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
-import {forgotPassApi} from "../../utils/api";
+import {useProvideAuth} from "../../services/auth";
 
 const ForgotPassword = () => {
   const { forgotPassData} = useSelector(
     state => state.Form
   );
   const dispatch = useDispatch();
+  const auth = useProvideAuth();
+
 
   const onFormChange = (e) => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'forgotPass'))
   }
   const onFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(forgotPassApi({
-      email: forgotPassData.email,
-    }))
+    auth.forgotPassword({
+        email: forgotPassData.email,
+      })
   }
 
   return (

@@ -5,21 +5,22 @@ import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
-import {register} from "../../utils/api";
+import {useProvideAuth} from "../../services/auth";
 
 const Register = () => {
   const inputRef = React.useRef(null)
   const dispatch = useDispatch();
+  const auth = useProvideAuth();
   const { registration} = useSelector(
     state => state.Form
   );
   const onFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(register({
+    auth.registration({
       email: registration.email,
       password: registration.pass,
       name: registration.name
-    }))
+    })
   }
   const onFormChange = (e) => {
       dispatch(setParticipantFormValue(e.target.name, e.target.value, 'registration'))
