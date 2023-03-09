@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from "./login.module.css";
 import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';

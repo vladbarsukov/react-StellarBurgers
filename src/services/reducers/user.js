@@ -2,11 +2,10 @@ import {
   DELETE_USER,
   GET_USER_FAILED,
   GET_USER_REQUEST,
-  GET_USER_SUCCESS,
+  GET_USER_SUCCESS, LOGOUT_USER_FAILED, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS,
   SET_USER,
   SET_USER_LOADED
 } from "../actions/user";
-import {PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS} from "../actions/form";
 
 const initialState = {
   authData: null,
@@ -14,6 +13,8 @@ const initialState = {
   user: null,
   userRequest: false,
   userFailed: false,
+  logoutRequest: false,
+  logoutFailed: false,
 };
 export const User = (state = initialState, action) => {
   switch (action.type) {
@@ -45,6 +46,18 @@ export const User = (state = initialState, action) => {
         ...state,
         isUserLoaded: true,
       };
+    }
+    case LOGOUT_USER_REQUEST: {
+      return {
+        ...state,
+        logoutRequest: true,
+      }
+    }
+    case LOGOUT_USER_SUCCESS: {
+      return { ...state, user: initialState.user, logoutRequest: false, logoutFailed: false, isUserLoaded: false};
+    }
+    case LOGOUT_USER_FAILED: {
+      return { ...state, logoutFailed: true, logoutRequest: false };
     }
     default:
       return state;

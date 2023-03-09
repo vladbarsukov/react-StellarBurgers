@@ -4,6 +4,7 @@ import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui
 import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
 import {useProvideAuth} from "../../services/auth";
+import {Navigate} from "react-router-dom";
 
 
 const Profile = () => {
@@ -31,7 +32,8 @@ const Profile = () => {
     e.preventDefault();
     auth.resetUserData({
       email: profile.email,
-      name: profile.name
+      name: profile.name,
+      password: profile.pass
     })
     setInputDisabled({name: true, pass: true, email: true})
   }
@@ -45,13 +47,18 @@ const Profile = () => {
   const onPassIconClick = () => {
     setInputDisabled({...isInputDisabled, pass: !isInputDisabled.pass})
   }
+  const onLogoutButtonClick = () => {
+    auth.signOut()
+
+  }
+
   return (
     <div className={`${style.container} mt-30`}>
       <div className={`${style.sidebar} mr-15`}>
         <ul>
           <li className={"text text_type_main-medium"}>Профиль</li>
-          <li className={"text text_type_main-medium"}>История заказов</li>
-          <li className={"text text_type_main-medium"}>Выход</li>
+          <li className={"text text_type_main-medium text_color_inactive"}>История заказов</li>
+          <li onClick={onLogoutButtonClick} className={"text text_type_main-medium text_color_inactive"}>Выход</li>
         </ul>
         <p className="mt-20 text text_type_main-default text_color_inactive">В этом разделе вы можете
           изменить свои персональные данные</p>

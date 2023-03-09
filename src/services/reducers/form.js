@@ -158,6 +158,7 @@ export const Form = (state = initialState, action) => {
         ...state,
         forgotPassData: {
           ...initialState.forgotPassData,
+          forgotPassSuccess: true
         }
       }
     }
@@ -273,7 +274,8 @@ export const Form = (state = initialState, action) => {
         ...state,
         profile: {
           name: action.name,
-          login: action.email
+          login: action.email,
+          pass: action.password
         }
       }
     }

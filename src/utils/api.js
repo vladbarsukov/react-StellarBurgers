@@ -46,6 +46,17 @@ export const resetPasswordRequest = async data =>
     body: JSON.stringify(data)
   },);
 
+export const logoutRequest = async data =>
+  await request(`${BASE_URL}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: getCookie("refreshToken"),
+    })
+  },);
+
 export const forgotPasswordRequest = async data =>
   await request(`${BASE_URL}/password-reset`, {
     method: 'POST',

@@ -4,13 +4,19 @@ import {
   changeUserDataRequest,
   forgotPasswordRequest,
   getUserRequest,
-  loginRequest,
+  loginRequest, logoutRequest,
   onResponse,
   registrationRequest,
   resetPasswordRequest
 } from "../utils/api";
-import { GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS } from "./actions/user";
-import { setCookie } from "../utils/auth";
+import {
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS, LOGOUT_USER_FAILED,
+  LOGOUT_USER_REQUEST,
+  LOGOUT_USER_SUCCESS
+} from "./actions/user";
+import {deleteCookie, setCookie} from "../utils/auth";
 import {
   PARTICIPANT_FORGOT_PASS_FORM_SUBMIT,
   PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED,
@@ -30,7 +36,6 @@ import {
 import {useNavigate} from "react-router-dom";
 
 export function useProvideAuth() {
-  // const { user } = useSelector((state) => state.User);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const registration = async form => {
@@ -63,7 +68,6 @@ export function useProvideAuth() {
         }
         dispatch({
           type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS,
-          data
         });
       })
       .catch(err => {
@@ -159,7 +163,28 @@ export function useProvideAuth() {
         });
       });
   };
+  const signOut = async () => {
+    dispatch({
+      type: LOGOUT_USER_REQUEST,
+    });
+    return await logoutRequest()
+      .then(onResponse)
+      .then(() => {
+        dispatch({
+          type: LOGOUT_USER_SUCCESS,
+        });
+        navigate('/')
+        deleteCookie("accessToken")
+        deleteCookie("refreshToken")
 
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: LOGOUT_USER_FAILED,
+        });
+      });
+  };
 
   return {
     getUser,
@@ -167,6 +192,7 @@ export function useProvideAuth() {
     registration,
     resetPassword,
     forgotPassword,
-    resetUserData
+    resetUserData,
+    signOut,
   };
 }
