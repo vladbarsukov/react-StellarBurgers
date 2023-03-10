@@ -17,13 +17,6 @@ import {getItems, INCREASE_ITEM} from "../../services/actions/BurgerIngredients"
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      dispatch(getItems());
-    },
-    [dispatch]
-  );
-
   const { selectedBun, selectedToppings, orderDetails} = useSelector(
     state => state.ingredientsConstructor
   );
@@ -33,12 +26,6 @@ const BurgerConstructor = () => {
       addIngredientToConstructor(item)
     },
   });
-
-  const closeOrderPopup = () => {
-    dispatch({
-      type: CLOSE_ORDER_MODAL,
-    })
-  }
 
   const moveToppingItem = (dragIndex, hoverIndex) => {
     dispatch({
@@ -119,7 +106,7 @@ const BurgerConstructor = () => {
         </div>
       </div>
       {(orderDetails !== null) ? (
-        <Modal closePopup={closeOrderPopup}>
+        <Modal close={'order'}>
           <OrderDetails />
         </Modal>
       ) : null}

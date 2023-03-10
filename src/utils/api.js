@@ -92,3 +92,13 @@ export const getUserRequest = async () =>
       "Content-Type": "application/json",
       Authorization: `Bearer ${getCookie("accessToken")}`,
     }},);
+
+export const getIngredientsRequest = async () =>
+  await request(`${BASE_URL}/ingredients`, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    }},);

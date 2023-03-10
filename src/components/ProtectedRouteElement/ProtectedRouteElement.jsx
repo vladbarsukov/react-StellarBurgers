@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {SET_USER_LOADED} from "../services/actions/user";
-import {useProvideAuth} from "../services/auth";
-import ResetPassword from "./pages/reset-password";
+import {SET_USER_LOADED} from "../../services/actions/user";
+import {useProvideAuth} from "../../services/auth";
+import ResetPassword from "../pages/reset-password";
 const ProtectedRouteElement = ({ element, navigate }) => {
   const location = useLocation();
   const navigation = useNavigate();

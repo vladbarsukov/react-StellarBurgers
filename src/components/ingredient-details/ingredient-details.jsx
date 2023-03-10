@@ -1,11 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './ingredient-details.module.css';
 import {useSelector} from "react-redux";
+import {useNavigate, useParams} from "react-router-dom";
 
 const IngredientDetails = () => {
+  const navigate = useNavigate();
   const { item } = useSelector(
     state => state.IngredientDetails
   );
+
+  const { id } = useParams();
+  useEffect(() => {
+    // if (!item === null) {
+    //   console.log(1)
+    //
+    // }
+  },[])
 
   return (
     <div className={`${styles.main} pt-10 pb-15`}>

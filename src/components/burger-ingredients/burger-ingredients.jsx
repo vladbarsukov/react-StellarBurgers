@@ -8,6 +8,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {bun, main, sauce} from "../../utils/constants";
 import {CLOSE_BURGER_INGREDIENT_MODAL} from "../../services/actions/IngredientDetails";
+import {Outlet} from "react-router-dom";
 
 
 const BurgerIngredients = () => {
@@ -74,9 +75,7 @@ const BurgerIngredients = () => {
       </div>
 
         {(item !== null) ? (
-          <Modal closePopup={closeIngredientPopup}>
-            <IngredientDetails/>
-          </Modal>
+          <Outlet/>
         ) : null}
     </div>
   );

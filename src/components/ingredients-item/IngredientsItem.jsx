@@ -5,10 +5,11 @@ import {useDispatch} from 'react-redux';
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
+import {useNavigate} from "react-router-dom";
 
 
 const IngredientsItem = ({ing}) => {
-
+  const navigate = useNavigate()
   const dispatch = useDispatch();
 
   const [, dragRef] = useDrag({
@@ -21,6 +22,7 @@ const IngredientsItem = ({ing}) => {
       type: ADD_INGREDIENT_DETAILS,
       item: ing,
     });
+    navigate(`/ingredients/${ing._id}`)
   };
 
   return (
