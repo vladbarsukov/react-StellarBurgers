@@ -4,7 +4,6 @@ import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-de
 import {useDispatch, useSelector} from "react-redux";
 import {
   ADD_ITEMS_TO_CONSTRUCTOR,
-  CLOSE_ORDER_MODAL,
   pushData,
   SWAP_ITEM
 } from "../../services/actions/BurgerConstructor";
@@ -12,11 +11,27 @@ import {useDrop} from "react-dnd";
 import ConstructorItem from "../constructor-item/constructor-item";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import {getItems, INCREASE_ITEM} from "../../services/actions/BurgerIngredients";
+import {INCREASE_ITEM} from "../../services/actions/BurgerIngredients";
+import {useNavigate} from "react-router-dom";
+import {useProvideAuth} from "../../services/auth";
+import {SET_USER_LOADED} from "../../services/actions/user";
 
 const BurgerConstructor = () => {
+  const auth = useProvideAuth()
+  const init = async () => {
+    // Вызовем запрос getUser и изменим состояние isUserLoaded
+    await auth.getUser();
+    dispatch({
+      type: SET_USER_LOADED,
+    })
+  };
+  useEffect(() => {
+    // При монтировании компонента запросим данные о пользователе
+    init();
+  }, []);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
-
+  const { user } = useSelector((state) => state.User);
   const { selectedBun, selectedToppings, orderDetails} = useSelector(
     state => state.ingredientsConstructor
   );
@@ -98,7 +113,7 @@ const BurgerConstructor = () => {
             <CurrencyIcon type="primary" />
           </div>
           <div className={"mr-10"}>
-            <Button onClick={() =>   post()} htmlType="button" type="primary" size="large">
+            <Button onClick={() => user ?  post() : navigate('/login')} htmlType="button" type="primary" size="large">
               Оформить заказ
             </Button>
           </div>

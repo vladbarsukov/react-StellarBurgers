@@ -19,7 +19,6 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 
 function App() {
   const dispatch = useDispatch();
-
   const {isModalOpen } = useSelector(
     state => state.IngredientDetails
   );
@@ -29,6 +28,7 @@ function App() {
     },
     [dispatch]
   );
+
   return (
     <div className={style.app}>
       <DndProvider backend={HTML5Backend}>
