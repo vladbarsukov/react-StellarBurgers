@@ -1,8 +1,9 @@
 .container {
     display: flex;
-    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
     flex-direction: row;
-
+    width: 1280px;
 }
 
 .sidebar {
