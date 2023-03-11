@@ -19,7 +19,7 @@ import {
   PARTICIPANT_RESET_PASS_FORM_SUBMIT,
   PARTICIPANT_RESET_PASS_FORM_SUBMIT_FAILED,
   PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_RESET_PASS_SET_VALUE,
+  PARTICIPANT_RESET_PASS_SET_VALUE, PROFILE_FORM_BUTTON_HIDE,
   REGISTER_PASS_HIDE,
   RESET_PASS_HIDE
 } from "../actions/form";
@@ -60,7 +60,10 @@ const initialState = {
     email: '',
     pass: '',
     profileRequest: false,
-    profileFailed: false
+    profileFailed: false,
+    isLoginInputActive: false,
+    isNameInputActive: false,
+    isPassInputActive: false,
   }
 };
 
@@ -286,6 +289,15 @@ export const Form = (state = initialState, action) => {
           ...state.profile,
           profileRequest: false,
           profileFailed: true
+        }
+      }
+    }
+    case PROFILE_FORM_BUTTON_HIDE: {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          [action.field]: action.value
         }
       }
     }

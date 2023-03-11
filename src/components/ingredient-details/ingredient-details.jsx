@@ -1,25 +1,35 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styles from './ingredient-details.module.css';
-import {useSelector} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
+import {getIngredientsRequest, onResponse} from "../../utils/api";
+import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
 
 const IngredientDetails = () => {
-  const navigate = useNavigate();
-  const { item } = useSelector(
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { item, isModalOpen } = useSelector(
     state => state.IngredientDetails
   );
+  const loadIngredientInfo = useCallback(
+    () => {
+      getIngredientsRequest().then(onResponse).then(ingredients => {
+        dispatch({
+          type: ADD_INGREDIENT_DETAILS,
+          item: ingredients.data.find(({ _id }) => _id === id),
+        });
+      });
+    },
+    [id]
+  );
 
-  const { id } = useParams();
-  useEffect(() => {
-    // if (!item === null) {
-    //   console.log(1)
-    //
-    // }
+  useEffect(()=> {
+    loadIngredientInfo()
   },[])
 
-  return (
+  return  (
     <div className={`${styles.main} pt-10 pb-15`}>
-      <h2 className= {`${styles.title} pl-10 pr-10 text text_type_main-large`}>Детали ингредиента</h2>
+      <h2 className= {`${isModalOpen ? styles.title : styles.titlePage} pl-10 pr-10 text text_type_main-large`}>Детали ингредиента</h2>
       <img className={styles.image} alt={item?.name} src={item?.image_large}/>
       <p className={`${styles.ingredient_name} mt-4 mb-8 text text_type_main-medium`}>{item?.name}</p>
       <ul className={styles.food_value}>

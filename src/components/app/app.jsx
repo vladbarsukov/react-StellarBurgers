@@ -14,15 +14,13 @@ import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElemen
 import IngredientsDetailsPage from "../pages/ingredients-details-page";
 import {useDispatch, useSelector} from "react-redux";
 import {getItems} from "../../services/actions/BurgerIngredients";
-import {CLOSE_BURGER_INGREDIENT_MODAL} from "../../services/actions/IngredientDetails";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { useNavigate } from "react-router-dom";
 
 function App() {
   const dispatch = useDispatch();
 
-  const { item } = useSelector(
+  const {isModalOpen } = useSelector(
     state => state.IngredientDetails
   );
   useEffect(
@@ -37,14 +35,18 @@ function App() {
       <BrowserRouter>
         <AppHeader/>
         <Routes>
-          <Route path="/" element={<Home />} >
-            <Route path="/ingredients/:id" element={
-              <Modal close={'ingredient'}>
-                <IngredientDetails/>
-              </Modal>
-            } />
-          </Route>
-          {/*<Route path="/ingredients/:id" element={<IngredientsDetailsPage/>} />*/}
+          {isModalOpen ?
+            <Route path="/" element={<Home />} >
+              <Route path="/ingredients/:id" element={
+                <Modal close={'ingredient'}>
+                  <IngredientDetails/>
+                </Modal>
+              } />
+            </Route>
+            :
+            <Route path="/" element={<Home />} />
+          }
+          <Route path="/ingredients/:id" element={<IngredientsDetailsPage/>} />
           <Route path="/profile" element={<ProtectedRouteElement  navigate={<Navigate to="/login" replace/>} element={<Profile />}/>} />
           <Route path="/login" element={<ProtectedRouteElement navigate={<Login />} element={<Navigate to="/profile" replace/>}/>} />
           <Route path="/register" element={<ProtectedRouteElement navigate={<Register />} element={<Navigate to="/profile" replace/>}/>} />

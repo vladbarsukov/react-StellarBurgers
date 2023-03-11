@@ -11,7 +11,6 @@ const Modal = ({close, children}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const closeIngredientPopup = () => {
     dispatch({
       type: CLOSE_BURGER_INGREDIENT_MODAL,
@@ -60,8 +59,7 @@ const Modal = ({close, children}) => {
 };
 
 Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  closePopup: PropTypes.func.isRequired
+  children: PropTypes.element.isRequired
 }
 
 export default Modal;

@@ -4,31 +4,16 @@ import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
 import {useDispatch, useSelector} from "react-redux";
 import {filterIngredients} from "../../utils/filterIngredients";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import {bun, main, sauce} from "../../utils/constants";
-import {CLOSE_BURGER_INGREDIENT_MODAL} from "../../services/actions/IngredientDetails";
 import {Outlet} from "react-router-dom";
 
 
 const BurgerIngredients = () => {
-
   const dispatch = useDispatch();
-
-  const { item } = useSelector(
-    state => state.IngredientDetails
-  );
 
   const { items } = useSelector(
     state => state.ingredients
   );
-
-  const closeIngredientPopup = () => {
-    dispatch({
-      type: CLOSE_BURGER_INGREDIENT_MODAL,
-    })
-  }
-
   const mainRef = useRef(null);
   const saucesRef = useRef(null);
   const bunsRef = useRef(null);
@@ -73,10 +58,10 @@ const BurgerIngredients = () => {
           </div>
         </div>
       </div>
-
-        {(item !== null) ? (
-          <Outlet/>
-        ) : null}
+      <Outlet/>
+        {/*{(item !== null) ? (*/}
+        {/*  <Outlet/>*/}
+        {/*) : null}*/}
     </div>
   );
 };
