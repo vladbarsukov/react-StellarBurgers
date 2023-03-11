@@ -2,15 +2,13 @@ import React, { useRef} from "react";
 import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {filterIngredients} from "../../utils/filterIngredients";
 import {bun, main, sauce} from "../../utils/constants";
 import {Outlet} from "react-router-dom";
 
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
-
   const { items } = useSelector(
     state => state.ingredients
   );
@@ -59,9 +57,6 @@ const BurgerIngredients = () => {
         </div>
       </div>
       <Outlet/>
-        {/*{(item !== null) ? (*/}
-        {/*  <Outlet/>*/}
-        {/*) : null}*/}
     </div>
   );
 };

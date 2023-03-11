@@ -1,12 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import style from "./login.module.css";
 import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
 import Form from "../form/form";
 import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
-import { loginRequest} from "../../utils/api";
-import { useNavigate } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
 import {useProvideAuth} from "../../services/auth";
 
