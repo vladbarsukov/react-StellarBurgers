@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 
-import {Navigate, useLocation, useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {SET_USER_LOADED} from "../../services/actions/user";
 import {useProvideAuth} from "../../services/auth";
@@ -8,7 +8,7 @@ import ResetPassword from "../pages/reset-password";
 const ProtectedRouteElement = ({ element, navigate }) => {
   const location = useLocation();
   const navigation = useNavigate();
-  const { isUserLoaded, authData, user} = useSelector(
+  const { isUserLoaded, user} = useSelector(
     state => state.User
   );
   const {forgotPassData} = useSelector(
@@ -35,7 +35,6 @@ const ProtectedRouteElement = ({ element, navigate }) => {
     return null;
   }
   if (location.pathname === '/reset-password' && !forgotPassData.forgotPassSuccess) {
-    console.log('hallo')
     navigation('/forgot-password')
   }
 

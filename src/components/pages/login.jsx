@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Form from "../form/form";
 import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
-import { Navigate } from 'react-router-dom';
 import {useProvideAuth} from "../../services/auth";
 
 
@@ -15,9 +14,7 @@ const Login = () => {
   const { loginData} = useSelector(
     state => state.Form
   );
-  const {user} = useSelector(
-    state => state.User
-  );
+
   const onFormChange = (e) => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'login'))
   }
@@ -32,13 +29,6 @@ const Login = () => {
         email: loginData.email,
         password: loginData.pass
       })
-  }
-  if (user) {
-    return (
-      <Navigate
-        to={'/'}
-      />
-    );
   }
 
   return (

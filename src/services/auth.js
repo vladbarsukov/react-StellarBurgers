@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch} from "react-redux";
 import {
   changeUserDataRequest,
@@ -137,8 +136,8 @@ export function useProvideAuth() {
       });
       let authToken;
       authToken = data.accessToken.split("Bearer ")[1];
-      setCookie("accessToken", authToken, 1200);
-      setCookie("refreshToken", data.refreshToken, 1200);
+      setCookie("accessToken", authToken, 120);
+      setCookie("refreshToken", data.refreshToken);
     }
   };
   const getUser = async () => {

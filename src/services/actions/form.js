@@ -91,3 +91,11 @@ export const setParticipantFormValue = (field, value, form) => {
       return null
   }
 }
+
+export const isInputActive = (field, value) => {
+  return {
+    type: PROFILE_FORM_BUTTON_HIDE,
+    field: field,
+    value: value,
+  }
+}

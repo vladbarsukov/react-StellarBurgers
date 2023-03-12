@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import style from "./profile.module.css";
 import { EmailInput, Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { PROFILE_FORM_BUTTON_HIDE, setParticipantFormValue } from "../../services/actions/form";
+import {isInputActive, setParticipantFormValue} from "../../services/actions/form";
 import { useProvideAuth } from "../../services/auth";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 
+
 const Profile = () => {
   const navigate = useNavigate();
-  const [isInputDisabled, setInputDisabled] = useState({ name: true, pass: true, email: true });
   const { profile } = useSelector((state) => state.Form);
   const auth = useProvideAuth();
   const { user } = useSelector((state) => state.User);
@@ -26,25 +26,12 @@ const Profile = () => {
   }, [dispatch]);
   const onFormCancel = (e) => {
     e.preventDefault();
-    setInputDisabled({ name: true, pass: true, email: true });
     dispatch(setParticipantFormValue("name", user.name, "profile"));
     dispatch(setParticipantFormValue("email", user.email, "profile"));
     dispatch(setParticipantFormValue("pass", "", "profile"));
-    dispatch({
-      type: PROFILE_FORM_BUTTON_HIDE,
-      field: "isNameInputActive",
-      value: false,
-    });
-    dispatch({
-      type: PROFILE_FORM_BUTTON_HIDE,
-      field: "isLoginInputActive",
-      value: false,
-    });
-    dispatch({
-      type: PROFILE_FORM_BUTTON_HIDE,
-      field: "isPassInputActive",
-      value: false,
-    });
+    dispatch(isInputActive("isNameInputActive", false))
+    dispatch(isInputActive("isLoginInputActive", false))
+    dispatch(isInputActive("isPassInputActive", false))
   };
 
   const onFormSubmit = (e) => {
@@ -54,33 +41,24 @@ const Profile = () => {
       name: profile.name,
       password: profile.pass,
     });
-    setInputDisabled({ name: true, pass: true, email: true });
   };
 
-  const onNameIconClick = () => {
-    setInputDisabled({ ...isInputDisabled, name: !isInputDisabled.name });
-    dispatch({
-      type: PROFILE_FORM_BUTTON_HIDE,
-      field: "isNameInputActive",
-      value: !profile.isNameInputActive,
-    });
-  };
-  const onLoginIconClick = () => {
-    setInputDisabled({ ...isInputDisabled, email: !isInputDisabled.email });
-    dispatch({
-      type: PROFILE_FORM_BUTTON_HIDE,
-      field: "isLoginInputActive",
-      value: !profile.isLoginInputActive,
-    });
-  };
-  const onPassIconClick = () => {
-    setInputDisabled({ ...isInputDisabled, pass: !isInputDisabled.pass });
-    dispatch({
-      type: PROFILE_FORM_BUTTON_HIDE,
-      field: "isPassInputActive",
-      value: !profile.isPassInputActive,
-    });
-  };
+  const onIconClick = (field) => {
+    switch (field) {
+      case 'name' : {
+       return  dispatch(isInputActive("isNameInputActive", !profile.isNameInputActive))
+      }
+      case 'login' : {
+       return  dispatch(isInputActive("isLoginInputActive", !profile.isLoginInputActive))
+      }
+      case 'pass' : {
+       return  dispatch(isInputActive("isPassInputActive", !profile.isPassInputActive))
+      }
+      default :
+        return null
+    }
+  }
+
   const onLogoutButtonClick = () => {
     auth.signOut();
   };
@@ -101,7 +79,7 @@ const Profile = () => {
         <div>
           <form>
             <Input
-              disabled={isInputDisabled.name}
+              disabled={!profile.isNameInputActive}
               type={"text"}
               placeholder={"Имя"}
               onChange={onFormChange}
@@ -110,14 +88,14 @@ const Profile = () => {
               name={"name"}
               error={false}
               ref={inputRef}
-              onIconClick={onNameIconClick}
+              onIconClick={() => onIconClick("name")}
               errorText={"Ошибка"}
               size={"default"}
               extraClass="ml-1"
             />
             <EmailInput
-              onIconClick={onLoginIconClick}
-              disabled={isInputDisabled.email}
+              onIconClick={() => onIconClick("login")}
+              disabled={!profile.isLoginInputActive}
               placeholder={"Логин"}
               onChange={onFormChange}
               value={profile.email}
@@ -127,7 +105,7 @@ const Profile = () => {
               extraClass="mt-6"
             />
             <Input
-              disabled={isInputDisabled.pass}
+              disabled={!profile.isPassInputActive}
               type={"password"}
               placeholder={"Пароль"}
               onChange={onFormChange}
@@ -136,7 +114,7 @@ const Profile = () => {
               name={"pass"}
               error={false}
               ref={inputRef}
-              onIconClick={onPassIconClick}
+              onIconClick={() => onIconClick("pass")}
               errorText={"Ошибка"}
               size={"default"}
               extraClass="ml-1 mt-6"
@@ -155,65 +133,7 @@ const Profile = () => {
         </div>
         :
         <Outlet/>
-
-
       }
-      {/*<Outlet/>*/}
-      {/*<div>*/}
-      {/*  <form>*/}
-      {/*    <Input*/}
-      {/*      disabled={isInputDisabled.name}*/}
-      {/*      type={"text"}*/}
-      {/*      placeholder={"Имя"}*/}
-      {/*      onChange={onFormChange}*/}
-      {/*      icon={profile.isNameInputActive ? "CloseIcon" : "EditIcon"}*/}
-      {/*      value={profile.name}*/}
-      {/*      name={"name"}*/}
-      {/*      error={false}*/}
-      {/*      ref={inputRef}*/}
-      {/*      onIconClick={onNameIconClick}*/}
-      {/*      errorText={"Ошибка"}*/}
-      {/*      size={"default"}*/}
-      {/*      extraClass="ml-1"*/}
-      {/*    />*/}
-      {/*    <EmailInput*/}
-      {/*      onIconClick={onLoginIconClick}*/}
-      {/*      disabled={isInputDisabled.email}*/}
-      {/*      placeholder={"Логин"}*/}
-      {/*      onChange={onFormChange}*/}
-      {/*      value={profile.email}*/}
-      {/*      name={"email"}*/}
-      {/*      icon={profile.isLoginInputActive ? "CloseIcon" : "EditIcon"}*/}
-      {/*      isIcon={false}*/}
-      {/*      extraClass="mt-6"*/}
-      {/*    />*/}
-      {/*    <Input*/}
-      {/*      disabled={isInputDisabled.pass}*/}
-      {/*      type={"password"}*/}
-      {/*      placeholder={"Пароль"}*/}
-      {/*      onChange={onFormChange}*/}
-      {/*      icon={profile.isPassInputActive ? "CloseIcon" : "EditIcon"}*/}
-      {/*      value={profile.pass}*/}
-      {/*      name={"pass"}*/}
-      {/*      error={false}*/}
-      {/*      ref={inputRef}*/}
-      {/*      onIconClick={onPassIconClick}*/}
-      {/*      errorText={"Ошибка"}*/}
-      {/*      size={"default"}*/}
-      {/*      extraClass="ml-1 mt-6"*/}
-      {/*    />*/}
-      {/*    {profile.isNameInputActive || profile.isLoginInputActive || profile.isPassInputActive ? (*/}
-      {/*      <div className={`${style.buttons} mt-6`}>*/}
-      {/*        <Button onClick={onFormCancel} extraClass={`${style.button}`} htmlType="button" type="secondary" size="large">*/}
-      {/*          Отмена*/}
-      {/*        </Button>*/}
-      {/*        <Button onClick={onFormSubmit} extraClass={`${style.button} ml-7`} htmlType="button" type="primary" size="large">*/}
-      {/*          Сохранить*/}
-      {/*        </Button>*/}
-      {/*      </div>*/}
-      {/*    ) : null}*/}
-      {/*  </form>*/}
-      {/*</div>*/}
     </div>
   );
 };

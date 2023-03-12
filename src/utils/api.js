@@ -1,5 +1,5 @@
 import {BASE_URL} from "./constants";
-import {getCookie} from "./auth";
+import {getCookie, setCookie} from "./auth";
 
 export const onResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(res);
@@ -83,7 +83,7 @@ export const loginRequest = async data =>
     },);
 
 export const getUserRequest = async () =>
-  await request(`${BASE_URL}/auth/user`, {
+  await fetchWithRefresh(`${BASE_URL}/auth/user`, {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -102,3 +102,76 @@ export const getIngredientsRequest = async () =>
     headers: {
       "Content-Type": "application/json",
     }},);
+
+export const refreshAccessToken = async () => {
+ return  await request(`${BASE_URL}/auth/token`, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: getCookie("refreshToken"),
+    })
+  },)
+   .then(onResponse)
+   .then((data) => {
+     console.log(data)
+     let authToken;
+     authToken = data.accessToken.split("Bearer ")[1];
+     setCookie("accessToken", authToken, 120);
+   })
+
+}
+
+async function fetchWithRefresh(url, options = {}) {
+  let response;
+  try {
+    // Выполняем запрос с текущим токеном
+    response = await fetch(url, {
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${getCookie("accessToken")}`,
+      },
+    });
+
+    if (response.status === 403) {
+      // Если получили ошибку 401, то токен истек и нужно обновить его
+
+       await refreshAccessToken(); // функция для обновления токена
+      // Обновляем токен в куках и повторяем запрос
+
+      response = await fetch(url, {
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${getCookie("accessToken")}`,
+        },
+      });
+    }
+
+  } catch (error) {
+    if (error.message === "Failed to fetch") {
+      // Если запрос завершился с ошибкой, то проверяем наличие токена в куках
+      if (!getCookie("accessToken")) {
+        // Если токен отсутствует, то обновляем его и повторяем запрос
+         await refreshAccessToken(); // функция для обновления токена
+        // Обновляем токен в куках и повторяем запрос
+
+        response = await fetch(url, {
+          ...options,
+          headers: {
+            ...options.headers,
+            Authorization: `Bearer ${getCookie("accessToken")}`,
+          },
+        });
+      }
+    }
+  }
+
+  return response;
+}
+
