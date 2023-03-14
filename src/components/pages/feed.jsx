@@ -1,6 +1,7 @@
 import React from 'react';
 import style from "./feed.module.css";
 import OrderCard from "../order-card/order-card";
+import OrderStats from "../order-stats/order-stats";
 
 
 const Feed = () => {
@@ -18,7 +19,9 @@ const Feed = () => {
           <OrderCard/>
           <OrderCard/>
         </div>
-        <div></div>
+        <div className={`ml-15`}>
+          <OrderStats/>
+        </div>
       </div>
 
     </div>

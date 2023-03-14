@@ -18,7 +18,7 @@ const AppHeader = () => {
           <NavButton className={styles.link} type={location.pathname === '/' ? "primary" : "secondary"} IconComponent={BurgerIcon} description={"Конструктор"} />
         </div>
         <div  onClick={() => onClick('/feed')} className={`${styles.navigation_description} ml-2`}>
-          <NavButton type={"secondary"} IconComponent={ListIcon} description={"Лента заказов"} />
+          <NavButton type={location.pathname === '/feed' ? "primary" : "secondary"} IconComponent={ListIcon} description={"Лента заказов"} />
         </div>
       </nav>
       <div className={styles.logo}>
