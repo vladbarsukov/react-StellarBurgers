@@ -16,6 +16,7 @@ const Profile = () => {
   const inputRef = React.useRef(null);
   const location = useLocation();
 
+
   const onFormChange = (e) => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, "profile"));
   };

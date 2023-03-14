@@ -19,6 +19,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Orders from "../pages/Orders";
 import {NotFound404} from "../pages/not-found";
 import Feed from "../pages/feed";
+import {WS_CONNECTION_START} from "../../services/actions/wsActions";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
   useEffect(
     () => {
       dispatch(getItems());
+      dispatch({ type: WS_CONNECTION_START });
     },
     [dispatch]
   );
