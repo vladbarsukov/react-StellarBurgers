@@ -6,20 +6,21 @@ import {useSelector} from "react-redux";
 
 
 const Feed = () => {
+
   const { orders } = useSelector(
     state => state.wsReducer
   );
-  //
-  useEffect(()=>{
-    console.log(orders)
-  },[orders])
+
+  // useEffect(()=>{
+  //   console.log(orders)
+  // },[orders])
   return (
     <div className={style.container}>
       <h2 className={"text text_type_main-large mt-10 mb-5"}>Лента заказов</h2>
       <div className={style.main}>
         <div className={style.feed}>
           {orders.orders ? orders.orders.map((order)=>(
-            <OrderCard key={order._id} order={order}/>
+            <OrderCard  key={order._id} order={order}/>
           )): (<></>)}
         </div>
         <div className={`ml-15`}>

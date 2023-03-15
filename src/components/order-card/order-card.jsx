@@ -3,8 +3,13 @@ import style from "./order-card.module.css";
 import {data, orderData} from "../../utils/data";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const OrderCard = ({order}) => {
+  const navigate = useNavigate()
+  const onClick = () => {
+    navigate(`/feed/${order._id}`)
+  }
   const { items } = useSelector(
     state => state.ingredients
   );
@@ -20,7 +25,7 @@ const OrderCard = ({order}) => {
   }
   const orderPriceCalculator = useMemo(() => (ingArr) => {
     return  findAllIngredient(ingArr)?.reduce((prev, next) => prev + next.price, 0)
-  },[])
+  },[findAllIngredient])
   const maxIngredientsToShow = 6;
   // const displayedIngredients = data.slice(0, maxIngredientsToShow);
 
@@ -28,7 +33,7 @@ const OrderCard = ({order}) => {
    return (ArrIng.length - ingToShow).toString()
   }
   return (
-    <div className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
+    <div onClick={onClick} className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
       <div className={`${style.orderNumber} mb-6`}>
         <p className="text text_type_digits-default" >{`# ${order.number}`}</p>
         <p className="text text_type_main-small text_color_inactive" >{order.createdAt.substring(0, 19)}</p>
@@ -42,7 +47,7 @@ const OrderCard = ({order}) => {
             if (index === 5) {
             return  (
                <div key={index}>
-                 <img className={`${style.orderIngredientsLastItem} `} src={ingredient?.image_mobile} alt={ing?.type}></img>
+                 <img className={`${style.orderIngredientsLastItem} `} src={ingredient?.image_mobile} alt={ing?.type}/>
                  <p className={`${style.orderIngredientsLastItemData} text text_type_main-small`}>{`+${otherItemCounter(order.ingredients, maxIngredientsToShow)}`}</p>
                </div>
               )

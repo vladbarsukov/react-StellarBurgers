@@ -20,9 +20,13 @@ import Orders from "../pages/Orders";
 import {NotFound404} from "../pages/not-found";
 import Feed from "../pages/feed";
 import {WS_CONNECTION_START} from "../../services/actions/wsActions";
+import OrderInfo from "../pages/order-info";
 
 function App() {
   const dispatch = useDispatch();
+  const { orders } = useSelector(
+    state => state.wsReducer
+  );
   const {isModalOpen } = useSelector(
     state => state.IngredientDetails
   );
@@ -53,6 +57,7 @@ function App() {
           }
           <Route path="*" element={<NotFound404/>}/>
           <Route path="/ingredients/:id" element={<IngredientsDetailsPage/>} />
+          <Route path="/feed/:id" element={<OrderInfo/>} />
           <Route path="/profile" element={<ProtectedRouteElement  navigate={<Navigate to="/login" replace/>} element={<Profile />}/>} >
             <Route path="/profile/orders" element={<Orders/>} />
           </Route>

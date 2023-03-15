@@ -1,0 +1,61 @@
+.container {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    height: 640px;
+    width: 620px;
+}
+.orderNumber{
+    text-align: center;
+}
+
+.ingredientList {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 366px;
+
+}
+.orderIngredientsImage {
+    overflow: hidden;
+    height: 64px;
+    width: 64px;
+    background: #131316;
+    border-radius: 100px;
+    border: 3px solid #4c4cff;
+    object-fit: cover;
+}
+
+.orderName {
+    height: 30px;
+    white-space: nowrap;
+    width: 620px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.orderIngredientsItemContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.orderIngredientsItem {
+    align-items: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+.priceContainer {
+    display: flex;
+    align-items: center;
+}
+.orderIngredientsName {
+    width: 320px;
+}
+
+.orderTimeContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
