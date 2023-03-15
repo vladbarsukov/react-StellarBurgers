@@ -9,9 +9,9 @@ const Feed = () => {
   const { orders } = useSelector(
     state => state.wsReducer
   );
-
+  //
   useEffect(()=>{
-    // console.log(orders.orders)
+    console.log(orders)
   },[orders])
   return (
     <div className={style.container}>

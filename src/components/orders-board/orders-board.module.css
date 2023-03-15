@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 580px;
+    height: 206px;
+}
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 272px;
+}
+
+.list {
+    overflow-y: scroll;
+}
