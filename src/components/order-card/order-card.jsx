@@ -2,15 +2,11 @@ import React from 'react';
 import style from "./order-card.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import {findIngredient, orderPriceCalculator} from "../../utils/find-ingredients-utils";
 
 
-const OrderCard = ({order}) => {
-  const navigate = useNavigate()
-  const onClick = () => {
-    navigate(`/feed/${order._id}`)
-  }
+const OrderCard = ({order, onClick}) => {
+
   const { items } = useSelector(
     state => state.ingredients
   );
@@ -34,7 +30,7 @@ const OrderCard = ({order}) => {
    return (ArrIng.length - ingToShow)
   }
   return (
-    <div onClick={onClick} className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
+    <div onClick={() =>onClick(order.number)} className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
       <div className={`${style.orderNumber} mb-6`}>
         <p className="text text_type_digits-default" >{`# ${order.number}`}</p>
         <p className="text text_type_main-small text_color_inactive" >{order.createdAt.substring(0, 19)}</p>

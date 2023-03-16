@@ -7,17 +7,17 @@ import {findIngredient, orderPriceCalculator} from "../../utils/find-ingredients
 import OrderInfoIngredientItem from "../order-info-ingredient-item/order-info-ingredient-item";
 
 
-const OrderInfo = () => {
+const OrderInfo = ({orders}) => {
   const { id } = useParams();
-  const { orders } = useSelector(
-    state => state.wsReducer
-  );
+  // const { orders } = useSelector(
+  //   state => state.wsReducer
+  // );
   const { items } = useSelector(
     state => state.ingredients
   );
 
   const currentOrder = useMemo(() => {
-    return orders.orders?.find(item => item._id === id);
+    return orders.orders?.find(item => item.number === +id);
   }, [id, orders.orders]);
 
   const counts = useMemo(() => {

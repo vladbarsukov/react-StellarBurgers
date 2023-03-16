@@ -3,6 +3,7 @@ import style from "./feed.module.css";
 import OrderCard from "../order-card/order-card";
 import OrderStats from "../order-stats/order-stats";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 
 const Feed = () => {
@@ -10,6 +11,10 @@ const Feed = () => {
   const { orders } = useSelector(
     state => state.wsReducer
   );
+  const navigate = useNavigate()
+  const onClick = (number) => {
+    navigate(`/feed/${number}`)
+  }
 
   return (
     <div className={style.container}>
@@ -17,7 +22,7 @@ const Feed = () => {
       <div className={style.main}>
         <div className={style.feed}>
           {orders.orders ? orders.orders.map((order)=>(
-            <OrderCard  key={order._id} order={order}/>
+            <OrderCard onClick={onClick}  key={order._id} order={order}/>
           )): (<></>)}
         </div>
         <div className={`ml-15`}>

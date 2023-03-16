@@ -25,7 +25,7 @@ const AppHeader = () => {
         <Logo></Logo>
       </div>
       <div onClick={() => onClick('/profile')}>
-        <NavButton type={(location.pathname === '/profile' || location.pathname === '/profile/orders') ? "primary" : "secondary"} IconComponent={ProfileIcon} description={"Личный кабинет"} />
+        <NavButton type={(location.pathname === '/profile' || location.pathname === '/profile/orders' ) ? "primary" : "secondary"} IconComponent={ProfileIcon} description={"Личный кабинет"} />
       </div>
     </header>
   );
