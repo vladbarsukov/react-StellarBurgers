@@ -1,0 +1,27 @@
+.orderIngredientsItemContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.orderIngredientsItem {
+    align-items: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+.orderIngredientsName {
+    width: 320px;
+}
+.orderIngredientsImage {
+    overflow: hidden;
+    height: 64px;
+    width: 64px;
+    background: #131316;
+    border-radius: 100px;
+    border: 3px solid #4c4cff;
+    object-fit: cover;
+}
+.priceContainer {
+    display: flex;
+    align-items: center;
+}

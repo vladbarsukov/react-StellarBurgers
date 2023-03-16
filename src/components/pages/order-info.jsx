@@ -1,8 +1,10 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import style from './order-info.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {findIngredient, orderPriceCalculator} from "../../utils/find-ingredients-utils";
+import OrderInfoIngredientItem from "../order-info-ingredient-item/order-info-ingredient-item";
 
 
 const OrderInfo = () => {
@@ -14,31 +16,25 @@ const OrderInfo = () => {
     state => state.ingredients
   );
 
+  const currentOrder = useMemo(() => {
+    return orders.orders?.find(item => item._id === id);
+  }, [id, orders.orders]);
 
-  const findIngredient = ing => {
-    return  items?.find(({ _id }) => _id === ing)
-  }
+  const counts = useMemo(() => {
+    const counts = {};
+    currentOrder?.ingredients.forEach((el) => {
+      counts[el] = (counts[el] || 0) + 1;
+    });
+    return counts;
+  }, [currentOrder]);
 
-  const findAllIngredient = ingArr => {
-    let arr = []
-    ingArr?.forEach((order)=> {
-      arr.push(items?.find(({ _id }) => _id === order))
-    })
-    return arr
-  }
+  const unique = useMemo(() => {
+    return currentOrder?.ingredients.filter((el) => counts[el] === 1);
+  }, [counts, currentOrder]);
 
-  const orderPriceCalculator = useMemo(() => (ingArr) => {
-    return  findAllIngredient(ingArr)?.reduce((prev, next) => prev + next?.price, 0)
-  },[])
-
-  const currentOrder = orders.orders?.find(item => item._id === id)
-
-  const counts = {};
-  currentOrder?.ingredients.forEach((el) => {
-    counts[el] = (counts[el] || 0) + 1;
-  });
-  const unique = currentOrder?.ingredients.filter((el) => counts[el] === 1);
-  const duplicates = Object.keys(counts).filter((el) => counts[el] > 1).map((el) => ({value: el, count: counts[el]}));
+  const duplicates = useMemo(() => {
+    return Object.keys(counts).filter((el) => counts[el] > 1).map((el) => ({value: el, count: counts[el]}));
+  }, [counts]);
 
   return (
   orders.orders && items ?
@@ -48,41 +44,19 @@ const OrderInfo = () => {
       <p className={`text text_type_main-small mt-3`}>{currentOrder.status}</p>
       <h2 className={`text text_type_main-medium mt-15`}>Состав:</h2>
       <ul className={`${style.ingredientList} mt-6`}>
-        {duplicates.map((ing)=> {
-          let ingredient = findIngredient(ing.value)
-          return (
-            <div key={ing.value} className={`${style.orderIngredientsItemContainer} mb-4`}>
-              <div className={`${style.orderIngredientsItem}`}>
-                <img className={`${style.orderIngredientsImage}`} src={ingredient?.image_mobile} alt={ing?.type}/>
-                <p className={`${style.orderIngredientsName} ml-4 text text_type_main-small`}>{ingredient.name}</p>
-              </div>
-              <div className={`${style.priceContainer} mr-6`}>
-                <p className="text text_type_digits-default mr-2">{`${ing.count} x ${ingredient.price}`}</p>
-                <CurrencyIcon type="primary" />
-              </div>
-
-            </div>)
+        {duplicates.map((ing) => {
+          let ingredient = findIngredient(ing.value, items);
+          return <OrderInfoIngredientItem key={ing.value} ingredient={ingredient} count={ing.count} />;
         })}
-        {unique.map((ing)=> {
-          let ingredient = findIngredient(ing)
-          console.log(currentOrder)
-           return (
-             <div key={ing} className={`${style.orderIngredientsItemContainer} mb-4`}>
-               <div className={`${style.orderIngredientsItem}`}>
-                 <img className={`${style.orderIngredientsImage}`} src={ingredient?.image_mobile} alt={ing?.type}/>
-                 <p className={`${style.orderIngredientsName} ml-4 text text_type_main-small`}>{ingredient.name}</p>
-               </div>
-               <div className={`${style.priceContainer} mr-6`}>
-                 <p className="text text_type_digits-default mr-2">{`1 x ${ingredient.price}`}</p>
-                 <CurrencyIcon type="primary" />
-               </div>
-            </div>)
+        {unique.map((ing) => {
+          let ingredient = findIngredient(ing, items);
+          return <OrderInfoIngredientItem key={ing} ingredient={ingredient} count={1} />;
         })}
       </ul>
       <div className={`${style.orderTimeContainer} mt-10`}>
         <p className="text text_type_main-small text_color_inactive" >{currentOrder.createdAt.substring(0, 19)}</p>
         <div className={`${style.priceContainer}`}>
-          <p className="text text_type_digits-default mr-2">{orderPriceCalculator(currentOrder.ingredients)}</p>
+          <p className="text text_type_digits-default mr-2">{orderPriceCalculator(currentOrder.ingredients, items)}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>

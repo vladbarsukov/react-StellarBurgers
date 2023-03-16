@@ -17,15 +17,6 @@
     height: 366px;
 
 }
-.orderIngredientsImage {
-    overflow: hidden;
-    height: 64px;
-    width: 64px;
-    background: #131316;
-    border-radius: 100px;
-    border: 3px solid #4c4cff;
-    object-fit: cover;
-}
 
 .orderName {
     height: 30px;
@@ -35,23 +26,9 @@
     text-overflow: ellipsis;
 }
 
-.orderIngredientsItemContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.orderIngredientsItem {
-    align-items: center;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-}
 .priceContainer {
     display: flex;
     align-items: center;
-}
-.orderIngredientsName {
-    width: 320px;
 }
 
 .orderTimeContainer {

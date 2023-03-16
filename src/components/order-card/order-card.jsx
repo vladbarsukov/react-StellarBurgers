@@ -1,9 +1,10 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import style from "./order-card.module.css";
-import {data, orderData} from "../../utils/data";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {findIngredient, orderPriceCalculator} from "../../utils/find-ingredients-utils";
+
 
 const OrderCard = ({order}) => {
   const navigate = useNavigate()
@@ -13,19 +14,7 @@ const OrderCard = ({order}) => {
   const { items } = useSelector(
     state => state.ingredients
   );
-  const findIngredient = ing => {
-   return  items.find(({ _id }) => _id === ing)
-  }
-  const findAllIngredient = ingArr => {
-    let arr = []
-    ingArr.forEach((order)=> {
-     arr.push(items.find(({ _id }) => _id === order))
-    })
-    return arr
-  }
-  const orderPriceCalculator = useMemo(() => (ingArr) => {
-    return  findAllIngredient(ingArr)?.reduce((prev, next) => prev + next.price, 0)
-  },[findAllIngredient])
+
   const maxIngredientsToShow = 6;
   // const displayedIngredients = data.slice(0, maxIngredientsToShow);
 
@@ -43,7 +32,7 @@ const OrderCard = ({order}) => {
       <div className={`${style.orderIngredientsList} mt-6`}>
         <ul className={`${style.orderIngredientsContainer}`}>
           {order.ingredients.map((ing, index) => {
-            let ingredient = findIngredient(ing)
+            let ingredient = findIngredient(ing, items)
             if (index === 5) {
             return  (
                <div key={index}>
@@ -58,7 +47,7 @@ const OrderCard = ({order}) => {
           })}
         </ul>
         <div className={style.priceContainer}>
-          <p className="text text_type_digits-default mr-2">{orderPriceCalculator(order.ingredients)}</p>
+          <p className="text text_type_digits-default mr-2">{orderPriceCalculator(order.ingredients, items)}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>
