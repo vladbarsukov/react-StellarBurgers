@@ -14,7 +14,7 @@ const Orders = () => {
   }
   return (
     <div className={style.container}>
-      {UserOrders.orders ? UserOrders.orders.map((order)=>(
+      {UserOrders.orders ? UserOrders.orders.reverse().map((order)=>(
         <OrderCard onClick={onClick}  key={order._id} order={order}/>
       )): (<></>)}
     </div>

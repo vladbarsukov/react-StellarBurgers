@@ -1,7 +1,8 @@
 .container {
     display: flex;
+    flex-direction: column-reverse;
     width: 844px;
     height: 912px;
     overflow-y: scroll;
-    flex-direction: column-reverse;
+
 }
