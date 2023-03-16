@@ -118,7 +118,7 @@ export const refreshAccessToken = async () => {
   },)
    .then(onResponse)
    .then((data) => {
-     console.log(data)
+     // console.log(data)
      let authToken;
      authToken = data.accessToken.split("Bearer ")[1];
      setCookie("accessToken", authToken, 120);

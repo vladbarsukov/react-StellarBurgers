@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {isInputActive, setParticipantFormValue} from "../../services/actions/form";
 import { useProvideAuth } from "../../services/auth";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import {
+  WS_USER_CONNECTION_CLOSED,
+  WS_USER_CONNECTION_START
+} from "../../services/actions/wsActions";
 
 
 const Profile = () => {
@@ -23,7 +27,7 @@ const Profile = () => {
   useEffect(() => {
     dispatch(setParticipantFormValue("name", user?.name, "profile"));
     dispatch(setParticipantFormValue("email", user?.email, "profile"));
-
+    dispatch({ type: WS_USER_CONNECTION_START});
   }, [dispatch]);
   const onFormCancel = (e) => {
     e.preventDefault();
@@ -62,6 +66,7 @@ const Profile = () => {
 
   const onLogoutButtonClick = () => {
     auth.signOut();
+    dispatch({ type: WS_USER_CONNECTION_CLOSED });
   };
 
   return (

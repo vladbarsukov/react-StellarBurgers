@@ -3,12 +3,16 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
-  WS_USER_NAME_UPDATE
+  WS_USER_CONNECTION_CLOSED,
+  WS_USER_CONNECTION_ERROR,
+  WS_USER_CONNECTION_SUCCESS, WS_USER_GET_MESSAGE,
 } from "../actions/wsActions";
 
 const initialState = {
   wsConnected: false,
-  orders: []
+  orders: [],
+  UserOrders: [],
+  wsUserConnected: false,
 };
 
 export const wsReducer = (state = initialState, action) => {
@@ -37,10 +41,33 @@ export const wsReducer = (state = initialState, action) => {
         orders: action.payload
 
       };
-    case WS_USER_NAME_UPDATE:
+
+
+
+
+    case WS_USER_CONNECTION_SUCCESS:
       return {
         ...state,
-        user: action.payload
+        wsUserConnected: true
+      };
+
+    case WS_USER_CONNECTION_ERROR:
+      return {
+        ...state,
+        wsUserConnected: false
+      };
+
+    case WS_USER_CONNECTION_CLOSED:
+      return {
+        ...state,
+        wsUserConnected: false
+      };
+
+    case WS_USER_GET_MESSAGE:
+      return {
+        ...state,
+        UserOrders: action.payload
+
       };
 
     default:
