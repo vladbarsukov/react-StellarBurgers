@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import style from "./feed.module.css";
 import OrderCard from "../order-card/order-card";
 import OrderStats from "../order-stats/order-stats";
@@ -11,9 +11,6 @@ const Feed = () => {
     state => state.wsReducer
   );
 
-  // useEffect(()=>{
-  //   console.log(orders)
-  // },[orders])
   return (
     <div className={style.container}>
       <h2 className={"text text_type_main-large mt-10 mb-5"}>Лента заказов</h2>

@@ -6,6 +6,7 @@ import {
   DECREASE_ITEM,
 } from "../actions/BurgerIngredients";
 import {bun} from "../../utils/constants";
+import {POST_ORDER_SUCCESS} from "../actions/BurgerConstructor";
 
 const initialState = {
   items: null,
@@ -50,6 +51,14 @@ export const BurgerIngredientsReducer = (state = initialState, action) => {
         items: [...state.items].map(item =>
           item._id === action.id ? { ...item, __v: item["__v"] -= 1 } : item
         )
+      };
+    }
+    case POST_ORDER_SUCCESS: {
+      const items = state.items
+      items.forEach(ing => ing["__v"] = 0)
+      return {
+        ...state,
+        items: items
       };
     }
     default: {

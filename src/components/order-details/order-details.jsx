@@ -10,9 +10,15 @@ const OrderDetails = () => {
 
   return (
     <div className={`${styles.main} mt-30`}>
-      <h2 className={`${styles.order_number} text text_type_digits-large  mb-8`}>
-        {orderDetails.order.number}
-      </h2>
+      {orderDetails ?
+        <h2 className={`${styles.order_number} text text_type_digits-large  mb-8`}>
+          {orderDetails.order.number}
+        </h2>
+        :
+        <h2 className={`${styles.order_number} text text_type_main-large  mb-8`}>
+          <div className={styles.loading}>Загрузка...</div>
+        </h2>
+        }
       <p className={"text text_type_main-medium  mb-15"}>идентификатор заказа</p>
       <img alt={"готов"} className={"mb-15"} src={img}/>
       <p className={"mb-2 text text_type_main-default"}>Ваш заказ начали готовить</p>

@@ -35,7 +35,7 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
       };
     }
     case POST_ORDER_SUCCESS: {
-      return { ...state, postFailed: false, postRequest: false, orderDetails: action.orderDetails };
+      return { ...state, postFailed: false, selectedToppings: initialState.selectedToppings,  selectedBun: initialState.selectedBun, postRequest: false, orderDetails: action.orderDetails };
     }
     case POST_ORDER_FAILED: {
       return { ...state, postFailed: true, postRequest: false };
@@ -51,6 +51,7 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
       return action.selectedIngredients.type === bun
         ? {...state, selectedBun: action.selectedIngredients}
         : {...state, selectedToppings: [...state.selectedToppings, action.selectedIngredients]}
+
     case REMOVE_ITEMS_IN_CONSTRUCTOR:
       return {
         ...state,

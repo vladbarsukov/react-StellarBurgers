@@ -33,7 +33,7 @@ const BurgerConstructor = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.User);
-  const { selectedBun, selectedToppings, orderDetails} = useSelector(
+  const { selectedBun, selectedToppings, orderDetails, postRequest} = useSelector(
     state => state.ingredientsConstructor
   );
   const [, dropTarget] = useDrop({
@@ -121,7 +121,7 @@ const BurgerConstructor = () => {
 
         </div>
       </div>
-      {(orderDetails !== null) ? (
+      {((orderDetails !== null) || postRequest) ? (
         <Modal close={'order'}>
           <OrderDetails />
         </Modal>
