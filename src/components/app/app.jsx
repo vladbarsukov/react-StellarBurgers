@@ -3,7 +3,7 @@ import style from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate, useLocation} from 'react-router-dom';
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Register from "../pages/register";
@@ -19,7 +19,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Orders from "../pages/Orders";
 import {NotFound404} from "../pages/not-found";
 import Feed from "../pages/feed";
-import {WS_CONNECTION_START} from "../../services/actions/wsActions";
+import {WS_CONNECTION_START, WS_USER_CONNECTION_START} from "../../services/actions/wsActions";
 import OrderInfo from "../pages/order-info";
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
   const { orders } = useSelector(
     state => state.wsReducer
   );
-  const {UserOrders} = useSelector(
+  const {UserOrders, isModalUserOrdersOpen, isModalOrdersOpen} = useSelector(
     state => state.wsReducer
   );
   const {isModalOpen } = useSelector(
@@ -37,6 +37,7 @@ function App() {
     () => {
       dispatch(getItems());
       dispatch({ type: WS_CONNECTION_START });
+      dispatch({ type: WS_USER_CONNECTION_START});
     },
     [dispatch]
   );
@@ -60,12 +61,32 @@ function App() {
           }
           <Route path="*" element={<NotFound404/>}/>
           <Route path="/ingredients/:id" element={<IngredientsDetailsPage/>} />
-          <Route path="/feed/:id" element={<OrderInfo orders={orders}/>} />
-          <Route path="/profile/orders/:id" element={<ProtectedRouteElement  navigate={<Navigate to="/login" replace/>} element={<OrderInfo orders={UserOrders} />}/>} />
           <Route path="/profile" element={<ProtectedRouteElement  navigate={<Navigate to="/login" replace/>} element={<Profile />}/>} >
-            <Route path="/profile/orders" element={<Orders/>} />
+            {isModalUserOrdersOpen ?
+              <Route path="/profile/orders" element={<Orders/>} >
+                <Route path="/profile/orders/:id" element={
+                  <Modal close={'userOrders'}>
+                    <OrderInfo orders={UserOrders} />
+                  </Modal>
+                } />
+              </Route>
+              :
+              <Route path="/profile/orders" element={<Orders/>} />
+            }
           </Route>
-          <Route path="/feed" element={<Feed />} />
+          <Route path="/profile/orders/:id" element={<OrderInfo orders={UserOrders} />} />
+            {isModalOrdersOpen ?
+            <Route path="/feed" element={<Feed />} >
+                <Route path="/feed/:id" element={
+                  <Modal close={'orders'}>
+                    <OrderInfo orders={orders} />
+                  </Modal>
+                } />
+            </Route>
+              :
+              <Route path="/feed/" element={<Feed />} />
+            }
+          <Route path="/feed/:id" element={<OrderInfo orders={orders}/>} />
           <Route path="/login" element={<ProtectedRouteElement navigate={<Login />} element={<Navigate to="/profile" replace/>}/>} />
           <Route path="/register" element={<ProtectedRouteElement navigate={<Register />} element={<Navigate to="/profile" replace/>}/>} />
           <Route path="/forgot-password" element={<ProtectedRouteElement navigate={<ForgotPassword />} element={<Navigate to="/profile" replace/>}/>} />

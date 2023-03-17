@@ -7,6 +7,7 @@ import {CLOSE_BURGER_INGREDIENT_MODAL} from "../../services/actions/IngredientDe
 import {useDispatch} from "react-redux";
 import {CLOSE_ORDER_MODAL} from "../../services/actions/BurgerConstructor";
 import {useNavigate} from "react-router-dom";
+import {CLOSE_ORDERS_MODAL, CLOSE_USER_ORDERS_MODAL} from "../../services/actions/wsActions";
 const Modal = ({close, children}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,6 +24,19 @@ const Modal = ({close, children}) => {
       type: CLOSE_ORDER_MODAL,
     })
   }
+
+  const closeUserOrdersPopup = () => {
+    dispatch({
+      type: CLOSE_USER_ORDERS_MODAL,
+    })
+    navigate('/profile/orders')
+  }
+  const closeOrdersPopup = () => {
+    dispatch({
+      type: CLOSE_ORDERS_MODAL,
+    })
+    navigate('/feed')
+  }
   const closePopup = () => {
     if (close === 'ingredient') {
       return closeIngredientPopup()
@@ -31,7 +45,12 @@ const Modal = ({close, children}) => {
     if (close === 'order') {
       return closeOrderPopup()
     }
-
+    if (close === 'userOrders') {
+      return closeUserOrdersPopup()
+    }
+    if (close === 'orders') {
+      return closeOrdersPopup()
+    }
   }
 
 

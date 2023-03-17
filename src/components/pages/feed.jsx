@@ -1,20 +1,37 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from "./feed.module.css";
 import OrderCard from "../order-card/order-card";
 import OrderStats from "../order-stats/order-stats";
-import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import {
+  OPEN_ORDERS_MODAL,
+} from "../../services/actions/wsActions";
 
 
 const Feed = () => {
-
+  // const location = useLocation();
+  const dispatch = useDispatch();
   const { orders } = useSelector(
     state => state.wsReducer
   );
   const navigate = useNavigate()
   const onClick = (number) => {
     navigate(`/feed/${number}`)
+    dispatch({ type: OPEN_ORDERS_MODAL });
   }
+  // useEffect(
+  //   () => {
+  //     if(location.pathname === '/feed'){
+  //       dispatch({ type: WS_CONNECTION_START });
+  //     }
+  //     if(location.pathname !== '/feed'){
+  //       dispatch({ type: WS_CONNECTION_CLOSED });
+  //     }
+  //   },
+  //   [dispatch]
+  // );
+
 
   return (
     <div className={style.container}>
@@ -29,7 +46,7 @@ const Feed = () => {
           <OrderStats/>
         </div>
       </div>
-
+      <Outlet/>
     </div>
   );
 };

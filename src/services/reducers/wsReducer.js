@@ -1,4 +1,7 @@
 import {
+  CLOSE_ORDERS_MODAL,
+  CLOSE_USER_ORDERS_MODAL, OPEN_ORDERS_MODAL,
+  OPEN_USER_ORDERS_MODAL,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
@@ -13,6 +16,8 @@ const initialState = {
   orders: [],
   UserOrders: [],
   wsUserConnected: false,
+  isModalOrdersOpen: false,
+  isModalUserOrdersOpen: false,
 };
 
 export const wsReducer = (state = initialState, action) => {
@@ -70,6 +75,29 @@ export const wsReducer = (state = initialState, action) => {
 
       };
 
+    case OPEN_USER_ORDERS_MODAL:
+      return {
+        ...state,
+        isModalUserOrdersOpen: true
+      };
+
+    case CLOSE_USER_ORDERS_MODAL:
+      return {
+        ...state,
+        isModalUserOrdersOpen: false
+      };
+
+    case OPEN_ORDERS_MODAL:
+      return {
+        ...state,
+        isModalOrdersOpen: true
+      };
+
+    case CLOSE_ORDERS_MODAL:
+      return {
+        ...state,
+        isModalOrdersOpen: false
+      };
     default:
       return state;
   }

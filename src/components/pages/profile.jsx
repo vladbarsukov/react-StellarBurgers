@@ -27,7 +27,6 @@ const Profile = () => {
   useEffect(() => {
     dispatch(setParticipantFormValue("name", user?.name, "profile"));
     dispatch(setParticipantFormValue("email", user?.email, "profile"));
-    dispatch({ type: WS_USER_CONNECTION_START});
   }, [dispatch]);
   const onFormCancel = (e) => {
     e.preventDefault();
