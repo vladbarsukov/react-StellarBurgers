@@ -70,7 +70,7 @@ const OrderInfo = ({orders, type}) => {
   return (
   orders.orders && items ?
     <div className={`${style.container} pt-10 pb-10 pr-10 pl-10`}>
-     <p className={`${style.orderNumber} text text_type_digits-default`}>{`#${currentOrder.number}`}</p>
+     <p className={`${type ? style.orderNumber : ""} text text_type_digits-default`}>{`#${currentOrder.number}`}</p>
       <h2 className={`${style.orderName} text text_type_main-medium mt-10`}>{currentOrder.name}</h2>
       <p className={`text text_type_main-small mt-3`}>{status(currentOrder.status)}</p>
       <h2 className={`text text_type_main-medium mt-15`}>Состав:</h2>

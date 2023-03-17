@@ -19,7 +19,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Orders from "../pages/Orders";
 import {NotFound404} from "../pages/not-found";
 import Feed from "../pages/feed";
-import OrderInfo from "../pages/order-info";
+import OrderInfo from "../order-info/order-info";
+import OrderInfoPage from "../pages/order-info-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ function App() {
                 <Route path="/profile/orders" element={<Orders/>} />
               }
             </Route>
-            <Route path="/profile/orders/:id" element={<OrderInfo type={"profileOrder"} orders={UserOrders} />} />
+            <Route path="/profile/orders/:id" element={<OrderInfoPage type={"profileOrder"} orders={UserOrders} />} />
             {isModalOrdersOpen ?
               <Route path="/feed" element={<Feed />} >
                 <Route path="/feed/:id" element={
@@ -83,7 +84,7 @@ function App() {
               :
               <Route path="/feed/" element={<Feed />} />
             }
-            <Route path="/feed/:id" element={<OrderInfo  type={"allOrders"} orders={orders}/>} />
+            <Route path="/feed/:id" element={<OrderInfoPage  type={"allOrders"} orders={orders}/>} />
             <Route path="/login" element={<ProtectedRouteElement navigate={<Login />} element={<Navigate to="/profile" replace/>}/>} />
             <Route path="/register" element={<ProtectedRouteElement navigate={<Register />} element={<Navigate to="/profile" replace/>}/>} />
             <Route path="/forgot-password" element={<ProtectedRouteElement navigate={<ForgotPassword />} element={<Navigate to="/profile" replace/>}/>} />

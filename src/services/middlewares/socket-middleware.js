@@ -62,7 +62,6 @@ export const socketMiddleware = (wsUrl, wsUrlUser, wsActions) => {
         userSocket.onmessage = event => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-
           if (parsedData.message === 'Invalid or missing token') {
             refreshAccessToken().then(()=>{
               userSocket = new WebSocket(`${wsUrlUser}?token=${getCookie("accessToken")}`);
