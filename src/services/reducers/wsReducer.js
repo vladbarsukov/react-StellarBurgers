@@ -71,8 +71,7 @@ export const wsReducer = (state = initialState, action) => {
     case WS_USER_GET_MESSAGE:
       return {
         ...state,
-        UserOrders: action.payload
-
+        UserOrders: action.payload,
       };
 
     case OPEN_USER_ORDERS_MODAL:
