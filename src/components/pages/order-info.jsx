@@ -1,13 +1,20 @@
-import React, {useMemo} from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect, useMemo} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import style from './order-info.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {findIngredient, orderPriceCalculator} from "../../utils/find-ingredients-utils";
 import OrderInfoIngredientItem from "../order-info-ingredient-item/order-info-ingredient-item";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+  WS_USER_CONNECTION_CLOSED,
+  WS_USER_CONNECTION_START
+} from "../../services/actions/wsActions";
 
 
-const OrderInfo = ({orders}) => {
+const OrderInfo = ({orders, type}) => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { items } = useSelector(
     state => state.ingredients
@@ -24,6 +31,22 @@ const OrderInfo = ({orders}) => {
         return "Статус не определен";
     }
   }
+  useEffect(() => {
+    if (type === "profileOrder") {
+      console.log("test")
+      dispatch({ type: WS_USER_CONNECTION_START});
+      return () => {
+        dispatch({ type: WS_USER_CONNECTION_CLOSED});
+      }
+    }
+    if (type === "allOrders") {
+      console.log("test")
+      dispatch({ type: WS_CONNECTION_START});
+      return () => {
+        dispatch({ type: WS_CONNECTION_CLOSED});
+      }
+    }
+  }, []);
   const currentOrder = useMemo(() => {
     return orders.orders?.find(item => item.number === +id);
   }, [id, orders.orders]);

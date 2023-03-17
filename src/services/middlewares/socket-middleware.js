@@ -1,4 +1,5 @@
 import {getCookie} from "../../utils/auth";
+import {refreshAccessToken} from "../../utils/api";
 
 export const socketMiddleware = (wsUrl, wsUrlUser, wsActions) => {
   return store => {
@@ -61,8 +62,13 @@ export const socketMiddleware = (wsUrl, wsUrlUser, wsActions) => {
         userSocket.onmessage = event => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-          const { success, ...restParsedData } = parsedData;
 
+          if (parsedData.message === 'Invalid or missing token') {
+            refreshAccessToken().then(()=>{
+              userSocket = new WebSocket(`${wsUrlUser}?token=${getCookie("accessToken")}`);
+            })
+          }
+          const { success, ...restParsedData } = parsedData;
           dispatch({ type: userOnMessage, payload: restParsedData });
         };
 
@@ -75,43 +81,3 @@ export const socketMiddleware = (wsUrl, wsUrlUser, wsActions) => {
     };
   };
 };
-
-// export const userSocketMiddleware = (wsUrl, wsActions) => {
-//   return store => {
-//     let userSocket = null;
-//
-//     return next => action => {
-//       const { dispatch, getState } = store;
-//       const { type, payload } = action;
-//       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
-//       const { user } = getState().User;
-//       if (type === wsInit && user) {
-//         userSocket = new WebSocket(`${wsUrl}?token=${getCookie("accessToken")}`);
-//       }
-//
-//       if (userSocket) {
-//         userSocket.onopen = event => {
-//           dispatch({ type: onOpen, payload: event });
-//         };
-//
-//         userSocket.onerror = event => {
-//           dispatch({ type: onError, payload: event });
-//         };
-//
-//         userSocket.onmessage = event => {
-//           const { data } = event;
-//           const parsedData = JSON.parse(data);
-//           const { success, ...restParsedData } = parsedData;
-//
-//           dispatch({ type: onMessage, payload: restParsedData });
-//         };
-//
-//         userSocket.onclose = event => {
-//           dispatch({ type: onClose, payload: event });
-//         };
-//       }
-//
-//       next(action);
-//     };
-//   };
-// };

@@ -3,7 +3,7 @@ import style from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {BrowserRouter, Routes, Route, Navigate, useLocation} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Register from "../pages/register";
@@ -19,7 +19,6 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Orders from "../pages/Orders";
 import {NotFound404} from "../pages/not-found";
 import Feed from "../pages/feed";
-import {WS_CONNECTION_START, WS_USER_CONNECTION_START} from "../../services/actions/wsActions";
 import OrderInfo from "../pages/order-info";
 
 function App() {
@@ -36,8 +35,6 @@ function App() {
   useEffect(
     () => {
       dispatch(getItems());
-      dispatch({ type: WS_CONNECTION_START });
-      dispatch({ type: WS_USER_CONNECTION_START});
     },
     [dispatch]
   );
@@ -45,54 +42,54 @@ function App() {
   return (
     <div className={style.app}>
       <DndProvider backend={HTML5Backend}>
-      <BrowserRouter>
-        <AppHeader/>
-        <Routes>
-          {isModalOpen ?
-            <Route path="/" element={<Home />} >
-              <Route path="/ingredients/:id" element={
-                <Modal close={'ingredient'}>
-                  <IngredientDetails/>
-                </Modal>
-              } />
-            </Route>
-            :
-            <Route path="/" element={<Home />} />
-          }
-          <Route path="*" element={<NotFound404/>}/>
-          <Route path="/ingredients/:id" element={<IngredientsDetailsPage/>} />
-          <Route path="/profile" element={<ProtectedRouteElement  navigate={<Navigate to="/login" replace/>} element={<Profile />}/>} >
-            {isModalUserOrdersOpen ?
-              <Route path="/profile/orders" element={<Orders/>} >
-                <Route path="/profile/orders/:id" element={
-                  <Modal close={'userOrders'}>
-                    <OrderInfo orders={UserOrders} />
+        <BrowserRouter>
+          <AppHeader/>
+          <Routes>
+            {isModalOpen ?
+              <Route path="/" element={<Home />} >
+                <Route path="/ingredients/:id" element={
+                  <Modal close={'ingredient'}>
+                    <IngredientDetails/>
                   </Modal>
                 } />
               </Route>
               :
-              <Route path="/profile/orders" element={<Orders/>} />
+              <Route path="/" element={<Home />} />
             }
-          </Route>
-          <Route path="/profile/orders/:id" element={<OrderInfo orders={UserOrders} />} />
+            <Route path="*" element={<NotFound404/>}/>
+            <Route path="/ingredients/:id" element={<IngredientsDetailsPage/>} />
+            <Route path="/profile" element={<ProtectedRouteElement  navigate={<Navigate to="/login" replace/>} element={<Profile />}/>} >
+              {isModalUserOrdersOpen ?
+                <Route path="/profile/orders" element={<Orders/>} >
+                  <Route path="/profile/orders/:id" element={
+                    <Modal close={'userOrders'}>
+                      <OrderInfo orders={UserOrders} />
+                    </Modal>
+                  } />
+                </Route>
+                :
+                <Route path="/profile/orders" element={<Orders/>} />
+              }
+            </Route>
+            <Route path="/profile/orders/:id" element={<OrderInfo type={"profileOrder"} orders={UserOrders} />} />
             {isModalOrdersOpen ?
-            <Route path="/feed" element={<Feed />} >
+              <Route path="/feed" element={<Feed />} >
                 <Route path="/feed/:id" element={
                   <Modal close={'orders'}>
-                    <OrderInfo orders={orders} />
+                    <OrderInfo  orders={orders} />
                   </Modal>
                 } />
-            </Route>
+              </Route>
               :
               <Route path="/feed/" element={<Feed />} />
             }
-          <Route path="/feed/:id" element={<OrderInfo orders={orders}/>} />
-          <Route path="/login" element={<ProtectedRouteElement navigate={<Login />} element={<Navigate to="/profile" replace/>}/>} />
-          <Route path="/register" element={<ProtectedRouteElement navigate={<Register />} element={<Navigate to="/profile" replace/>}/>} />
-          <Route path="/forgot-password" element={<ProtectedRouteElement navigate={<ForgotPassword />} element={<Navigate to="/profile" replace/>}/>} />
-          <Route path="/reset-password" element={<ProtectedRouteElement navigate={<ResetPassword />} element={<Navigate to="/profile" replace/>}/>} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="/feed/:id" element={<OrderInfo  type={"allOrders"} orders={orders}/>} />
+            <Route path="/login" element={<ProtectedRouteElement navigate={<Login />} element={<Navigate to="/profile" replace/>}/>} />
+            <Route path="/register" element={<ProtectedRouteElement navigate={<Register />} element={<Navigate to="/profile" replace/>}/>} />
+            <Route path="/forgot-password" element={<ProtectedRouteElement navigate={<ForgotPassword />} element={<Navigate to="/profile" replace/>}/>} />
+            <Route path="/reset-password" element={<ProtectedRouteElement navigate={<ResetPassword />} element={<Navigate to="/profile" replace/>}/>} />
+          </Routes>
+        </BrowserRouter>
       </DndProvider>
     </div>
   );

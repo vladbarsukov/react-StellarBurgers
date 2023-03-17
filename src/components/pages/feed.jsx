@@ -3,9 +3,9 @@ import style from "./feed.module.css";
 import OrderCard from "../order-card/order-card";
 import OrderStats from "../order-stats/order-stats";
 import {useDispatch, useSelector} from "react-redux";
-import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {
-  OPEN_ORDERS_MODAL,
+  OPEN_ORDERS_MODAL, WS_CONNECTION_CLOSED, WS_CONNECTION_START,
 } from "../../services/actions/wsActions";
 
 
@@ -20,17 +20,15 @@ const Feed = () => {
     navigate(`/feed/${number}`)
     dispatch({ type: OPEN_ORDERS_MODAL });
   }
-  // useEffect(
-  //   () => {
-  //     if(location.pathname === '/feed'){
-  //       dispatch({ type: WS_CONNECTION_START });
-  //     }
-  //     if(location.pathname !== '/feed'){
-  //       dispatch({ type: WS_CONNECTION_CLOSED });
-  //     }
-  //   },
-  //   [dispatch]
-  // );
+  useEffect(
+    () => {
+      dispatch({ type: WS_CONNECTION_START });
+      return () => {
+        dispatch({ type: WS_CONNECTION_CLOSED});
+      }
+    },
+    [dispatch]
+  );
 
 
   return (

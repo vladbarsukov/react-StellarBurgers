@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import OrderCard from "../order-card/order-card";
 import style from './Orders.module.css'
 import {Outlet, useNavigate} from "react-router-dom";
-import {OPEN_USER_ORDERS_MODAL, WS_CONNECTION_START} from "../../services/actions/wsActions";
+import {OPEN_USER_ORDERS_MODAL} from "../../services/actions/wsActions";
 
 
 const Orders = () => {
