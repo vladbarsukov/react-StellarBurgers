@@ -1,64 +1,57 @@
-import {
-  ADD_ITEMS_TO_CONSTRUCTOR,
-  REMOVE_ITEMS_IN_CONSTRUCTOR,
-  CLOSE_ORDER_MODAL, POST_ORDER_REQUEST,
-  POST_ORDER_SUCCESS, POST_ORDER_FAILED,
-  SWAP_ITEM
-} from "../actions/BurgerConstructor";
 import {bun} from "../../utils/constants";
+import {createSlice} from "@reduxjs/toolkit";
 
-const initialState = {
-  selectedToppings: [],
-  selectedBun: null,
-  postRequest: false,
-  postFailed: false,
-  orderDetails: null,
-};
-
-export const BurgerConstructorReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SWAP_ITEM: {
-      const dragItem = state.selectedToppings[action.index.dragIndex]
-      const hoverItem = state.selectedToppings[action.index.hoverIndex]
-      const updatedList = [...state.selectedToppings]
-      updatedList[action.index.dragIndex] = hoverItem
-      updatedList[action.index.hoverIndex] = dragItem
-      return {
-        ...state,
-        selectedToppings: updatedList
-      }
+const BurgerConstructorReducerSlice = createSlice(
+  {
+    name: "BurgerConstructor",
+    initialState: {
+      selectedToppings: [],
+      selectedBun: null,
+      postRequest: false,
+      postFailed: false,
+      orderDetails: null,
+    },
+    reducers: {
+      postOrderRequest(state) {
+        state.postRequest = true
+      },
+      postOrderSuccess(state, action) {
+        state.postFailed = false
+        state.postRequest = false
+        state.selectedToppings = []
+        state.selectedBun = null
+        state.orderDetails = action.payload
+      },
+      postOrderFailed(state) {
+        state.postFailed = true
+        state.postRequest = false
+      },
+      closeOrderModal(state) {
+        state.orderDetails = null
+      },
+      addItemsToConstructor(state, action) {
+        action.payload.type  === bun
+          ? state.selectedBun = action.payload
+          : state.selectedToppings.push(action.payload)
+      },
+      removeItemsInConstructor(state, action) {
+        state.selectedToppings.splice(action.payload, 1)
+      },
+      swapItem(state, action) {
+        const dragItem = state.selectedToppings[action.payload.dragIndex]
+        const hoverItem = state.selectedToppings[action.payload.hoverIndex]
+        const updatedList = [...state.selectedToppings]
+        updatedList[action.payload.dragIndex] = hoverItem
+        updatedList[action.payload.hoverIndex] = dragItem
+        state.selectedToppings = updatedList
+      },
     }
-    case POST_ORDER_REQUEST: {
-      return {
-        ...state,
-        postRequest: true
-      };
-    }
-    case POST_ORDER_SUCCESS: {
-      return { ...state, postFailed: false, selectedToppings: initialState.selectedToppings,  selectedBun: initialState.selectedBun, postRequest: false, orderDetails: action.orderDetails };
-    }
-    case POST_ORDER_FAILED: {
-      return { ...state, postFailed: true, postRequest: false };
-    }
-    case CLOSE_ORDER_MODAL: {
-      return {
-        ...state,
-        orderDetails: null
-      };
-    }
-
-    case ADD_ITEMS_TO_CONSTRUCTOR:
-      return action.selectedIngredients.type === bun
-        ? {...state, selectedBun: action.selectedIngredients}
-        : {...state, selectedToppings: [...state.selectedToppings, action.selectedIngredients]}
-
-    case REMOVE_ITEMS_IN_CONSTRUCTOR:
-      return {
-        ...state,
-        selectedToppings: state.selectedToppings.filter(item => !action.selectedToppings.includes(item))
-      };
-
-    default:
-      return state;
   }
-}
+)
+
+const { actions, reducer } = BurgerConstructorReducerSlice;
+export const {postOrderRequest, postOrderSuccess,
+  postOrderFailed, closeOrderModal,
+  addItemsToConstructor, removeItemsInConstructor,
+  swapItem} = actions
+export default reducer

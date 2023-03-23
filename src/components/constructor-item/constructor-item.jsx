@@ -4,8 +4,8 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import {useDispatch} from "react-redux";
 import { useDrag,useDrop } from "react-dnd";
 import PropTypes from "prop-types";
-import {DECREASE_ITEM} from "../../services/actions/BurgerIngredients";
-import {REMOVE_ITEMS_IN_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
+import {removeItemsInConstructor} from "../../services/reducers/BurgerConstructor";
+import {decreaseItem} from "../../services/reducers/BurgerIngredients";
 
 const ConstructorItem = ({ing, index, moveToppingItem}) => {
   const dispatch = useDispatch();
@@ -34,15 +34,9 @@ const ConstructorItem = ({ing, index, moveToppingItem}) => {
 
   const ref = useRef(null)
   const dragDropRef = dragRef(dropRef(ref))
-  const removeIngredient = (ing) => {
-    dispatch({
-      type: DECREASE_ITEM,
-      id: ing._id
-    }, );
-    dispatch({
-      type: REMOVE_ITEMS_IN_CONSTRUCTOR,
-      selectedToppings: [ing]
-    }, );
+  const removeIngredient = (ing, index) => {
+    dispatch(decreaseItem(ing._id))
+    dispatch(removeItemsInConstructor( index));
   }
   return (
     <li ref={dragDropRef} className={`${styles.list_item} mb-4`}>
@@ -50,7 +44,7 @@ const ConstructorItem = ({ing, index, moveToppingItem}) => {
         <DragIcon type={"primary"} />
       </div>
       <ConstructorElement
-        handleClose={() => removeIngredient(ing)}
+        handleClose={() => removeIngredient(ing, index)}
         text={ing.name}
         price={ing.price}
         thumbnail={ing.image}

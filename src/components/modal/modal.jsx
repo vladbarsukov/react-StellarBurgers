@@ -3,26 +3,22 @@ import styles from "./modal.module.css"
 import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import {CLOSE_BURGER_INGREDIENT_MODAL} from "../../services/actions/IngredientDetails";
 import {useDispatch} from "react-redux";
-import {CLOSE_ORDER_MODAL} from "../../services/actions/BurgerConstructor";
 import {useNavigate} from "react-router-dom";
 import {CLOSE_ORDERS_MODAL, CLOSE_USER_ORDERS_MODAL} from "../../services/actions/wsActions";
+import {closeOrderModal} from "../../services/reducers/BurgerConstructor";
+import {closeBurgerIngredientsModal} from "../../services/reducers/IngredientDetails";
 const Modal = ({close, children}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const closeIngredientPopup = () => {
-    dispatch({
-      type: CLOSE_BURGER_INGREDIENT_MODAL,
-    })
+    dispatch(closeBurgerIngredientsModal())
     navigate('/')
   }
 
   const closeOrderPopup = () => {
-    dispatch({
-      type: CLOSE_ORDER_MODAL,
-    })
+    dispatch(closeOrderModal())
   }
 
   const closeUserOrdersPopup = () => {

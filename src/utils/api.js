@@ -174,4 +174,3 @@ async function fetchWithRefresh(url, options = {}) {
 
   return response;
 }
-

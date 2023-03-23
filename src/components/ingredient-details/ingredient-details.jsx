@@ -3,7 +3,7 @@ import styles from './ingredient-details.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {getIngredientsRequest, onResponse} from "../../utils/api";
-import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
+import {addIngredientDetails} from "../../services/reducers/IngredientDetails";
 
 const IngredientDetails = () => {
   const dispatch = useDispatch();
@@ -14,10 +14,11 @@ const IngredientDetails = () => {
   const loadIngredientInfo = useCallback(
     () => {
       getIngredientsRequest().then(onResponse).then(ingredients => {
-        dispatch({
-          type: ADD_INGREDIENT_DETAILS,
-          item: ingredients.data.find(({ _id }) => _id === id),
-        });
+        // dispatch({
+        //   type: ADD_INGREDIENT_DETAILS,
+        //   item: ingredients.data.find(({ _id }) => _id === id),
+        // });
+        dispatch(addIngredientDetails(ingredients.data.find(({ _id }) => _id === id)));
       });
     },
     [id]

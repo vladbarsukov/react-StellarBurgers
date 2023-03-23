@@ -3,18 +3,17 @@ import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
 import {
-  ADD_ITEMS_TO_CONSTRUCTOR,
   pushData,
-  SWAP_ITEM
 } from "../../services/actions/BurgerConstructor";
 import {useDrop} from "react-dnd";
 import ConstructorItem from "../constructor-item/constructor-item";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import {INCREASE_ITEM} from "../../services/actions/BurgerIngredients";
 import {useNavigate} from "react-router-dom";
 import {useProvideAuth} from "../../services/auth";
 import {SET_USER_LOADED} from "../../services/actions/user";
+import {addItemsToConstructor, swapItem} from "../../services/reducers/BurgerConstructor";
+import {increaseItem} from "../../services/reducers/BurgerIngredients";
 
 
 const BurgerConstructor = () => {
@@ -44,22 +43,17 @@ const BurgerConstructor = () => {
   });
 
   const moveToppingItem = (dragIndex, hoverIndex) => {
-    dispatch({
-      type: SWAP_ITEM,
-      index: {dragIndex, hoverIndex}
-    });
+    dispatch(swapItem({dragIndex, hoverIndex}))
   }
 
   const addIngredientToConstructor = (ing) => {
-    dispatch({
-      type: INCREASE_ITEM,
-      _id: ing._id,
-      ingType: ing.type,
-    }, );
-    dispatch({
-      type: ADD_ITEMS_TO_CONSTRUCTOR,
-      selectedIngredients: ing,
-    });
+    // dispatch({
+    //   type: INCREASE_ITEM,
+    //   _id: ing._id,
+    //   ingType: ing.type,
+    // }, );
+    dispatch(increaseItem(ing._id))
+    dispatch(addItemsToConstructor(ing))
   };
   const priceCalculator = useMemo(() => (topping, bun) => {
     return  topping?.reduce((prev, next) => prev + next.price, 0) + (bun?.price * 2 || 0)
@@ -74,6 +68,7 @@ const BurgerConstructor = () => {
       ingredients.push(selectedBun._id);
     }
     dispatch(pushData(ingredients));
+    // dispatch(postOrderSuccess())
   };
 
   return (

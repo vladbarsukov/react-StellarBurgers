@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { configureStore } from '@reduxjs/toolkit';
 import App from './components/app/app';
 import './index.css'
 import { Provider } from 'react-redux';
-import { compose, createStore, applyMiddleware } from 'redux';
 import {rootReducer} from "./services/reducers";
-import thunk from "redux-thunk";
 import {
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_ERROR,
@@ -34,17 +33,11 @@ const wsActions = {
     userOnMessage: WS_USER_GET_MESSAGE
 };
 
-declare global {
-    interface Window {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-    }
-}
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl,wsUrlUser, wsActions)));
-const store = createStore(rootReducer, enhancer);
-
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware(wsUrl,wsUrlUser, wsActions)),
+    devTools: process.env.NODE_ENV !== 'production',
+})
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
