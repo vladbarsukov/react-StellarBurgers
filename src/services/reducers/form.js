@@ -1,307 +1,144 @@
-import {
-  LOGIN_PASS_HIDE,
-  PARTICIPANT_FORGOT_PASS_FORM_SUBMIT,
-  PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED,
-  PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_FORGOT_PASS_SET_VALUE,
-  PARTICIPANT_LOGIN_FORM_SET_VALUE,
-  PARTICIPANT_LOGIN_FORM_SUBMIT,
-  PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
-  PARTICIPANT_LOGIN_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_PROFILE_FORM_SET_VALUE,
-  PARTICIPANT_PROFILE_FORM_SUBMIT,
-  PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED,
-  PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_REGISTER_FORM_SET_VALUE,
-  PARTICIPANT_REGISTER_FORM_SUBMIT,
-  PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED,
-  PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_RESET_PASS_FORM_SUBMIT,
-  PARTICIPANT_RESET_PASS_FORM_SUBMIT_FAILED,
-  PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_RESET_PASS_SET_VALUE, PROFILE_FORM_BUTTON_HIDE,
-  REGISTER_PASS_HIDE,
-  RESET_PASS_HIDE
-} from "../actions/form";
+import {createSlice} from "@reduxjs/toolkit";
 
-const initialState = {
-  page: '/',
-  loginData: {
-    email: "",
-    pass: "",
-    isPasswordHidden: true,
-    loginRequest: false,
-    loginFailed: false,
-  },
-  forgotPassData: {
-    email: "",
-    forgotPassRequest: false,
-    forgotPassFailed: false,
-    forgotPassSuccess: false,
-  },
-  resetPassData: {
-    pass: "",
-    token: "",
-    resetRequest: false,
-    resetFailed: false,
-    isPasswordHidden: true,
-    resetPassSuccess: false,
-  },
-  registration: {
-    name: '',
-    email: '',
-    pass: '',
-    isPasswordHidden: true,
-    registrationRequest: false,
-    registrationFailed: false,
-  },
-  profile: {
-    name: '',
-    email: '',
-    pass: '',
-    profileRequest: false,
-    profileFailed: false,
-    isLoginInputActive: false,
-    isNameInputActive: false,
-    isPassInputActive: false,
+const FormSlice = createSlice(
+  {
+    name: "Form",
+    initialState: {
+      page: '/',
+      loginData: {
+        email: "",
+        pass: "",
+        isPasswordHidden: true,
+        loginRequest: false,
+        loginFailed: false,
+      },
+      forgotPassData: {
+        email: "",
+        forgotPassRequest: false,
+        forgotPassFailed: false,
+        forgotPassSuccess: false,
+      },
+      resetPassData: {
+        pass: "",
+        token: "",
+        resetRequest: false,
+        resetFailed: false,
+        isPasswordHidden: true,
+        resetPassSuccess: false,
+      },
+      registration: {
+        name: '',
+        email: '',
+        pass: '',
+        isPasswordHidden: true,
+        registrationRequest: false,
+        registrationFailed: false,
+      },
+      profile: {
+        name: '',
+        email: '',
+        pass: '',
+        profileRequest: false,
+        profileFailed: false,
+        isLoginInputActive: false,
+        isNameInputActive: false,
+        isPassInputActive: false,
+      }
+    },
+    reducers: {
+      registerFormSetValue(state, action) {
+        state.registration[action.payload.field] = action.payload.value
+      },
+      registerPassHide(state, action) {
+        state.registration[action.payload.field] = action.payload.value
+      },
+      registerFormSubmit(state) {
+        state.registration.registrationRequest = true
+        state.registration.registrationFailed = false
+      },
+      registerFormSubmitSuccess(state) {
+        state.registration = FormSlice.getInitialState().registration
+      },
+      registerFormSubmitFailed(state) {
+        state.registration.registrationRequest = false
+        state.registration.registrationFailed = true
+      },
+      resetPassSetValue(state, action) {
+        state.resetPassData[action.payload.field] = action.payload.value
+      },
+      resetPassHide(state, action) {
+        state.resetPassData[action.payload.field] = action.payload.value
+      },
+      resetPassFormSubmit(state) {
+        state.resetPassData.resetRequest = true
+        state.resetPassData.resetFailed = false
+      },
+      resetPassFormSubmitSuccess(state) {
+        state.resetPassData = FormSlice.getInitialState().resetPassData
+      },
+      resetPassFormSubmitFailed(state) {
+        state.resetPassData.resetRequest = false
+        state.resetPassData.resetFailed = true
+      },
+      forgotPassSetValue(state, action) {
+        state.forgotPassData[action.payload.field] = action.payload.value
+      },
+      forgotPassFormSubmit(state) {
+        state.forgotPassData.forgotPassRequest = true
+        state.forgotPassData.forgotPassFailed = false
+      },
+      forgotPassFormSubmitSuccess(state) {
+        // state.forgotPassData = FormSlice.getInitialState().forgotPassData
+        state.forgotPassData.forgotPassSuccess = true
+      },
+      forgotPassFormSubmitFailed(state) {
+        state.forgotPassData.forgotPassRequest = false
+        state.forgotPassData.forgotPassFailed = true
+      },
+      loginFormSetValue(state, action) {
+        state.loginData[action.payload.field] = action.payload.value
+      },
+      loginFormSubmit(state) {
+        state.loginData.loginRequest = true
+        state.loginData.loginFailed = false
+      },
+      loginFormSubmitSuccess(state) {
+        state.loginData = FormSlice.getInitialState().loginData
+      },
+      loginFormSubmitFailed(state) {
+        state.loginData.loginRequest = false
+        state.loginData.loginFailed = true
+      },
+      loginPassHide(state, action) {
+        state.loginData[action.payload.field] = action.payload.value
+      },
+      profileFormSetValue(state, action) {
+        state.profile[action.payload.field] = action.payload.value
+      },
+      profileFormSubmit(state) {
+        state.profile.profileRequest = true
+        state.profile.profileFailed = false
+      },
+      profileFormSubmitSuccess(state, action) {
+        state.profile.name = action.payload.name
+        state.profile.login = action.payload.email
+        // state.profile.pass = action.payload.password
+      },
+      profileFormSubmitFailed(state) {
+        state.profile.profileRequest = false
+        state.profile.profileFailed = true
+      },
+      profileButtonHide(state, action) {
+        state.profile[action.payload.field] = action.payload.value
+      },
+    }
   }
-};
+)
 
-
-export const Form = (state = initialState, action) => {
-  switch (action.type) {
-    case PARTICIPANT_REGISTER_FORM_SET_VALUE: {
-      return {
-        ...state,
-        registration: {
-          ...state.registration,
-          [action.field]: action.value
-        }
-      }
-    }
-    case REGISTER_PASS_HIDE: {
-      return {
-        ...state,
-        registration: {
-          ...state.registration,
-          [action.field]: action.value
-        }
-      }
-    }
-    case PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS: {
-      return {
-        ...state,
-        registration: {
-          ...initialState.registration,
-        }
-      }
-    }
-
-    case PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED: {
-      return {
-        ...state,
-        registration: {
-          ...state.registration,
-          registrationRequest: false,
-          registrationFailed: true
-        }
-      }
-    }
-
-    case PARTICIPANT_REGISTER_FORM_SUBMIT: {
-      return {
-        ...state,
-        registration: {
-          ...state.registration,
-          registrationRequest: true,
-          registrationFailed: false
-        }
-      }
-    }
-
-    case PARTICIPANT_RESET_PASS_SET_VALUE: {
-      return {
-        ...state,
-        resetPassData: {
-          ...state.resetPassData,
-          [action.field]: action.value
-        }
-      }
-    }
-    case RESET_PASS_HIDE: {
-      return {
-        ...state,
-        resetPassData: {
-          ...state.resetPassData,
-          [action.field]: action.value
-        }
-      }
-    }
-    case PARTICIPANT_FORGOT_PASS_SET_VALUE: {
-      return {
-        ...state,
-        forgotPassData: {
-          ...state.forgotPassData,
-          [action.field]: action.value
-        }
-      }
-    }
-    case PARTICIPANT_FORGOT_PASS_FORM_SUBMIT: {
-      return {
-        ...state,
-        forgotPassData: {
-          ...state.forgotPassData,
-          forgotPassRequest: true,
-          forgotPassFailed: false
-        }
-      }
-    }
-    case PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS: {
-      return {
-        ...state,
-        forgotPassData: {
-          ...initialState.forgotPassData,
-          forgotPassSuccess: true
-        }
-      }
-    }
-    case PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED: {
-      return {
-        ...state,
-        forgotPassData: {
-          ...state.forgotPassData,
-          forgotPassRequest: false,
-          forgotPassFailed: true
-        }
-      }
-    }
-    case PARTICIPANT_RESET_PASS_FORM_SUBMIT: {
-      return {
-        ...state,
-        resetPassData: {
-          ...state.resetPassData,
-          resetRequest: true,
-          resetFailed: false
-        }
-      }
-    }
-    case PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS: {
-      return {
-        ...state,
-        resetPassData: {
-          ...initialState.resetPassData,
-        }
-      }
-    }
-    case PARTICIPANT_RESET_PASS_FORM_SUBMIT_FAILED: {
-      return {
-        ...state,
-        resetPassData: {
-          ...state.resetPassData,
-          resetRequest: false,
-          resetFailed: true
-        }
-      }
-    }
-    case PARTICIPANT_LOGIN_FORM_SET_VALUE: {
-      return {
-        ...state,
-        loginData: {
-          ...state.loginData,
-          [action.field]: action.value
-        }
-      }
-    }
-    case PARTICIPANT_LOGIN_FORM_SUBMIT: {
-      return {
-        ...state,
-        loginData: {
-          ...state.loginData,
-          loginRequest: true,
-          loginFailed: false
-        }
-      }
-    }
-
-    case PARTICIPANT_LOGIN_FORM_SUBMIT_SUCCESS: {
-      return {
-        ...state,
-        loginData: {
-          ...initialState.loginData,
-        }
-      }
-    }
-
-    case PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED: {
-      return {
-        ...state,
-        loginData: {
-          ...state.loginData,
-          loginRequest: false,
-          loginFailed: true
-        }
-      }
-    }
-
-    case LOGIN_PASS_HIDE: {
-      return {
-        ...state,
-        loginData: {
-          ...state.loginData,
-          [action.field]: action.value
-        }
-      }
-    }
-    case PARTICIPANT_PROFILE_FORM_SET_VALUE: {
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          [action.field]: action.value
-        }
-      }
-    }
-
-    case PARTICIPANT_PROFILE_FORM_SUBMIT: {
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          profileRequest: true,
-          profileFailed: false
-        }
-      }
-    }
-    case PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS: {
-      return {
-        ...state,
-        profile: {
-          name: action.name,
-          login: action.email,
-          pass: action.password
-        }
-      }
-    }
-    case PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED: {
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          profileRequest: false,
-          profileFailed: true
-        }
-      }
-    }
-    case PROFILE_FORM_BUTTON_HIDE: {
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          [action.field]: action.value
-        }
-      }
-    }
-    default:
-      return state;
-  }
-}
+const { actions, reducer } = FormSlice;
+export const { registerFormSetValue, forgotPassFormSubmit, forgotPassFormSubmitFailed, profileFormSubmitSuccess,
+  profileButtonHide, profileFormSubmitFailed, forgotPassFormSubmitSuccess, forgotPassSetValue, loginFormSetValue,
+  loginFormSubmit, loginFormSubmitFailed, loginPassHide, loginFormSubmitSuccess, profileFormSetValue, registerFormSubmit,
+  registerFormSubmitFailed, profileFormSubmit, registerFormSubmitSuccess, registerPassHide, resetPassHide, resetPassFormSubmitFailed,
+  resetPassFormSubmit, resetPassSetValue, resetPassFormSubmitSuccess } = actions
+export default reducer

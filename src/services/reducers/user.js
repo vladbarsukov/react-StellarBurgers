@@ -1,65 +1,60 @@
-import {
-  DELETE_USER,
-  GET_USER_FAILED,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS, LOGOUT_USER_FAILED, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS,
-  SET_USER,
-  SET_USER_LOADED
-} from "../actions/user";
+import {createSlice} from "@reduxjs/toolkit";
 
-const initialState = {
-  authData: null,
-  isUserLoaded: false,
-  user: null,
-  userRequest: false,
-  userFailed: false,
-  logoutRequest: false,
-  logoutFailed: false,
-};
-export const User = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_USER: {
-      return {
-        ...state,
-        authData: action.authData,
-      };
+const UserSlice = createSlice(
+  {
+    name: "User",
+    initialState: {
+      authData: null,
+      isUserLoaded: false,
+      user: null,
+      userRequest: false,
+      userFailed: false,
+      logoutRequest: false,
+      logoutFailed: false,
+    },
+    reducers: {
+      setUser(state, action) {
+        state.authData = action.payload
+      },
+      deleteUser(state) {
+        state = UserSlice.getInitialState()
+      },
+      getUserRequestDispatch(state) {
+        state.userRequest = true
+      },
+      getUserSuccess(state, action) {
+        state.userRequest = false
+        state.userFailed = false
+        state.user = action.payload
+      },
+      getUserFailed(state) {
+        state.userRequest = false
+        state.userFailed = true
+      },
+      setUserLoaded(state) {
+        state.isUserLoaded = true
+      },
+      logoutUserRequest(state) {
+        state.logoutRequest = true
+      },
+      logoutUserSuccess(state) {
+        state.user = null
+        state.logoutRequest = false
+        state.userFailed = false
+        state.isUserLoaded = false
+      },
+      logoutUserFailed(state) {
+        state.logoutRequest = false
+        state.userFailed = true
+      },
     }
-    case DELETE_USER: {
-      return {
-        initialState
-      };
-    }
-    case GET_USER_REQUEST: {
-      return {
-        ...state,
-        userRequest: true,
-      }
-    }
-    case GET_USER_SUCCESS: {
-      return { ...state, userFailed: false, user: action.user, userRequest: false };
-    }
-    case GET_USER_FAILED: {
-      return { ...state, userFailed: true, userRequest: false };
-    }
-    case SET_USER_LOADED: {
-      return {
-        ...state,
-        isUserLoaded: true,
-      };
-    }
-    case LOGOUT_USER_REQUEST: {
-      return {
-        ...state,
-        logoutRequest: true,
-      }
-    }
-    case LOGOUT_USER_SUCCESS: {
-      return { ...state, user: initialState.user, logoutRequest: false, logoutFailed: false, isUserLoaded: false};
-    }
-    case LOGOUT_USER_FAILED: {
-      return { ...state, logoutFailed: true, logoutRequest: false };
-    }
-    default:
-      return state;
   }
-}
+)
+
+const { actions, reducer } = UserSlice;
+export const {setUser, deleteUser,
+  getUserFailed, getUserRequestDispatch,
+  getUserSuccess, logoutUserRequest,
+  logoutUserSuccess, logoutUserFailed,
+  setUserLoaded} = actions
+export default reducer

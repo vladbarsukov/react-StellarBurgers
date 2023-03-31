@@ -2,12 +2,13 @@ import React from 'react';
 import Form from "../form/form";
 import style from "./register.module.css"
 import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setParticipantFormValue} from "../../services/actions/form";
 import {useProvideAuth} from "../../services/auth";
+import {registerFormSetValue, registerPassHide} from "../../services/reducers/form";
 
 const Register = () => {
+  const navigate = useNavigate()
   const inputRef = React.useRef(null)
   const dispatch = useDispatch();
   const auth = useProvideAuth();
@@ -21,13 +22,14 @@ const Register = () => {
       password: registration.pass,
       name: registration.name
     })
+    navigate('/login')
   }
   const onFormChange = (e) => {
-      dispatch(setParticipantFormValue(e.target.name, e.target.value, 'registration'))
+    dispatch(registerFormSetValue({field: e.target.name, value: e.target.value}))
   }
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0)
-    dispatch(setParticipantFormValue("isPasswordHidden", !registration.isPasswordHidden, 'registerPassHide'))
+    dispatch(registerPassHide({field: "isPasswordHidden", value: !registration.isPasswordHidden}))
   }
   return (
     <Form formName={'Регистрация'}>

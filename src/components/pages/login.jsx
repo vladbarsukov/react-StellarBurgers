@@ -4,8 +4,8 @@ import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui
 import { Link } from 'react-router-dom';
 import Form from "../form/form";
 import {useDispatch, useSelector} from "react-redux";
-import {setParticipantFormValue} from "../../services/actions/form";
 import {useProvideAuth} from "../../services/auth";
+import {loginFormSetValue, loginPassHide} from "../../services/reducers/form";
 
 
 const Login = () => {
@@ -16,12 +16,13 @@ const Login = () => {
   );
 
   const onFormChange = (e) => {
-    dispatch(setParticipantFormValue(e.target.name, e.target.value, 'login'))
+    dispatch(loginFormSetValue({field: e.target.name, value: e.target.value}))
   }
   const inputRef = React.useRef(null)
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0)
-    dispatch(setParticipantFormValue("isPasswordHidden", !loginData.isPasswordHidden, 'loginPassHide'))
+    dispatch(loginPassHide({field: "isPasswordHidden", value: !loginData.isPasswordHidden}))
+
   }
   const onFormSubmit = (e) => {
     e.preventDefault();

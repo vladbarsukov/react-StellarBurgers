@@ -1,11 +1,11 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {setParticipantFormValue} from "../../services/actions/form";
 import Form from "../form/form";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./reset-password.module.css";
 import {Link} from "react-router-dom";
 import {useProvideAuth} from "../../services/auth";
+import {resetPassHide, resetPassSetValue} from "../../services/reducers/form";
 
 const ResetPassword = () => {
   const inputRef = React.useRef(null)
@@ -16,10 +16,10 @@ const ResetPassword = () => {
   );
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0)
-    dispatch(setParticipantFormValue("isPasswordHidden", !resetPassData.isPasswordHidden, 'resetPassHide'))
+    dispatch(resetPassHide({field: "isPasswordHidden", value: !resetPassData.isPasswordHidden}))
   }
   const onFormChange = (e) => {
-    dispatch(setParticipantFormValue(e.target.name, e.target.value, 'resetPass'))
+    dispatch(resetPassSetValue({field: e.target.name, value: e.target.value}))
   }
   const onFormSubmit = (e) => {
     e.preventDefault();

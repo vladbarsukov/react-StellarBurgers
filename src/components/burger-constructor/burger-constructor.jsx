@@ -11,9 +11,10 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import {useNavigate} from "react-router-dom";
 import {useProvideAuth} from "../../services/auth";
-import {SET_USER_LOADED} from "../../services/actions/user";
+// import {SET_USER_LOADED} from "../../services/actions/user";
 import {addItemsToConstructor, swapItem} from "../../services/reducers/BurgerConstructor";
 import {increaseItem} from "../../services/reducers/BurgerIngredients";
+import {setUserLoaded} from "../../services/reducers/user";
 
 
 const BurgerConstructor = () => {
@@ -21,9 +22,10 @@ const BurgerConstructor = () => {
   const init = async () => {
     // Вызовем запрос getUser и изменим состояние isUserLoaded
     await auth.getUser();
-    dispatch({
-      type: SET_USER_LOADED,
-    })
+    // dispatch({
+    //   type: SET_USER_LOADED,
+    // })
+    // dispatch(setUserLoaded())
   };
   useEffect(() => {
     // При монтировании компонента запросим данные о пользователе

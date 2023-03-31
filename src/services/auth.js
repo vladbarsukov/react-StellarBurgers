@@ -1,139 +1,114 @@
 import { useDispatch} from "react-redux";
 import {
   changeUserDataRequest,
-  forgotPasswordRequest,
-  getUserRequest,
+  forgotPasswordRequest, getUserRequest,
   loginRequest, logoutRequest,
   onResponse,
   registrationRequest,
   resetPasswordRequest
 } from "../utils/api";
-import {
-  GET_USER_FAILED,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS, LOGOUT_USER_FAILED,
-  LOGOUT_USER_REQUEST,
-  LOGOUT_USER_SUCCESS
-} from "./actions/user";
 import {deleteCookie, setCookie} from "../utils/auth";
-import {
-  PARTICIPANT_FORGOT_PASS_FORM_SUBMIT,
-  PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED,
-  PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_LOGIN_FORM_SUBMIT,
-  PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
-  PARTICIPANT_PROFILE_FORM_SUBMIT,
-  PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED,
-  PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_REGISTER_FORM_SUBMIT,
-  PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED,
-  PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS,
-  PARTICIPANT_RESET_PASS_FORM_SUBMIT,
-  PARTICIPANT_RESET_PASS_FORM_SUBMIT_FAILED,
-  PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS
-} from "./actions/form";
 import {useNavigate} from "react-router-dom";
+import {
+  deleteUser,
+  getUserFailed,
+  getUserRequestDispatch,
+  getUserSuccess, logoutUserFailed,
+  logoutUserRequest,
+  logoutUserSuccess, setUserLoaded
+} from "./reducers/user";
+import {
+  forgotPassFormSubmit,
+  forgotPassFormSubmitFailed,
+  forgotPassFormSubmitSuccess,
+  loginFormSubmit,
+  loginFormSubmitFailed,
+  loginFormSubmitSuccess,
+  profileFormSubmit,
+  profileFormSubmitFailed,
+  profileFormSubmitSuccess,
+  registerFormSubmit,
+  registerFormSubmitFailed,
+  registerFormSubmitSuccess,
+  resetPassFormSubmit,
+  resetPassFormSubmitFailed,
+  resetPassFormSubmitSuccess
+} from "./reducers/form";
 
 export function useProvideAuth() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const registration = async form => {
-    dispatch({
-      type: PARTICIPANT_REGISTER_FORM_SUBMIT
-    });
+    dispatch(registerFormSubmit())
     return await registrationRequest(form)
       .then(onResponse)
       .then(data => {
-        dispatch({
-          type: PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS,
-          data
-        });
+        dispatch(registerFormSubmitSuccess())
       })
       .catch(err => {
-        dispatch({
-          type: PARTICIPANT_REGISTER_FORM_SUBMIT_FAILED,
-        });
+        dispatch(registerFormSubmitFailed())
       })
   };
   const forgotPassword = async form => {
-    dispatch({
-      type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT
-    });
+    dispatch(forgotPassFormSubmit());
     return await forgotPasswordRequest(form)
       .then(onResponse)
-      .then(data => {
+      .then((data) => {
+        console.log(data)
         if (data.success) {
           navigate('/reset-password')
+          dispatch(forgotPassFormSubmitSuccess());
         }
-        dispatch({
-          type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_SUCCESS,
-        });
       })
       .catch(err => {
-        dispatch({
-          type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT_FAILED,
-        });
+        dispatch(forgotPassFormSubmitFailed());
+        console.log(err)
       })
 
   };
   const resetPassword = async form => {
-    dispatch({
-      type: PARTICIPANT_RESET_PASS_FORM_SUBMIT
-    });
-    return await resetPasswordRequest(form)
+    dispatch(resetPassFormSubmit());
+    return  await resetPasswordRequest(form)
       .then(onResponse)
       .then(data => {
         if (data.success) {
           navigate('/login')
         }
-        dispatch({
-          type: PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS,
-          data
-        });
+        dispatch(resetPassFormSubmitSuccess());
       })
-
       .catch(err => {
-        dispatch({
-          type: PARTICIPANT_RESET_PASS_FORM_SUBMIT_FAILED,
-        });
+        dispatch(resetPassFormSubmitFailed());
+
       })
   };
   const resetUserData = async form => {
-    dispatch({
-      type: PARTICIPANT_PROFILE_FORM_SUBMIT
-    });
+    dispatch(profileFormSubmit());
     return await changeUserDataRequest(form)
       .then(onResponse)
       .then(data => {
-        dispatch({
-          type: PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS,
-          name: data.name,
-          user: data.user,
-        });
+        console.log(data)
+        dispatch(profileFormSubmitSuccess({
+          name: data.user.name,
+          user: data.user.email,
+        }));
       })
       .catch(err => {
-        dispatch({
-          type: PARTICIPANT_PROFILE_FORM_SUBMIT_FAILED,
-        });
+        dispatch(profileFormSubmitFailed())
       })
   };
   const signIn = async (form) => {
-    dispatch({
-      type: PARTICIPANT_LOGIN_FORM_SUBMIT,
-    });
+    dispatch(loginFormSubmit());
     const data = await loginRequest(form)
       .then(onResponse)
-      .then((data) => data)
+      .then((data) =>
+        data
+      )
       .catch((err) => {
-        dispatch({
-          type: PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
-        });
+        dispatch(loginFormSubmitFailed());
       });
     if (data.success) {
-      dispatch({
-        type: GET_USER_SUCCESS,
-        user: data.user,
-      });
+      dispatch(loginFormSubmitSuccess(data))
+      dispatch(getUserSuccess(data.user));
       let authToken;
       authToken = data.accessToken.split("Bearer ")[1];
       setCookie("accessToken", authToken, 120);
@@ -141,37 +116,28 @@ export function useProvideAuth() {
     }
   };
   const getUser = async () => {
-    dispatch({
-      type: GET_USER_REQUEST,
-    });
+    dispatch(getUserRequestDispatch())
     return await getUserRequest()
       .then(onResponse)
       .then((data) => {
         if (data.success) {
-          dispatch({
-            type: GET_USER_SUCCESS,
-            user: data.user,
-          });
+          dispatch(getUserSuccess(data.user));
+          dispatch(setUserLoaded())
         }
         return data.success;
       })
       .catch((error) => {
         console.log(error);
-        dispatch({
-          type: GET_USER_FAILED,
-        });
+        dispatch(getUserFailed());
       });
   };
   const signOut = async () => {
-    dispatch({
-      type: LOGOUT_USER_REQUEST,
-    });
+    dispatch(logoutUserRequest());
     return await logoutRequest()
       .then(onResponse)
       .then(() => {
-        dispatch({
-          type: LOGOUT_USER_SUCCESS,
-        });
+        dispatch(logoutUserSuccess())
+        dispatch(deleteUser())
         navigate('/')
         deleteCookie("accessToken")
         deleteCookie("refreshToken")
@@ -179,9 +145,7 @@ export function useProvideAuth() {
       })
       .catch((error) => {
         console.log(error);
-        dispatch({
-          type: LOGOUT_USER_FAILED,
-        });
+        dispatch(logoutUserFailed());
       });
   };
 

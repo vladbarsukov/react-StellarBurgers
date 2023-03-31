@@ -10,6 +10,8 @@ import {
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_SUCCESS, WS_USER_GET_MESSAGE,
 } from "../actions/wsActions";
+import {createSlice} from "@reduxjs/toolkit";
+import {bun} from "../../utils/constants";
 
 const initialState = {
   wsConnected: false,
@@ -46,8 +48,6 @@ export const wsReducer = (state = initialState, action) => {
         orders: action.payload
 
       };
-
-
 
 
     case WS_USER_CONNECTION_SUCCESS:
@@ -101,3 +101,62 @@ export const wsReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+const wsReducerSlice = createSlice(
+  {
+    name: "wsReducer",
+    initialState: {
+      wsConnected: false,
+      orders: [],
+      UserOrders: [],
+      wsUserConnected: false,
+      isModalOrdersOpen: false,
+      isModalUserOrdersOpen: false,
+    },
+    reducers: {
+      wsConnectionSuccess(state) {
+        state.wsConnected = true
+      },
+      wsConnectionError(state) {
+        state.wsConnected = false
+      },
+      wsConnectionClosed(state) {
+        state.wsConnected = false
+      },
+      wsGetMessage(state, action) {
+        state.orders = action.payload
+      },
+      wsUserConnectionSuccess(state) {
+        state.wsUserConnected = true
+      },
+      wsUserConnectionError(state) {
+        state.wsUserConnected = false
+      },
+      wsUserConnectionClosed(state) {
+        state.wsUserConnected = false
+      },
+      wsUserGetMessage(state, action) {
+        state.UserOrders = action.payload
+      },
+      openOrdersModal(state) {
+        state.isModalOrdersOpen = true
+      },
+      closeOrdersModal(state) {
+        state.isModalOrdersOpen = false
+      },
+      openUserOrdersModal(state) {
+        state.isModalUserOrdersOpen = true
+      },
+      closeUserOrdersModal(state) {
+        state.isModalUserOrdersOpen = false
+      },
+    }
+  }
+)
+
+const { actions, reducer } = wsReducerSlice;
+export const {wsConnectionSuccess, wsUserConnectionError, closeUserOrdersModal,
+  closeOrdersModal, openUserOrdersModal, wsConnectionClosed,
+  openOrdersModal, wsUserConnectionSuccess, wsConnectionError,
+  wsUserConnectionClosed, wsUserGetMessage, wsGetMessage} = actions
+export default reducer

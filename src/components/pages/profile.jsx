@@ -2,13 +2,13 @@ import React, { useEffect} from "react";
 import style from "./profile.module.css";
 import { EmailInput, Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import {isInputActive, setParticipantFormValue} from "../../services/actions/form";
 import { useProvideAuth } from "../../services/auth";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {
   WS_USER_CONNECTION_CLOSED,
   WS_USER_CONNECTION_START
 } from "../../services/actions/wsActions";
+import {profileButtonHide, profileFormSetValue} from "../../services/reducers/form";
 
 
 const Profile = () => {
@@ -22,11 +22,16 @@ const Profile = () => {
 
 
   const onFormChange = (e) => {
-    dispatch(setParticipantFormValue(e.target.name, e.target.value, "profile"));
+    // dispatch(setParticipantFormValue(e.target.name, e.target.value, "profile"));
+    dispatch(profileFormSetValue({field: e.target.name, value: e.target.value}))
+
   };
   useEffect(() => {
-    dispatch(setParticipantFormValue("name", user?.name, "profile"));
-    dispatch(setParticipantFormValue("email", user?.email, "profile"));
+    dispatch(profileFormSetValue({field: "name", value: user?.name}))
+    dispatch(profileFormSetValue({field: "email", value: user?.email}))
+
+    // dispatch(setParticipantFormValue("name", user?.name, "profile"));
+    // dispatch(setParticipantFormValue("email", user?.email, "profile"));
     dispatch({ type: WS_USER_CONNECTION_START});
     return () => {
       dispatch({ type: WS_USER_CONNECTION_CLOSED});
@@ -34,12 +39,19 @@ const Profile = () => {
   }, [dispatch]);
   const onFormCancel = (e) => {
     e.preventDefault();
-    dispatch(setParticipantFormValue("name", user.name, "profile"));
-    dispatch(setParticipantFormValue("email", user.email, "profile"));
-    dispatch(setParticipantFormValue("pass", "", "profile"));
-    dispatch(isInputActive("isNameInputActive", false))
-    dispatch(isInputActive("isLoginInputActive", false))
-    dispatch(isInputActive("isPassInputActive", false))
+    dispatch(profileFormSetValue({field: "name", value: user?.name}))
+    dispatch(profileFormSetValue({field: "email", value: user?.email}))
+    dispatch(profileFormSetValue({field: "pass", value: ""}))
+    // dispatch(setParticipantFormValue("name", user.name, "profile"));
+    // dispatch(setParticipantFormValue("email", user.email, "profile"));
+    // dispatch(setParticipantFormValue("pass", "", "profile"));
+    dispatch(profileButtonHide({field: "isNameInputActive", value: false}))
+    dispatch(profileButtonHide({field: "isLoginInputActive", value: false}))
+    dispatch(profileButtonHide({field: "isPassInputActive", value: false}))
+    //
+    // dispatch(isInputActive("isNameInputActive", false))
+    // dispatch(isInputActive("isLoginInputActive", false))
+    // dispatch(isInputActive("isPassInputActive", false))
   };
 
   const onFormSubmit = (e) => {
@@ -49,18 +61,21 @@ const Profile = () => {
       name: profile.name,
       password: profile.pass,
     });
+    dispatch(profileButtonHide({field: "isNameInputActive", value: false}))
+    dispatch(profileButtonHide({field: "isLoginInputActive", value: false}))
+    dispatch(profileButtonHide({field: "isPassInputActive", value: false}))
   };
 
   const onIconClick = (field) => {
     switch (field) {
       case 'name' : {
-       return  dispatch(isInputActive("isNameInputActive", !profile.isNameInputActive))
+       return  dispatch(profileButtonHide({field: "isNameInputActive", value: !profile.isNameInputActive}))
       }
       case 'login' : {
-       return  dispatch(isInputActive("isLoginInputActive", !profile.isLoginInputActive))
+       return dispatch(profileButtonHide({field: "isLoginInputActive", value: !profile.isLoginInputActive}))
       }
       case 'pass' : {
-       return  dispatch(isInputActive("isPassInputActive", !profile.isPassInputActive))
+       return dispatch(profileButtonHide({field: "isPassInputActive", value: !profile.isPassInputActive}))
       }
       default :
         return null

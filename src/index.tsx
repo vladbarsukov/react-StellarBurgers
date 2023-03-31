@@ -16,21 +16,41 @@ import {
     WS_USER_CONNECTION_SUCCESS, WS_USER_GET_MESSAGE,
 } from "./services/actions/wsActions";
 import {socketMiddleware} from "./services/middlewares/socket-middleware";
+import {
+    wsConnectionClosed,
+    wsConnectionError,
+    wsConnectionSuccess,
+    wsGetMessage, wsUserConnectionClosed,
+    wsUserConnectionSuccess, wsUserGetMessage
+} from "./services/reducers/wsReducer";
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 const wsUrlUser = 'wss://norma.nomoreparties.space/orders';
 
+// const wsActions = {
+//     wsInit: WS_CONNECTION_START,
+//     onOpen: WS_CONNECTION_SUCCESS,
+//     onClose: WS_CONNECTION_CLOSED,
+//     onError: WS_CONNECTION_ERROR,
+//     onMessage: WS_GET_MESSAGE,
+//     wsUserInit: WS_USER_CONNECTION_START,
+//     userOnOpen: WS_USER_CONNECTION_SUCCESS,
+//     userOnClose: WS_USER_CONNECTION_CLOSED,
+//     userOnError: WS_USER_CONNECTION_ERROR,
+//     userOnMessage: WS_USER_GET_MESSAGE
+// };
+
 const wsActions = {
     wsInit: WS_CONNECTION_START,
-    onOpen: WS_CONNECTION_SUCCESS,
-    onClose: WS_CONNECTION_CLOSED,
-    onError: WS_CONNECTION_ERROR,
-    onMessage: WS_GET_MESSAGE,
+    onOpen: wsConnectionSuccess,
+    onClose: wsConnectionClosed,
+    onError: wsConnectionError,
+    onMessage: wsGetMessage,
     wsUserInit: WS_USER_CONNECTION_START,
-    userOnOpen: WS_USER_CONNECTION_SUCCESS,
-    userOnClose: WS_USER_CONNECTION_CLOSED,
-    userOnError: WS_USER_CONNECTION_ERROR,
-    userOnMessage: WS_USER_GET_MESSAGE
+    userOnOpen: wsUserConnectionSuccess,
+    userOnClose: wsUserConnectionClosed,
+    userOnError: wsConnectionError,
+    userOnMessage: wsUserGetMessage
 };
 
 const store = configureStore({
