@@ -3,11 +3,20 @@ import {
   REMOVE_ITEMS_IN_CONSTRUCTOR,
   CLOSE_ORDER_MODAL, POST_ORDER_REQUEST,
   POST_ORDER_SUCCESS, POST_ORDER_FAILED,
-  SWAP_ITEM
+  SWAP_ITEM, TBurgerConstructorAction
 } from "../actions/BurgerConstructor";
 import {bun} from "../../utils/constants";
+import {TIngredient, TOrderDetails} from "../types/Data";
 
-const initialState = {
+type TBurgerConstructorState = {
+  selectedToppings: Array<TIngredient>;
+  selectedBun: TIngredient | null;
+  postRequest: boolean;
+  postFailed: boolean,
+  orderDetails: TOrderDetails | null;
+}
+
+const initialState: TBurgerConstructorState = {
   selectedToppings: [],
   selectedBun: null,
   postRequest: false,
@@ -15,12 +24,12 @@ const initialState = {
   orderDetails: null,
 };
 
-export const BurgerConstructorReducer = (state = initialState, action) => {
+export const BurgerConstructorReducer = (state:TBurgerConstructorState = initialState, action: TBurgerConstructorAction):TBurgerConstructorState => {
   switch (action.type) {
     case SWAP_ITEM: {
-      const dragItem = state.selectedToppings[action.index.dragIndex]
-      const hoverItem = state.selectedToppings[action.index.hoverIndex]
-      const updatedList = [...state.selectedToppings]
+      const dragItem: TIngredient = state.selectedToppings[action.index.dragIndex]
+      const hoverItem: TIngredient = state.selectedToppings[action.index.hoverIndex]
+      const updatedList: TIngredient[] = [...state.selectedToppings]
       updatedList[action.index.dragIndex] = hoverItem
       updatedList[action.index.hoverIndex] = dragItem
       return {

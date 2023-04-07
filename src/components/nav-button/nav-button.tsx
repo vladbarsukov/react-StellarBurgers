@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './nav-button.module.css';
-const NavButton = ({IconComponent, type, description}) => {
 
+type TNavButton = {
+    IconComponent: FC<any>;
+    type: "primary" | "secondary"
+    description: "Конструктор" | "Личный кабинет" | "Лента заказов";
+};
+const NavButton: FC<TNavButton> = ({IconComponent, type, description}) => {
   if (type === "primary") {
     return (
       <div className='pl-5 pr-5 pt-4 pb-4'>
