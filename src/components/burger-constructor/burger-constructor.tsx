@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useMemo} from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch} from "react-redux";
+// import {useDispatch} from "react-redux";
 import {
   ADD_ITEMS_TO_CONSTRUCTOR,
   pushData,
@@ -15,7 +15,7 @@ import {INCREASE_ITEM} from "../../services/actions/BurgerIngredients";
 import {useNavigate} from "react-router-dom";
 import {useProvideAuth} from "../../services/auth";
 import {SET_USER_LOADED} from "../../services/actions/user";
-import {useSelector} from "../../services/hooks";
+import {useDispatch, useSelector} from "../../services/hooks";
 import {TIngredient} from "../../services/types/Data";
 
 type TBurgerConstructorProps = {};
@@ -31,12 +31,14 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = () => {
   useEffect(() => {
     // При монтировании компонента запросим данные о пользователе
     init()
-        .then(() =>
-            dispatch({type: SET_USER_LOADED,})
+        .then((r) => r
+            // dispatch({type: SET_USER_LOADED,})
         );
   }, []);
   const navigate = useNavigate()
+  // const dispatch = useDispatch();
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.User);
   const { selectedBun, selectedToppings, orderDetails, postRequest} = useSelector(
       state => state.ingredientsConstructor
@@ -56,11 +58,11 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = () => {
   }
 
   const addIngredientToConstructor = (ing: TIngredient):void => {
-    dispatch({
-      type: INCREASE_ITEM,
-      _id: ing._id,
-      ingType: ing.type,
-    }, );
+    // dispatch({
+    //   type: INCREASE_ITEM,
+    //   _id: ing._id,
+    //   ingType: ing.type,
+    // }, );
     dispatch({
       type: ADD_ITEMS_TO_CONSTRUCTOR,
       selectedIngredients: ing,

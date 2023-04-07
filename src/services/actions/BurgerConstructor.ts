@@ -2,7 +2,7 @@ import {onResponse, request} from "../../utils/api";
 import {BASE_URL} from "../../utils/constants";
 import {getCookie} from "../../utils/auth";
 import {TIngredient, TOrderDetails} from "../types/Data";
-import {AppThunk, AppDispatch} from "../types";
+import {AppDispatch} from "../types";
 
 export const POST_ORDER_REQUEST: 'POST_ORDER_REQUEST'= 'POST_ORDER_REQUEST';
 export const POST_ORDER_SUCCESS: 'POST_ORDER_SUCCESS' = 'POST_ORDER_SUCCESS';
@@ -43,7 +43,7 @@ export interface ISwapItem {
 
 export type TBurgerConstructorAction = IPostOrderRequest | IPostOrderSuccess | IPostOrderFailed |
     IAddItemsToConstructor | IRemoveItemsInConstructor | ICloseOrderModal | ISwapItem;
-export const pushData: AppThunk = (ingredients: string[]) =>
+export const pushData = (ingredients: string[]) =>
   (dispatch: AppDispatch) => {
     dispatch({
       type: POST_ORDER_REQUEST
