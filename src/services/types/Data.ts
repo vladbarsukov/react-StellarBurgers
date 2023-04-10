@@ -2,7 +2,7 @@ export type TOrderDetails = {
     success: boolean;
     name: string;
     order: {
-        ingredients: TIngredient[];
+        ingredients: Array<TIngredient>;
         _id: string;
         owner: {
             name: string;
@@ -31,4 +31,28 @@ export type TIngredient = {
     image_mobile: string;
     image_large: string;
     __v: number;
+}
+export type TUserRequest = {
+    success: boolean;
+    user: TUser;
+}
+
+export type TUser = {
+    email: string;
+    name: string;
+}
+
+export type TOrdersRequest = {
+    total: number;
+    totalToday: number;
+    orders: Array<TOrder>
+}
+export type TOrder = {
+    _id: string;
+    ingredients: Array<string>;
+    status: string;
+    name: string;
+    cratedAt: string;
+    updatedAt: string;
+    number: number;
 }

@@ -1,4 +1,4 @@
-import { useDispatch} from "react-redux";
+// import { useDispatch} from "react-redux";
 import {
   changeUserDataRequest,
   forgotPasswordRequest,
@@ -33,11 +33,24 @@ import {
   PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS
 } from "./actions/form";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "./hooks";
+type FormValues = Record<string, string>;
 
-export function useProvideAuth() {
+
+type AuthProvider = {
+  getUser: () => Promise<void>;
+  signIn: (form: FormValues) => Promise<void>;
+  registration: (form: FormValues) => Promise<void>;
+  resetPassword: (form: FormValues) => Promise<void>;
+  forgotPassword: (form: FormValues) => Promise<void>;
+  resetUserData: (form: FormValues) => Promise<void>;
+  signOut: () => Promise<void>;
+};
+
+export function useProvideAuth(): AuthProvider {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const registration = async form => {
+  const registration = async (form: FormValues): Promise<void> => {
     dispatch({
       type: PARTICIPANT_REGISTER_FORM_SUBMIT
     });
@@ -55,7 +68,7 @@ export function useProvideAuth() {
         });
       })
   };
-  const forgotPassword = async form => {
+  const forgotPassword = async (form: FormValues): Promise<void> => {
     dispatch({
       type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT
     });
@@ -76,7 +89,7 @@ export function useProvideAuth() {
       })
 
   };
-  const resetPassword = async form => {
+  const resetPassword = async (form: FormValues): Promise<void> => {
     dispatch({
       type: PARTICIPANT_RESET_PASS_FORM_SUBMIT
     });
@@ -98,7 +111,7 @@ export function useProvideAuth() {
         });
       })
   };
-  const resetUserData = async form => {
+  const resetUserData = async (form: FormValues): Promise<void> => {
     dispatch({
       type: PARTICIPANT_PROFILE_FORM_SUBMIT
     });
@@ -107,8 +120,8 @@ export function useProvideAuth() {
       .then(data => {
         dispatch({
           type: PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS,
-          name: data.name,
-          user: data.user,
+          name: data.user.name,
+          email: data.user.email,
         });
       })
       .catch(err => {
@@ -117,7 +130,7 @@ export function useProvideAuth() {
         });
       })
   };
-  const signIn = async (form) => {
+  const signIn = async (form: FormValues): Promise<void> => {
     dispatch({
       type: PARTICIPANT_LOGIN_FORM_SUBMIT,
     });

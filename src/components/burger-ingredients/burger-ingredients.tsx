@@ -1,31 +1,38 @@
-import React, { useRef} from "react";
+import React, {FC, useRef} from "react";
 import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
-import {useSelector} from "react-redux";
+// import {useSelector} from "react-redux";
 import {filterIngredients} from "../../utils/filterIngredients";
 import {bun, main, sauce} from "../../utils/constants";
 import {Outlet} from "react-router-dom";
+import {useSelector} from "../../services/hooks";
 
-
-const BurgerIngredients = () => {
+type TBurgerIngredientsProps = {};
+const BurgerIngredients: FC<TBurgerIngredientsProps> = () => {
   const { items } = useSelector(
     state => state.ingredients
   );
-  const mainRef = useRef(null);
-  const saucesRef = useRef(null);
-  const bunsRef = useRef(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+  const saucesRef = useRef<HTMLDivElement>(null);
+  const bunsRef = useRef<HTMLDivElement>(null);
 
   const scrollMain = () => {
-    mainRef.current.scrollIntoView({behavior: "smooth"});
+    if (mainRef.current) {
+      mainRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const scrollSauce = () => {
-    saucesRef.current.scrollIntoView({behavior: "smooth"});
+    if (saucesRef.current) {
+      saucesRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const scrollBuns = () => {
-    bunsRef.current.scrollIntoView({behavior: "smooth"});
+    if (bunsRef.current) {
+      bunsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (

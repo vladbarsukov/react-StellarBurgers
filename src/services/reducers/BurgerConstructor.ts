@@ -24,7 +24,7 @@ const initialState: TBurgerConstructorState = {
   orderDetails: null,
 };
 
-export const BurgerConstructorReducer = (state:TBurgerConstructorState = initialState, action: TBurgerConstructorAction):TBurgerConstructorState => {
+export const BurgerConstructorReducer = (state = initialState, action: TBurgerConstructorAction):TBurgerConstructorState => {
   switch (action.type) {
     case SWAP_ITEM: {
       const dragItem: TIngredient = state.selectedToppings[action.index.dragIndex]

@@ -1,16 +1,19 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from "../ingredients-list/ingredients-list.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch} from 'react-redux';
+// import {useDispatch} from 'react-redux';
 import { useDrag } from "react-dnd";
-import PropTypes from "prop-types";
 import {
   MODAL_OPEN
 } from "../../services/actions/IngredientDetails";
 import {useNavigate} from "react-router-dom";
+import {TIngredient} from "../../services/types/Data";
+import {useDispatch} from "../../services/hooks";
 
-
-const IngredientsItem = ({ing}) => {
+type TIngredientsItemProps = {
+  ing: TIngredient
+}
+const IngredientsItem: FC<TIngredientsItemProps> = ({ing}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
@@ -38,7 +41,7 @@ const IngredientsItem = ({ing}) => {
             : null}
       </div>
       <img
-        onClick={() => addIngredientDetails(ing)}
+        onClick={() => addIngredientDetails()}
         className={`${styles.image} ml-4 mr-4`}
         alt={ing.type}
         src={ing.image} />
@@ -54,9 +57,5 @@ const IngredientsItem = ({ing}) => {
     </li>
   );
 };
-
-IngredientsItem.propTypes = {
-  ing: PropTypes.object.isRequired,
-}
 
 export default IngredientsItem;

@@ -1,10 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, {FC} from "react";
 import styles from "./ingredients-list.module.css";
 import IngredientsItem from "../ingredients-item/IngredientsItem";
+import {TIngredient} from "../../services/types/Data";
 
-
-const IngredientsList = ({ ingredients}) => {
+type TIngredientsListProps = {
+  ingredients: Array<TIngredient>
+};
+const IngredientsList: FC<TIngredientsListProps> = ({ ingredients}) => {
 
   return (
     <ul className={`${styles.list} ml-4 mr-4`}>
@@ -14,10 +16,6 @@ const IngredientsList = ({ ingredients}) => {
     </ul>
   );
 };
-
-IngredientsList.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
 
 export default IngredientsList;
 

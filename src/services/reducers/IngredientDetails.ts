@@ -1,11 +1,22 @@
-import {ADD_INGREDIENT_DETAILS, CLOSE_BURGER_INGREDIENT_MODAL, MODAL_OPEN} from "../actions/IngredientDetails";
+import {
+  ADD_INGREDIENT_DETAILS,
+  CLOSE_BURGER_INGREDIENT_MODAL,
+  MODAL_OPEN,
+  TIngredientDetailsAction
+} from "../actions/IngredientDetails";
+import {TIngredient} from "../types/Data";
 
-const initialState = {
+type TIngredientDetailsState = {
+  item: TIngredient | null;
+  isModalOpen: boolean
+}
+
+const initialState: TIngredientDetailsState = {
   item: null,
   isModalOpen: false,
 };
 
-export const IngredientDetails = (state = initialState, action) => {
+export const IngredientDetails  = (state = initialState, action: TIngredientDetailsAction) => {
   switch (action.type) {
     case CLOSE_BURGER_INGREDIENT_MODAL: {
       return {

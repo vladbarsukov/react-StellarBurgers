@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useMemo} from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-// import {useDispatch} from "react-redux";
 import {
   ADD_ITEMS_TO_CONSTRUCTOR,
   pushData,
@@ -24,19 +23,18 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = () => {
   const init = async ():Promise<void> => {
     // Вызовем запрос getUser и изменим состояние isUserLoaded
     await auth.getUser();
-    // dispatch({
-    //   type: SET_USER_LOADED,
-    // })
+    dispatch({
+      type: SET_USER_LOADED,
+    })
   };
   useEffect(() => {
     // При монтировании компонента запросим данные о пользователе
     init()
-        .then((r) => r
-            // dispatch({type: SET_USER_LOADED,})
+        .then(() =>
+            dispatch({type: SET_USER_LOADED,})
         );
   }, []);
   const navigate = useNavigate()
-  // const dispatch = useDispatch();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.User);
@@ -58,11 +56,11 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = () => {
   }
 
   const addIngredientToConstructor = (ing: TIngredient):void => {
-    // dispatch({
-    //   type: INCREASE_ITEM,
-    //   _id: ing._id,
-    //   ingType: ing.type,
-    // }, );
+    dispatch({
+      type: INCREASE_ITEM,
+      _id: ing._id,
+      ingType: ing.type,
+    }, );
     dispatch({
       type: ADD_ITEMS_TO_CONSTRUCTOR,
       selectedIngredients: ing,

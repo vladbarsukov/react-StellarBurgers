@@ -3,18 +3,25 @@ import {
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
   INCREASE_ITEM,
-  DECREASE_ITEM,
+  DECREASE_ITEM, TBurgerIngredientsAction,
 } from "../actions/BurgerIngredients";
 import {bun} from "../../utils/constants";
 import {POST_ORDER_SUCCESS} from "../actions/BurgerConstructor";
+import {TIngredient} from "../types/Data";
 
-const initialState = {
-  items: null,
+type TBurgerIngredientsState = {
+  items: Array<TIngredient>;
+  itemsRequest: boolean;
+  itemsFailed: boolean;
+}
+
+const initialState: TBurgerIngredientsState = {
+  items: [],
   itemsRequest: false,
   itemsFailed: false,
 };
 
-export const BurgerIngredientsReducer = (state = initialState, action) => {
+export const BurgerIngredientsReducer = (state = initialState, action: TBurgerIngredientsAction) => {
   switch (action.type) {
     case GET_ITEMS_REQUEST: {
       return {

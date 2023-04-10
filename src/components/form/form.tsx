@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {FC, ReactNode} from 'react';
 import style from "./form.module.css";
 
-const Form = ({children, formName}) => {
+type TFormProps = {
+    formName: string
+    children?: ReactNode
+}
+const Form: FC<TFormProps> = ({children, formName}) => {
   return (
     <div>
       <div className={style.content}>

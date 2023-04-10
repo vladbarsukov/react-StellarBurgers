@@ -21,11 +21,51 @@ import {
   PARTICIPANT_RESET_PASS_FORM_SUBMIT_SUCCESS,
   PARTICIPANT_RESET_PASS_SET_VALUE, PROFILE_FORM_BUTTON_HIDE,
   REGISTER_PASS_HIDE,
-  RESET_PASS_HIDE
+  RESET_PASS_HIDE, TFormAction
 } from "../actions/form";
-
-const initialState = {
-  page: '/',
+type TFormState = {
+  loginData: {
+    email: string,
+    pass: string,
+    isPasswordHidden: boolean,
+    loginRequest: boolean,
+    loginFailed: boolean,
+  },
+  forgotPassData: {
+    email: string,
+    forgotPassRequest: boolean,
+    forgotPassFailed: boolean,
+    forgotPassSuccess: boolean,
+  },
+  resetPassData: {
+    pass: string,
+    token: string,
+    resetRequest: boolean,
+    resetFailed: boolean,
+    isPasswordHidden: boolean,
+    resetPassSuccess: boolean,
+  },
+  registration: {
+    name: string,
+    email: string,
+    pass: string,
+    isPasswordHidden: boolean,
+    registrationRequest: boolean,
+    registrationFailed: boolean,
+  },
+  profile: {
+    name: string,
+    email: string,
+    pass: string,
+    profileRequest: boolean,
+    profileFailed: boolean,
+    isLoginInputActive: boolean,
+    isNameInputActive: boolean,
+    isPassInputActive: boolean,
+  }
+}
+const initialState: TFormState = {
+  // page: '/',
   loginData: {
     email: "",
     pass: "",
@@ -68,7 +108,7 @@ const initialState = {
 };
 
 
-export const Form = (state = initialState, action) => {
+export const Form = (state = initialState, action: TFormAction) => {
   switch (action.type) {
     case PARTICIPANT_REGISTER_FORM_SET_VALUE: {
       return {
@@ -278,7 +318,7 @@ export const Form = (state = initialState, action) => {
         profile: {
           name: action.name,
           login: action.email,
-          pass: action.password
+          // pass: action.password
         }
       }
     }

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './order-details.module.css';
 import img from '../../images/graphics.svg';
-import {useSelector} from "react-redux";
-
-const OrderDetails = () => {
+import {useSelector} from "../../services/hooks";
+type TOrderDetailsProps = {}
+const OrderDetails: FC<TOrderDetailsProps> = () => {
   const { orderDetails } = useSelector(
     state => state.ingredientsConstructor
   );

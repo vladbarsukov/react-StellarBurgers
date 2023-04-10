@@ -1,7 +1,7 @@
 import {
   CLOSE_ORDERS_MODAL,
   CLOSE_USER_ORDERS_MODAL, OPEN_ORDERS_MODAL,
-  OPEN_USER_ORDERS_MODAL,
+  OPEN_USER_ORDERS_MODAL, TWsAction,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
@@ -10,8 +10,17 @@ import {
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_SUCCESS, WS_USER_GET_MESSAGE,
 } from "../actions/wsActions";
+import {TOrder} from "../types/Data";
+type TWsReducerState = {
+  wsConnected: boolean;
+  orders: Array<TOrder>;
+  UserOrders: Array<TOrder>;
+  wsUserConnected: boolean;
+  isModalOrdersOpen: boolean;
+  isModalUserOrdersOpen: boolean;
+}
 
-const initialState = {
+const initialState: TWsReducerState= {
   wsConnected: false,
   orders: [],
   UserOrders: [],
@@ -20,7 +29,7 @@ const initialState = {
   isModalUserOrdersOpen: false,
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action: TWsAction) => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
@@ -46,9 +55,6 @@ export const wsReducer = (state = initialState, action) => {
         orders: action.payload
 
       };
-
-
-
 
     case WS_USER_CONNECTION_SUCCESS:
       return {

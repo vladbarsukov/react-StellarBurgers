@@ -1,9 +1,12 @@
-import React from "react";
+import React, {FC} from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./tab-list.module.css";
-import PropTypes from "prop-types";
-
-const TabList = ({ scrollMain, scrollSauce, scrollBuns }) => {
+type TTabListProps = {
+    scrollMain: () => void;
+    scrollSauce: () => void;
+    scrollBuns: () => void;
+}
+const TabList: FC<TTabListProps> = ({ scrollMain, scrollSauce, scrollBuns }) => {
   const [current, setCurrent] = React.useState("bun");
 
   return (
@@ -28,11 +31,5 @@ const TabList = ({ scrollMain, scrollSauce, scrollBuns }) => {
     </div>
   );
 };
-
-TabList.propTypes = {
-  scrollMain: PropTypes.func.isRequired,
-  scrollSauce: PropTypes.func.isRequired,
-  scrollBuns: PropTypes.func.isRequired,
-}
 
 export default TabList;
