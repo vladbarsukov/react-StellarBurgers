@@ -1,29 +1,33 @@
-import React from 'react';
+import React, {ChangeEvent, FC, SyntheticEvent, useRef} from 'react';
 import style from "./login.module.css";
 import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from 'react-router-dom';
 import Form from "../form/form";
-import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
 import {useProvideAuth} from "../../services/auth";
+import {useDispatch, useSelector} from "../../services/hooks";
 
-
-const Login = () => {
+type TLoginProps = {}
+const Login: FC<TLoginProps> = () => {
   const auth = useProvideAuth();
   const dispatch = useDispatch();
   const { loginData} = useSelector(
     state => state.Form
   );
 
-  const onFormChange = (e) => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>):void => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'login'))
   }
-  const inputRef = React.useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    dispatch(setParticipantFormValue("isPasswordHidden", !loginData.isPasswordHidden, 'loginPassHide'))
+      setTimeout((): void => {
+          if (inputRef.current) {
+              inputRef.current.focus();
+          }
+      }, 0);
+          dispatch(setParticipantFormValue("isPasswordHidden", !loginData.isPasswordHidden, 'loginPassHide'))
   }
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e:  SyntheticEvent): void => {
     e.preventDefault();
     auth.signIn({
         email: loginData.email,

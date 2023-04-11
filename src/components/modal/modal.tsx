@@ -1,43 +1,48 @@
-import React, {useEffect} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import styles from "./modal.module.css"
 import { CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from "prop-types";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import {CLOSE_BURGER_INGREDIENT_MODAL} from "../../services/actions/IngredientDetails";
 import {useDispatch} from "react-redux";
 import {CLOSE_ORDER_MODAL} from "../../services/actions/BurgerConstructor";
 import {useNavigate} from "react-router-dom";
 import {CLOSE_ORDERS_MODAL, CLOSE_USER_ORDERS_MODAL} from "../../services/actions/wsActions";
-const Modal = ({close, children}) => {
+
+type TModalProps = {
+  close: string;
+  children: React.ReactNode;
+}
+const Modal: FC<TModalProps> = ({close, children}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const closeIngredientPopup = () => {
+  const closeIngredientPopup = useCallback(() => {
     dispatch({
       type: CLOSE_BURGER_INGREDIENT_MODAL,
     })
     navigate('/')
-  }
+  }, [dispatch, navigate])
 
-  const closeOrderPopup = () => {
+  const closeOrderPopup = useCallback(() => {
     dispatch({
       type: CLOSE_ORDER_MODAL,
     })
-  }
+  }, [dispatch])
 
-  const closeUserOrdersPopup = () => {
+  const closeUserOrdersPopup = useCallback(() => {
     dispatch({
       type: CLOSE_USER_ORDERS_MODAL,
     })
     navigate('/profile/orders')
-  }
-  const closeOrdersPopup = () => {
+  }, [dispatch, navigate])
+  const closeOrdersPopup = useCallback(() => {
     dispatch({
       type: CLOSE_ORDERS_MODAL,
     })
     navigate('/feed')
-  }
-  const closePopup = () => {
+  }, [dispatch, navigate])
+
+  const closePopup = useCallback(() => {
     if (close === 'ingredient') {
       return closeIngredientPopup()
 
@@ -51,12 +56,12 @@ const Modal = ({close, children}) => {
     if (close === 'orders') {
       return closeOrdersPopup()
     }
-  }
+  }, [close, closeIngredientPopup, closeOrderPopup, closeUserOrdersPopup, closeOrdersPopup])
 
 
   useEffect(() => {
 
-    const closeByEsc = (e) => {
+    const closeByEsc = (e: KeyboardEvent) => {
       if(e.key === "Escape"){
         closePopup()
       }
@@ -77,9 +82,5 @@ const Modal = ({close, children}) => {
   );
 };
 
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  close: PropTypes.string
-}
 
 export default Modal;

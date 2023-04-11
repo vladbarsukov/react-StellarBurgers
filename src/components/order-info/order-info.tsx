@@ -1,5 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React, {FC, useEffect, useMemo} from 'react';
 import {useParams} from "react-router-dom";
 import style from './order-info.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -11,15 +10,21 @@ import {
   WS_USER_CONNECTION_CLOSED,
   WS_USER_CONNECTION_START
 } from "../../services/actions/wsActions";
+import {TOrder, TOrdersRequest} from "../../services/types/Data";
+import {useDispatch, useSelector} from "../../services/hooks";
 
+type TOrderInfoProps = {
+  orders: TOrdersRequest;
+  type: string;
+}
 
-const OrderInfo = ({orders, type}) => {
+const OrderInfo: FC<TOrderInfoProps> = ({orders, type})=> {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id  } = useParams();
   const { items } = useSelector(
     state => state.ingredients
   );
-  const status = (status) => {
+  const status = (status: string): string => {
     switch (status) {
       case "created" :
         return "Создан";
@@ -31,44 +36,44 @@ const OrderInfo = ({orders, type}) => {
         return "Статус не определен";
     }
   }
-  useEffect(() => {
-    if (type === "profileOrder") {
-      console.log("test")
-      dispatch({ type: WS_USER_CONNECTION_START});
-      return () => {
-        dispatch({ type: WS_USER_CONNECTION_CLOSED});
-      }
-    }
-    if (type === "allOrders") {
-      console.log("test")
-      dispatch({ type: WS_CONNECTION_START});
-      return () => {
-        dispatch({ type: WS_CONNECTION_CLOSED});
-      }
-    }
-  }, []);
-  const currentOrder = useMemo(() => {
-    return orders.orders?.find(item => item.number === +id);
+  // useEffect(() => {
+  //   if (type === "profileOrder") {
+  //     dispatch({ type: WS_USER_CONNECTION_START});
+  //     return () => {
+  //       dispatch({ type: WS_USER_CONNECTION_CLOSED});
+  //     }
+  //   }
+  //   if (type === "allOrders") {
+  //     dispatch({ type: WS_CONNECTION_START});
+  //     return () => {
+  //       dispatch({ type: WS_CONNECTION_CLOSED});
+  //     }
+  //   }
+  // }, [dispatch, type]);
+  const currentOrder: TOrder | undefined = useMemo(() => {
+
+    return orders.orders?.find((item: TOrder):boolean => item.number === Number(id));
   }, [id, orders.orders]);
 
-  const counts = useMemo(() => {
-    const counts = {};
-    currentOrder?.ingredients.forEach((el) => {
+  const counts: { [id: string]: number; } = useMemo(() => {
+    const counts: { [id: string]: number; } = {};
+    currentOrder?.ingredients.forEach((el: string): void => {
       counts[el] = (counts[el] || 0) + 1;
     });
+    console.log(counts)
     return counts;
   }, [currentOrder]);
 
-  const unique = useMemo(() => {
-    return currentOrder?.ingredients.filter((el) => counts[el] === 1);
+  const unique: Array<string> | undefined = useMemo(() => {
+    return currentOrder?.ingredients.filter((el: string): boolean => counts[el] === 1);
   }, [counts, currentOrder]);
 
-  const duplicates = useMemo(() => {
-    return Object.keys(counts).filter((el) => counts[el] > 1).map((el) => ({value: el, count: counts[el]}));
+  const duplicates: Array<{value: string, count: number}> = useMemo(() => {
+    return Object.keys(counts).filter((el: string): boolean => counts[el] > 1).map((el: string): {value: string, count: number} => ({value: el, count: counts[el]}));
   }, [counts]);
 
   return (
-  orders.orders && items ?
+  orders.orders && items && currentOrder ?
     <div className={`${style.container} pt-10 pb-10 pr-10 pl-10`}>
      <p className={`${type ? style.orderNumber : ""} text text_type_digits-default`}>{`#${currentOrder.number}`}</p>
       <h2 className={`${style.orderName} text text_type_main-medium mt-10`}>{currentOrder.name}</h2>
@@ -79,15 +84,15 @@ const OrderInfo = ({orders, type}) => {
           let ingredient = findIngredient(ing.value, items);
           return <OrderInfoIngredientItem key={ing.value} ingredient={ingredient} count={ing.count} />;
         })}
-        {unique.map((ing) => {
+        {unique?.map((ing: any) => {
           let ingredient = findIngredient(ing, items);
           return <OrderInfoIngredientItem key={ing} ingredient={ingredient} count={1} />;
         })}
       </ul>
       <div className={`${style.orderTimeContainer} mt-10`}>
-        <p className="text text_type_main-small text_color_inactive" >{currentOrder.createdAt.substring(0, 19)}</p>
+        <p className="text text_type_main-small text_color_inactive" >{currentOrder?.createdAt.substring(0, 19)}</p>
         <div className={`${style.priceContainer}`}>
-          <p className="text text_type_digits-default mr-2">{orderPriceCalculator(currentOrder.ingredients, items)}</p>
+          <p className="text text_type_digits-default mr-2">{orderPriceCalculator(currentOrder?.ingredients, items)}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>

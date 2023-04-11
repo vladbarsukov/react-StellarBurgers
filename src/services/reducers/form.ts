@@ -55,7 +55,7 @@ type TFormState = {
   },
   profile: {
     name: string,
-    email: string,
+    login: string,
     pass: string,
     profileRequest: boolean,
     profileFailed: boolean,
@@ -97,7 +97,7 @@ const initialState: TFormState = {
   },
   profile: {
     name: '',
-    email: '',
+    login: '',
     pass: '',
     profileRequest: false,
     profileFailed: false,
@@ -108,7 +108,7 @@ const initialState: TFormState = {
 };
 
 
-export const Form = (state = initialState, action: TFormAction) => {
+export const Form = (state: TFormState = initialState, action: TFormAction): TFormState => {
   switch (action.type) {
     case PARTICIPANT_REGISTER_FORM_SET_VALUE: {
       return {
@@ -316,6 +316,7 @@ export const Form = (state = initialState, action: TFormAction) => {
       return {
         ...state,
         profile: {
+          ...state.profile,
           name: action.name,
           login: action.email,
           // pass: action.password

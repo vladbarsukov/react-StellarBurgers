@@ -127,7 +127,7 @@ export type TFormAction = ILoginFormSetValue | ILoginPassHide | ILoginFormSubmit
 | IResetPassHide | IResetFormSubmit | IResetFormSuccess | IResetFormFailed | IForgotFormSetValue | IForgotFormSubmit
 | IForgotFormSuccess | IForgotFormFailed | IProfileFormSetValue | IProfileFormSubmit | IProfileFormSuccess | IProfileFormFailed
 | IProfilePassHide
-export const setParticipantFormValue = (field: string, value: string | boolean, form: string):{field: string, type: any, value: string | boolean} | null => {
+export const setParticipantFormValue = (field: string, value: any, form: string): any => {
   switch (form) {
     case 'registration': {
       return {
@@ -190,7 +190,7 @@ export const setParticipantFormValue = (field: string, value: string | boolean, 
   }
 }
 
-export const isInputActive = (field: string, value: string) => {
+export const isInputActive = (field: string, value: string | boolean): any => {
   return {
     type: PROFILE_FORM_BUTTON_HIDE,
     field: field,

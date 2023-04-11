@@ -1,27 +1,28 @@
-import React from 'react';
+import React, {FC} from 'react';
 import Form from "../form/form";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './forgot-passwprd.module.css'
 import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
 import {useProvideAuth} from "../../services/auth";
+import {useDispatch, useSelector} from "../../services/hooks";
 
-const ForgotPassword = () => {
+type TForgotPasswordProps = {}
+const ForgotPassword: FC<TForgotPasswordProps> = () => {
   const { forgotPassData} = useSelector(
     state => state.Form
   );
   const dispatch = useDispatch();
   const auth = useProvideAuth();
-  const onFormChange = (e) => {
+  const onFormChange = (e: any):void => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'forgotPass'))
   }
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: any): void => {
     e.preventDefault();
     auth.forgotPassword({
         email: forgotPassData.email,
-      })
-  }
+    }).then((r): void => r)
+   }
 
   return (
     <Form formName={"Восстановление пароля"}>

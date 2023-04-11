@@ -1,11 +1,17 @@
-import React, { useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 
 import {useLocation, useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
+// import {useDispatch, useSelector} from "react-redux";
 import {SET_USER_LOADED} from "../../services/actions/user";
 import {useProvideAuth} from "../../services/auth";
+import {useDispatch, useSelector} from "../../services/hooks";
 
-const ProtectedRouteElement = ({ element, navigate}) => {
+
+type TProtectedRouteElementProps = {
+  element: React.ReactNode;
+  navigate: any;
+}
+const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({ element, navigate}): any => {
   const location = useLocation();
   const navigation = useNavigate();
   const { isUserLoaded, user} = useSelector(
@@ -16,7 +22,7 @@ const ProtectedRouteElement = ({ element, navigate}) => {
   );
   const dispatch = useDispatch();
   const auth = useProvideAuth();
-  const init = async () => {
+  const init = async (): Promise<void> => {
     // Вызовем запрос getUser и изменим состояние isUserLoaded
     await auth.getUser();
     dispatch({
@@ -24,7 +30,7 @@ const ProtectedRouteElement = ({ element, navigate}) => {
     })
   };
 
-  useEffect(() => {
+  useEffect((): void => {
     // При монтировании компонента запросим данные о пользователе
     init();
   }, []);

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {FC, useEffect} from "react";
 import style from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import { DndProvider } from "react-dnd";
@@ -12,7 +12,6 @@ import ResetPassword from "../pages/reset-password";
 import Profile from "../pages/profile";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 import IngredientsDetailsPage from "../pages/ingredients-details-page";
-import {useDispatch, useSelector} from "react-redux";
 import {getItems} from "../../services/actions/BurgerIngredients";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -21,8 +20,9 @@ import {NotFound404} from "../pages/not-found";
 import Feed from "../pages/feed";
 import OrderInfo from "../order-info/order-info";
 import OrderInfoPage from "../pages/order-info-page";
+import {useDispatch, useSelector} from "../../services/hooks";
 
-function App() {
+const App: FC = () => {
   const dispatch = useDispatch();
   const { orders } = useSelector(
     state => state.wsReducer
@@ -64,7 +64,7 @@ function App() {
                 <Route path="/profile/orders" element={<Orders/>} >
                   <Route path="/profile/orders/:id" element={
                     <Modal close={'userOrders'}>
-                      <OrderInfo orders={UserOrders} />
+                      {UserOrders ? <OrderInfo  type={"profileOrder"} orders={UserOrders} /> : <></>}
                     </Modal>
                   } />
                 </Route>
@@ -77,7 +77,7 @@ function App() {
               <Route path="/feed" element={<Feed />} >
                 <Route path="/feed/:id" element={
                   <Modal close={'orders'}>
-                    <OrderInfo  orders={orders} />
+                    {orders ? <OrderInfo type={"allOrders"} orders={orders} /> : <></>}
                   </Modal>
                 } />
               </Route>

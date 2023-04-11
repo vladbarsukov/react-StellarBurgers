@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {FC} from 'react';
 import style from "./Ingredients-Details-Page.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
-const IngredientsDetailsPage = () => {
+type TIngredientsDetailsPageProps = {}
+const IngredientsDetailsPage: FC<TIngredientsDetailsPageProps> = () => {
   return (
     <div className={`${style.container} mt-30`}>
       <IngredientDetails/>

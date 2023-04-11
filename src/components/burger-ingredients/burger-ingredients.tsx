@@ -2,7 +2,6 @@ import React, {FC, useRef} from "react";
 import styles from "./burger-ingredients.module.css";
 import TabList from "../tab-list/tab-list";
 import IngredientsList from "../ingredients-list/ingredients-list";
-// import {useSelector} from "react-redux";
 import {filterIngredients} from "../../utils/filterIngredients";
 import {bun, main, sauce} from "../../utils/constants";
 import {Outlet} from "react-router-dom";

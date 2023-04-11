@@ -1,5 +1,4 @@
 import {
-  DELETE_USER,
   GET_USER_FAILED,
   GET_USER_REQUEST,
   GET_USER_SUCCESS, LOGOUT_USER_FAILED, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS,
@@ -25,19 +24,8 @@ const initialState: TUserState = {
   logoutRequest: false,
   logoutFailed: false,
 };
-export const User = (state = initialState, action: TUserAction) => {
+export const User = (state: TUserState = initialState, action: TUserAction): TUserState  => {
   switch (action.type) {
-    // case SET_USER: {
-    //   return {
-    //     ...state,
-    //     authData: action.authData,
-    //   };
-    // }
-    case DELETE_USER: {
-      return {
-        initialState
-      };
-    }
     case GET_USER_REQUEST: {
       return {
         ...state,

@@ -1,20 +1,22 @@
-import React from 'react';
+import React, {ChangeEvent, FC, SyntheticEvent, useRef} from 'react';
 import Form from "../form/form";
 import style from "./register.module.css"
 import {EmailInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+// import {useDispatch, useSelector} from "react-redux";
 import {setParticipantFormValue} from "../../services/actions/form";
 import {useProvideAuth} from "../../services/auth";
+import {useDispatch, useSelector} from "../../services/hooks";
 
-const Register = () => {
-  const inputRef = React.useRef(null)
+type TRegisterProps = {}
+const Register: FC<TRegisterProps> = () => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch();
   const auth = useProvideAuth();
   const { registration} = useSelector(
     state => state.Form
   );
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
     auth.registration({
       email: registration.email,
@@ -22,11 +24,15 @@ const Register = () => {
       name: registration.name
     })
   }
-  const onFormChange = (e) => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>): void => {
       dispatch(setParticipantFormValue(e.target.name, e.target.value, 'registration'))
   }
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
+  const onIconClick = (): void => {
+      setTimeout((): void => {
+          if (inputRef.current) {
+              inputRef.current.focus();
+          }
+      }, 0);
     dispatch(setParticipantFormValue("isPasswordHidden", !registration.isPasswordHidden, 'registerPassHide'))
   }
   return (

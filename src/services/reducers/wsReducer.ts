@@ -10,11 +10,11 @@ import {
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_SUCCESS, WS_USER_GET_MESSAGE,
 } from "../actions/wsActions";
-import {TOrder} from "../types/Data";
+import {TOrdersRequest} from "../types/Data";
 type TWsReducerState = {
   wsConnected: boolean;
-  orders: Array<TOrder>;
-  UserOrders: Array<TOrder>;
+  orders: TOrdersRequest | null;
+  UserOrders: TOrdersRequest | null;
   wsUserConnected: boolean;
   isModalOrdersOpen: boolean;
   isModalUserOrdersOpen: boolean;
@@ -22,14 +22,14 @@ type TWsReducerState = {
 
 const initialState: TWsReducerState= {
   wsConnected: false,
-  orders: [],
-  UserOrders: [],
+  orders: null,
+  UserOrders: null,
   wsUserConnected: false,
   isModalOrdersOpen: false,
   isModalUserOrdersOpen: false,
 };
 
-export const wsReducer = (state = initialState, action: TWsAction) => {
+export const wsReducer = (state: TWsReducerState = initialState, action: TWsAction):TWsReducerState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {

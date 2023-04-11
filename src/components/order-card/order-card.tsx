@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {FC} from 'react';
 import style from "./order-card.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector} from "react-redux";
 import {findIngredient, orderPriceCalculator} from "../../utils/find-ingredients-utils";
+import {useSelector} from "../../services/hooks";
+import {TOrder} from "../../services/types/Data";
 
-
-const OrderCard = ({order, onClick}) => {
+type TOrderCardProps = {
+  order: TOrder;
+  onClick: (number: number) => void;
+}
+const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
 
   const { items } = useSelector(
     state => state.ingredients
@@ -13,7 +17,7 @@ const OrderCard = ({order, onClick}) => {
 
   const maxIngredientsToShow = 6;
   const displayedIngredients = order.ingredients.slice(0, maxIngredientsToShow);
-  const status = (status) => {
+  const status = (status: string): string => {
     switch (status) {
       case "created" :
         return "Создан";
@@ -26,7 +30,7 @@ const OrderCard = ({order, onClick}) => {
   }
   }
 
-  const otherItemCounter = (ArrIng, ingToShow) => {
+  const otherItemCounter = (ArrIng: any, ingToShow: any) => {
    return (ArrIng.length - ingToShow)
   }
   return (
@@ -39,19 +43,19 @@ const OrderCard = ({order, onClick}) => {
       <p className={`text text_type_main-small mt-2`}>{status(order.status)}</p>
       <div className={`${style.orderIngredientsList} mt-6`}>
         <ul className={`${style.orderIngredientsContainer}`}>
-          {displayedIngredients.map((ing, index) => {
+          {displayedIngredients.map((ing: string, index: number) => {
             let ingredient = findIngredient(ing, items)
             let counter = otherItemCounter(order.ingredients, maxIngredientsToShow)
             if (index === 5 && counter >= 1) {
             return  (
               <div key={index}>
-                 <img className={`${counter >= 1 ? style.orderIngredientsLastItem : style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ing?.type}/>
+                 <img className={`${counter >= 1 ? style.orderIngredientsLastItem : style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient?.type}/>
                  <p className={`${style.orderIngredientsLastItemData} text text_type_main-small`}>{`+${counter}`}</p>
                </div>
               )
             }
            return (
-              <img key={index} className={`${style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ing.type}/>
+              <img key={index} className={`${style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient.type}/>
             )
           })}
         </ul>

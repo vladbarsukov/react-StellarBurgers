@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {FC} from 'react';
 import style from './order-info-ingredient-item.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+type TOrderInfoIngredientIteProps = {
+    ingredient: any;
+    count: any;
+}
 
-
-const OrderInfoIngredientItem = React.memo(({ ingredient, count }) => {
+const OrderInfoIngredientItem:FC<TOrderInfoIngredientIteProps> = React.memo(({ ingredient, count }) => {
   return (
     <div className={`${style.orderIngredientsItemContainer} mb-4`}>
       <div className={`${style.orderIngredientsItem}`}>

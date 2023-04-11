@@ -1,27 +1,32 @@
-import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React, {ChangeEvent, FC, SyntheticEvent, useRef} from 'react';
 import {setParticipantFormValue} from "../../services/actions/form";
 import Form from "../form/form";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./reset-password.module.css";
 import {Link} from "react-router-dom";
 import {useProvideAuth} from "../../services/auth";
+import {useDispatch, useSelector} from "../../services/hooks";
 
-const ResetPassword = () => {
-  const inputRef = React.useRef(null)
+type TResetPasswordProps = {}
+const ResetPassword: FC<TResetPasswordProps> = () => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch();
   const auth = useProvideAuth();
   const {resetPassData} = useSelector(
     state => state.Form
   );
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
+  const onIconClick = (): void => {
+      setTimeout((): void => {
+          if (inputRef.current) {
+              inputRef.current.focus();
+          }
+      }, 0);
     dispatch(setParticipantFormValue("isPasswordHidden", !resetPassData.isPasswordHidden, 'resetPassHide'))
   }
-  const onFormChange = (e) => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>): void => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'resetPass'))
   }
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
     auth.resetPassword({
       password: resetPassData.pass,

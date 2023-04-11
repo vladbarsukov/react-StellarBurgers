@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {FC} from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './not-found.module.css';
 
-
-export function NotFound404() {
+type TNotFound404Props = {}
+export const NotFound404: FC<TNotFound404Props> = () => {
 
   return (
     <div className={styles.wrapper}>
