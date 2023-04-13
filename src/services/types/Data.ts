@@ -21,7 +21,7 @@ export type TOrderDetails = {
 export type TIngredient = {
     _id: string;
     name: string;
-    type: string;
+    type: "main" | "bun";
     proteins: number;
     fat: number;
     carbohydrates: number;
