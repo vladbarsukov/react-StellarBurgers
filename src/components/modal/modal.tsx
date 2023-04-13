@@ -16,33 +16,33 @@ const Modal: FC<TModalProps> = ({close, children}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const closeIngredientPopup = useCallback(() => {
+  const closeIngredientPopup = useCallback((): void => {
     dispatch({
       type: CLOSE_BURGER_INGREDIENT_MODAL,
     })
     navigate('/')
   }, [dispatch, navigate])
 
-  const closeOrderPopup = useCallback(() => {
+  const closeOrderPopup = useCallback((): void => {
     dispatch({
       type: CLOSE_ORDER_MODAL,
     })
   }, [dispatch])
 
-  const closeUserOrdersPopup = useCallback(() => {
+  const closeUserOrdersPopup = useCallback((): void => {
     dispatch({
       type: CLOSE_USER_ORDERS_MODAL,
     })
     navigate('/profile/orders')
   }, [dispatch, navigate])
-  const closeOrdersPopup = useCallback(() => {
+  const closeOrdersPopup = useCallback((): void => {
     dispatch({
       type: CLOSE_ORDERS_MODAL,
     })
     navigate('/feed')
   }, [dispatch, navigate])
 
-  const closePopup = useCallback(() => {
+  const closePopup = useCallback((): void => {
     if (close === 'ingredient') {
       return closeIngredientPopup()
 
@@ -61,7 +61,7 @@ const Modal: FC<TModalProps> = ({close, children}) => {
 
   useEffect(() => {
 
-    const closeByEsc = (e: KeyboardEvent) => {
+    const closeByEsc = (e: KeyboardEvent): void => {
       if(e.key === "Escape"){
         closePopup()
       }

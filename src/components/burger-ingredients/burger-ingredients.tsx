@@ -16,13 +16,13 @@ const BurgerIngredients: FC<TBurgerIngredientsProps> = () => {
   const saucesRef = useRef<HTMLDivElement>(null);
   const bunsRef = useRef<HTMLDivElement>(null);
 
-  const scrollMain = () => {
+  const scrollMain = (): void => {
     if (mainRef.current) {
       mainRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  const scrollSauce = () => {
+  const scrollSauce = (): void => {
     if (saucesRef.current) {
       saucesRef.current.scrollIntoView({ behavior: "smooth" });
     }

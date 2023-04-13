@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {ChangeEvent, FC, SyntheticEvent} from 'react';
 import Form from "../form/form";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './forgot-passwprd.module.css'
@@ -14,10 +14,10 @@ const ForgotPassword: FC<TForgotPasswordProps> = () => {
   );
   const dispatch = useDispatch();
   const auth = useProvideAuth();
-  const onFormChange = (e: any):void => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>):void => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'forgotPass'))
   }
-  const onFormSubmit = (e: any): void => {
+  const onFormSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
     auth.forgotPassword({
         email: forgotPassData.email,

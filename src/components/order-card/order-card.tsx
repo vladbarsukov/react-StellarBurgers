@@ -55,7 +55,7 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
               )
             }
            return (
-              <img key={index} className={`${style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient.type}/>
+              <img key={index} className={`${style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient?.name}/>
             )
           })}
         </ul>

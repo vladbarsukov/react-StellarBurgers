@@ -1,7 +1,6 @@
 import React, {FC} from "react";
 import styles from "../ingredients-list/ingredients-list.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-// import {useDispatch} from 'react-redux';
 import { useDrag } from "react-dnd";
 import {
   MODAL_OPEN

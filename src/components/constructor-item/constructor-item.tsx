@@ -24,7 +24,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({ing, index, moveToppingItem
 
   const [spec, dropRef] = useDrop({
     accept: 'constructorIngredient',
-    hover: (item: {index: number}, monitor: DropTargetMonitor) => {
+    hover: (item: {index: number}, monitor: DropTargetMonitor): void => {
       const dragIndex = item.index
       const hoverIndex = index
       const hoverBoundingRect = ref.current?.getBoundingClientRect()
@@ -40,7 +40,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({ing, index, moveToppingItem
 
   const ref = useRef<HTMLLIElement>(null)
   const dragDropRef: any = dragRef(dropRef(ref))
-  const removeIngredient = (ing: TIngredient) => {
+  const removeIngredient = (ing: TIngredient): void => {
     dispatch({
       type: DECREASE_ITEM,
       id: ing._id

@@ -19,7 +19,7 @@ const Login: FC<TLoginProps> = () => {
     dispatch(setParticipantFormValue(e.target.name, e.target.value, 'login'))
   }
   const inputRef = useRef<HTMLInputElement>(null)
-  const onIconClick = () => {
+  const onIconClick = (): void => {
       setTimeout((): void => {
           if (inputRef.current) {
               inputRef.current.focus();

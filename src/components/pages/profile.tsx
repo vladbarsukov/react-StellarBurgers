@@ -32,7 +32,7 @@ const Profile: FC<TProfileProps> = () => {
       dispatch({ type: WS_USER_CONNECTION_CLOSED});
     }
   }, [dispatch, user]);
-  const onFormCancel = (e: SyntheticEvent): any => {
+  const onFormCancel = (e: SyntheticEvent): void => {
     e.preventDefault();
     dispatch(setParticipantFormValue("name", user?.name, "profile"));
     dispatch(setParticipantFormValue("login", user?.email, "profile"));

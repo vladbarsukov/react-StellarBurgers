@@ -27,7 +27,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = () => {
       type: SET_USER_LOADED,
     })
   };
-  useEffect(() => {
+  useEffect((): void => {
     // При монтировании компонента запросим данные о пользователе
     init()
         .then(() =>
@@ -43,7 +43,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = () => {
   );
   const [, dropTarget] = useDrop({
     accept: "ing",
-    drop(item: TIngredient) {
+    drop(item: TIngredient): void {
       addIngredientToConstructor(item)
     },
   });
@@ -55,7 +55,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = () => {
     });
   }
 
-  const addIngredientToConstructor = (ing: TIngredient):void => {
+  const addIngredientToConstructor = (ing: TIngredient): void => {
     dispatch({
       type: INCREASE_ITEM,
       _id: ing._id,

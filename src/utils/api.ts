@@ -1,17 +1,20 @@
 import {BASE_URL} from "./constants";
 import {getCookie, setCookie} from "./auth";
 
-export const onResponse = (res) => {
+type RequestOptions = RequestInit & {
+  headers?: Record<string, string>;
+};
+export const onResponse = (res: any) => {
   return res.ok ? res.json() : Promise.reject(res);
 };
 
-export function request(url, options) {
+export function request(url: string, options?: RequestOptions) {
   // принимает два аргумента: урл и объект опций, как и `fetch`
   return fetch(url, options)
 }
 
 
-export const registrationRequest = async data =>
+export const registrationRequest = async (data: Record<string, any>) =>
   await request(`${BASE_URL}/auth/register`, {
     method: 'POST',
     headers: {
@@ -20,7 +23,7 @@ export const registrationRequest = async data =>
     body: JSON.stringify(data)
   },);
 
-export const changeUserDataRequest = async data =>
+export const changeUserDataRequest = async (data: Record<string, any>) =>
   await request(`${BASE_URL}/auth/user`, {
     method: "PATCH",
     mode: 'cors',
@@ -37,7 +40,7 @@ export const changeUserDataRequest = async data =>
     )
   },);
 
-export const resetPasswordRequest = async data =>
+export const resetPasswordRequest = async (data: Record<string, any>) =>
   await request(`${BASE_URL}/password-reset/reset`, {
     method: 'POST',
     headers: {
@@ -46,7 +49,7 @@ export const resetPasswordRequest = async data =>
     body: JSON.stringify(data)
   },);
 
-export const logoutRequest = async data =>
+export const logoutRequest = async () =>
   await request(`${BASE_URL}/auth/logout`, {
     method: 'POST',
     headers: {
@@ -57,7 +60,7 @@ export const logoutRequest = async data =>
     })
   },);
 
-export const forgotPasswordRequest = async data =>
+export const forgotPasswordRequest = async (data: Record<string, any>) =>
   await request(`${BASE_URL}/password-reset`, {
     method: 'POST',
     headers: {
@@ -66,7 +69,7 @@ export const forgotPasswordRequest = async data =>
     body: JSON.stringify(data)
   },);
 
-export const loginRequest = async data =>
+export const loginRequest = async (data: Record<string, any>) =>
   await request(`${BASE_URL}/auth/login`, {
     method: 'POST',
     mode: 'cors',
@@ -80,7 +83,7 @@ export const loginRequest = async data =>
     body: JSON.stringify(
       data
     )
-    },);
+  },);
 
 export const getUserRequest = async () =>
   await fetchWithRefresh(`${BASE_URL}/auth/user`, {
@@ -93,7 +96,7 @@ export const getUserRequest = async () =>
       Authorization: `Bearer ${getCookie("accessToken")}`,
     }},);
 
-export const getIngredientsRequest = async () =>
+export const getIngredientsRequest = async (): Promise<Response> =>
   await request(`${BASE_URL}/ingredients`, {
     method: "GET",
     mode: "cors",
@@ -104,7 +107,7 @@ export const getIngredientsRequest = async () =>
     }},);
 
 export const refreshAccessToken = async () => {
- return  await request(`${BASE_URL}/auth/token`, {
+  return  await request(`${BASE_URL}/auth/token`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -116,17 +119,17 @@ export const refreshAccessToken = async () => {
       token: getCookie("refreshToken"),
     })
   },)
-   .then(onResponse)
-   .then((data) => {
-     // console.log(data)
-     let authToken;
-     authToken = data.accessToken.split("Bearer ")[1];
-     setCookie("accessToken", authToken, 120);
-   })
+    .then(onResponse)
+    .then((data) => {
+      // console.log(data)
+      let authToken;
+      authToken = data.accessToken.split("Bearer ")[1];
+      setCookie("accessToken", authToken, 120);
+    })
 
 }
 
-async function fetchWithRefresh(url, options = {}) {
+async function fetchWithRefresh(url: string, options: RequestInit = {}) {
   let response;
   try {
     // Выполняем запрос с текущим токеном
@@ -141,7 +144,7 @@ async function fetchWithRefresh(url, options = {}) {
     if (response.status === 403) {
       // Если получили ошибку 403, то токен истек и нужно обновить его
 
-       await refreshAccessToken(); // функция для обновления токена
+      await refreshAccessToken(); // функция для обновления токена
       // Обновляем токен в куках и повторяем запрос
 
       response = await fetch(url, {
@@ -153,12 +156,12 @@ async function fetchWithRefresh(url, options = {}) {
       });
     }
 
-  } catch (error) {
+  } catch (error: any) {
     if (error.message === "Failed to fetch") {
       // Если запрос завершился с ошибкой, то проверяем наличие токена в куках
       if (!getCookie("accessToken")) {
         // Если токен отсутствует, то обновляем его и повторяем запрос
-         await refreshAccessToken(); // функция для обновления токена
+        await refreshAccessToken(); // функция для обновления токена
         // Обновляем токен в куках и повторяем запрос
 
         response = await fetch(url, {
@@ -174,4 +177,3 @@ async function fetchWithRefresh(url, options = {}) {
 
   return response;
 }
-

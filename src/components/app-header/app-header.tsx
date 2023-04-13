@@ -2,13 +2,13 @@ import React, {FC} from "react";
 import { Logo, BurgerIcon, ProfileIcon, ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import NavButton from "../nav-button/nav-button";
-import {useLocation, useNavigate} from 'react-router-dom';
+import {Location, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 
 type TAppHeaderProps = {};
 const AppHeader: FC<TAppHeaderProps> = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const onClick = (link: string) => {
+  const navigate: NavigateFunction = useNavigate();
+  const location: Location = useLocation();
+  const onClick = (link: string): void => {
     navigate(link);
   }
 

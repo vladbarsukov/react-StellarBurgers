@@ -36,20 +36,6 @@ const OrderInfo: FC<TOrderInfoProps> = ({orders, type})=> {
         return "Статус не определен";
     }
   }
-  // useEffect(() => {
-  //   if (type === "profileOrder") {
-  //     dispatch({ type: WS_USER_CONNECTION_START});
-  //     return () => {
-  //       dispatch({ type: WS_USER_CONNECTION_CLOSED});
-  //     }
-  //   }
-  //   if (type === "allOrders") {
-  //     dispatch({ type: WS_CONNECTION_START});
-  //     return () => {
-  //       dispatch({ type: WS_CONNECTION_CLOSED});
-  //     }
-  //   }
-  // }, [dispatch, type]);
   const currentOrder: TOrder | undefined = useMemo(() => {
 
     return orders.orders?.find((item: TOrder):boolean => item.number === Number(id));

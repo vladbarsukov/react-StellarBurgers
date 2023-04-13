@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect} from 'react';
 import styles from './ingredient-details.module.css';
-import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {getIngredientsRequest, onResponse} from "../../utils/api";
 import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
+import {useDispatch, useSelector} from "../../services/hooks";
 
 const IngredientDetails = () => {
   const dispatch = useDispatch();
@@ -12,18 +12,18 @@ const IngredientDetails = () => {
     state => state.IngredientDetails
   );
   const loadIngredientInfo = useCallback(
-    () => {
-      getIngredientsRequest().then(onResponse).then(ingredients => {
+    (): void => {
+      getIngredientsRequest().then(onResponse).then((ingredients => {
         dispatch({
           type: ADD_INGREDIENT_DETAILS,
-          item: ingredients.data.find(({ _id }) => _id === id),
+          item: ingredients.data.find(({ _id }: {_id: string}): boolean => _id === id),
         });
-      });
+      }));
     },
     [id]
   );
 
-  useEffect(()=> {
+  useEffect((): void=> {
     loadIngredientInfo()
   },[])
 
