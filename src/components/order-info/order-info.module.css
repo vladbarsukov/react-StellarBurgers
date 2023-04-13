@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    height: 716px;
+    width: 720px;
+}
+.orderNumber{
+    text-align: center;
+}
+
+.ingredientList {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 366px;
+
+}
+
+.orderName {
+    height: 30px;
+    white-space: nowrap;
+    width: 620px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.priceContainer {
+    display: flex;
+    align-items: center;
+}
+
+.orderTimeContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

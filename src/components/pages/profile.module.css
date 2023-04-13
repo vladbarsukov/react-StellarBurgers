@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: row;
+    width: 1280px;
+}
+
+.sidebar {
+    width: 320px;
+
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    display: flex;
+    height: 64px;
+    cursor: pointer;
+    align-items: center;
+}
+.button {
+    display: flex;
+    width: 167px;
+    height: 56px;
+    align-items: center;
+}
+.buttons {
+    display: flex;
+    justify-content: end;
+}

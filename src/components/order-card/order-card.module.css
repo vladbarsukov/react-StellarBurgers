@@ -1,0 +1,94 @@
+.container {
+    display: flex;
+    height: 246px;
+    background: #1C1C21;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    flex-direction: column;
+
+}
+.orderNumber {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.orderName {
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.orderIngredientsList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.orderIngredientsContainer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 64px;
+
+}
+
+.orderIngredientsItem {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    height: 64px;
+    width: 64px;
+    background: #131316;
+    border-radius: 100px;
+    border: 3px solid #4c4cff;
+    object-fit: cover;
+}
+.orderIngredientsItem:nth-child(1) {
+    left: 0;
+    z-index: 6;
+
+}
+.orderIngredientsItem:nth-child(2) {
+    left: 50px;
+    z-index: 5;
+}
+.orderIngredientsItem:nth-child(3) {
+    left: 100px;
+    z-index: 4;
+}
+.orderIngredientsItem:nth-child(4) {
+    left: 150px;
+    z-index: 3;
+}
+.orderIngredientsItem:nth-child(5) {
+    left: 200px;
+    z-index: 2;
+}
+
+.orderIngredientsLastItem {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    height: 64px;
+    width: 64px;
+    background: #131316;
+    border-radius: 100px;
+    border: 3px solid #4c4cff;
+    object-fit: cover;
+    left: 250px;
+    z-index: 1;
+    opacity: 0.5;
+}
+.orderIngredientsLastItemData {
+    position: absolute;
+    top: 22px;
+    left: 274px;
+    z-index: 2;
+}
+
+.priceContainer {
+    display: flex;
+    align-items: center;
+}

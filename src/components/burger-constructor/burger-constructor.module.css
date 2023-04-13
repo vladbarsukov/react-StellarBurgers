@@ -1,0 +1,30 @@
+.orderPrice {
+    display: flex;
+    align-self: end;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.list_item {
+    display: flex;
+    align-items: center;
+}
+
+.list {
+    height: 464px;
+    overflow: auto;
+}
+
+.bun {
+    height: 80px;
+}

@@ -1,0 +1,41 @@
+.header {
+    min-width: 1920px;
+    height: 88px;
+    display: flex;
+    justify-content: space-between;
+    justify-self: center;
+    padding-left: 320px;
+    padding-right: 320px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    background-color: #1C1C21;
+}
+
+
+.navigation_block {
+    display: flex;
+}
+
+.navigation_description {
+    font-family: 'JetBrainsMono', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.logo {
+    position: absolute;
+    left: 815px;
+    right: 815px;
+    top: auto;
+    bottom: auto;
+    z-index: 2;
+}
+
+
+.link {
+    text-decoration: none;
+    color: white;
+}

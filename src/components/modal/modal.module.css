@@ -1,0 +1,19 @@
+.modal_content {
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+    background: #1C1C21;
+    transform: scale(0.5);
+    transition: 0.4s all;
+    position: relative;
+}
+
+.modal_content_active {
+    transform: scale(1);
+}
+
+.close_icon {
+    position: absolute;
+    right: 40px;
+    top: 63px;
+    cursor: pointer;
+}
