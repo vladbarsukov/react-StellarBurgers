@@ -10,7 +10,6 @@ export function request(url, options) {
   return fetch(url, options)
 }
 
-
 export const registrationRequest = async data =>
   await request(`${BASE_URL}/auth/register`, {
     method: 'POST',
