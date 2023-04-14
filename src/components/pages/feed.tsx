@@ -2,7 +2,6 @@ import React, {FC, useEffect} from 'react';
 import style from "./feed.module.css";
 import OrderCard from "../order-card/order-card";
 import OrderStats from "../order-stats/order-stats";
-// import {useDispatch, useSelector} from "react-redux";
 import {NavigateFunction, Outlet, useNavigate} from "react-router-dom";
 import {
   OPEN_ORDERS_MODAL, WS_CONNECTION_CLOSED, WS_CONNECTION_START,

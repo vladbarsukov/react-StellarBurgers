@@ -46,7 +46,6 @@ const OrderInfo: FC<TOrderInfoProps> = ({orders, type})=> {
     currentOrder?.ingredients.forEach((el: string): void => {
       counts[el] = (counts[el] || 0) + 1;
     });
-    console.log(counts)
     return counts;
   }, [currentOrder]);
 

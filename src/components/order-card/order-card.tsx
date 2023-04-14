@@ -6,7 +6,7 @@ import {useSelector} from "../../services/hooks";
 import {TOrder} from "../../services/types/Data";
 
 type TOrderCardProps = {
-  order: TOrder;
+  order: TOrder ;
   onClick: (number: number) => void;
 }
 const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
@@ -17,7 +17,7 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
 
   const maxIngredientsToShow = 6;
   const displayedIngredients = order.ingredients.slice(0, maxIngredientsToShow);
-  const status = (status: string): string => {
+  const status = (status: "created" | "pending" | "done"): "Создан" | "Готовится" | "Выполнен" | "Статус не определен" => {
     switch (status) {
       case "created" :
         return "Создан";
