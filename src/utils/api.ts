@@ -142,48 +142,48 @@ export const refreshAccessToken = async () => {
 }
 
 async function fetchWithRefresh(url: string, options: RequestInit = {}) {
-  let response;
-  try {
-    // Выполняем запрос с текущим токеном
-    response = await fetch(url, {
-      ...options,
-      headers: {
-        ...options.headers,
-        Authorization: `Bearer ${getCookie("accessToken")}`,
-      },
-    });
-    if (response.status === 403) {
-      // Если получили ошибку 403, то токен истек и нужно обновить его
-
-      await refreshAccessToken(); // функция для обновления токена
-      // Обновляем токен в куках и повторяем запрос
-
-      response = await fetch(url, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${getCookie("accessToken")}`,
-        },
-      });
-    }
-  } catch (error: any) {
-    if (error.message === "Failed to fetch") {
-      // Если запрос завершился с ошибкой, то проверяем наличие токена в куках
-      if (!getCookie("accessToken")) {
-        // Если токен отсутствует, то обновляем его и повторяем запрос
-        await refreshAccessToken(); // функция для обновления токена
-        // Обновляем токен в куках и повторяем запрос
-
-        response = await fetch(url, {
-          ...options,
-          headers: {
-            ...options.headers,
-            Authorization: `Bearer ${getCookie("accessToken")}`,
-          },
+    try {
+        // Выполняем запрос с текущим токеном
+        let response = await fetch(url, {
+            ...options,
+            headers: {
+                ...options.headers,
+                Authorization: `Bearer ${getCookie("accessToken")}`,
+            },
         });
-      }
-    }
-  }
+        if (response.status === 403) {
+            // Если получили ошибку 403, то токен истек и нужно обновить его
 
-  return response;
+            await refreshAccessToken(); // функция для обновления токена
+            // Обновляем токен в куках и повторяем запрос
+
+            response = await fetch(url, {
+                ...options,
+                headers: {
+                    ...options.headers,
+                    Authorization: `Bearer ${getCookie("accessToken")}`,
+                },
+            });
+        }
+        return response;
+    } catch (error: any) {
+        if (error.message === "Failed to fetch") {
+            // Если запрос завершился с ошибкой, то проверяем наличие токена в куках
+            if (!getCookie("accessToken")) {
+                // Если токен отсутствует, то обновляем его и повторяем запрос
+                await refreshAccessToken(); // функция для обновления токена
+                // Обновляем токен в куках и повторяем запрос
+
+                return await fetch(url, {
+                    ...options,
+                    headers: {
+                        ...options.headers,
+                        Authorization: `Bearer ${getCookie("accessToken")}`,
+                    },
+                });
+            }
+        }
+
+        return Promise.reject(error)
+    }
 }

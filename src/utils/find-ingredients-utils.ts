@@ -7,7 +7,6 @@ export const findAllIngredient = (ingArr: string[], array: TIngredient[]): TIngr
 
   let arr: TIngredient[] = []
   ingArr.forEach((order)=> {
-    // arr.push(array?.find(({ _id }) => _id === order))
     const item = array.find(({ _id }) => _id === order)
     if (item) {
       arr.push(item)
