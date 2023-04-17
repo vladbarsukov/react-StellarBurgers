@@ -32,10 +32,6 @@ export type TIngredient = {
     image_large: string;
     __v: number;
 }
-export type TUserRequest = {
-    success: boolean;
-    user: TUser;
-}
 
 export type TUser = {
     email: string;
@@ -55,4 +51,76 @@ export type TOrder = {
     createdAt: string;
     updatedAt: string;
     number: number;
+}
+
+export type TRegistrationRequest ={
+    email: string
+    password: string
+    name: string
+}
+export type TChangeUserDataRequest ={
+    email: string
+    password: string
+    login: string
+}
+export type TChangeUserDataResponse ={
+    user: {
+        email: string
+        name: string
+    }
+}
+
+export type TResetPasswordRequest ={
+    token: string
+    password: string
+}
+
+export type TForgotPasswordRequest ={
+    email: string
+}
+
+export type TSignInRequest ={
+    email: string
+    password: string
+}
+
+export type TResponse<T> = {
+    success: boolean;
+} & T;
+
+export type TSignInResponse = {
+    user: TUser;
+    accessToken : string
+    refreshToken: string
+}
+
+export type TUserRequest = {
+    user: TUser;
+}
+
+export type TIngredientResponse = {
+    data: TIngredient[]
+}
+
+export type TOwner = {
+    email: string
+    name: string
+    createdAt: string
+    updatedAt: string
+}
+
+export type TPostOrder = {
+    _id: string
+    status: string
+    name: string
+    createdAt: string
+    ingredients: Array<TIngredient>
+    number: number
+    price: number
+    updatedAt: string
+    owner: TOwner
+}
+export type TPostOrderResponse = {
+    name: string
+    order: TPostOrder
 }

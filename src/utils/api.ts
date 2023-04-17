@@ -1,11 +1,20 @@
 import {BASE_URL} from "./constants";
 import {getCookie, setCookie} from "./auth";
+import {
+    TChangeUserDataRequest,
+    TForgotPasswordRequest,
+    TRegistrationRequest,
+    TResetPasswordRequest, TResponse, TSignInRequest
+} from "../services/types/Data";
 
 type RequestOptions = RequestInit & {
   headers?: Record<string, string>;
 };
 export const onResponse = (res: any) => {
   return res.ok ? res.json() : Promise.reject(res);
+};
+export const checkResponse = <T>(res: Response) => {
+    return res.ok ? res.json().then(data => data as TResponse<T>) : Promise.reject(res.status);
 };
 
 export function request(url: string, options?: RequestOptions) {
@@ -14,7 +23,7 @@ export function request(url: string, options?: RequestOptions) {
 }
 
 
-export const registrationRequest = async (data: Record<string, any>) =>
+export const registrationRequest = async (data: TRegistrationRequest) =>
   await request(`${BASE_URL}/auth/register`, {
     method: 'POST',
     headers: {
@@ -23,7 +32,7 @@ export const registrationRequest = async (data: Record<string, any>) =>
     body: JSON.stringify(data)
   },);
 
-export const changeUserDataRequest = async (data: Record<string, any>) =>
+export const changeUserDataRequest = async (data: TChangeUserDataRequest) =>
   await request(`${BASE_URL}/auth/user`, {
     method: "PATCH",
     mode: 'cors',
@@ -40,7 +49,7 @@ export const changeUserDataRequest = async (data: Record<string, any>) =>
     )
   },);
 
-export const resetPasswordRequest = async (data: Record<string, any>) =>
+export const resetPasswordRequest = async (data: TResetPasswordRequest) =>
   await request(`${BASE_URL}/password-reset/reset`, {
     method: 'POST',
     headers: {
@@ -60,7 +69,7 @@ export const logoutRequest = async () =>
     })
   },);
 
-export const forgotPasswordRequest = async (data: Record<string, any>) =>
+export const forgotPasswordRequest = async (data: TForgotPasswordRequest) =>
   await request(`${BASE_URL}/password-reset`, {
     method: 'POST',
     headers: {
@@ -69,7 +78,7 @@ export const forgotPasswordRequest = async (data: Record<string, any>) =>
     body: JSON.stringify(data)
   },);
 
-export const loginRequest = async (data: Record<string, any>) =>
+export const loginRequest = async (data: TSignInRequest) =>
   await request(`${BASE_URL}/auth/login`, {
     method: 'POST',
     mode: 'cors',
@@ -96,7 +105,7 @@ export const getUserRequest = async () =>
       Authorization: `Bearer ${getCookie("accessToken")}`,
     }},);
 
-export const getIngredientsRequest = async (): Promise<Response> =>
+export const getIngredientsRequest = async () =>
   await request(`${BASE_URL}/ingredients`, {
     method: "GET",
     mode: "cors",
@@ -121,7 +130,6 @@ export const refreshAccessToken = async () => {
   },)
     .then(onResponse)
     .then((data) => {
-      // console.log(data)
       let authToken;
       authToken = data.accessToken.split("Bearer ")[1];
       setCookie("accessToken", authToken, 120);
@@ -140,7 +148,6 @@ async function fetchWithRefresh(url: string, options: RequestInit = {}) {
         Authorization: `Bearer ${getCookie("accessToken")}`,
       },
     });
-
     if (response.status === 403) {
       // Если получили ошибку 403, то токен истек и нужно обновить его
 
@@ -155,7 +162,6 @@ async function fetchWithRefresh(url: string, options: RequestInit = {}) {
         },
       });
     }
-
   } catch (error: any) {
     if (error.message === "Failed to fetch") {
       // Если запрос завершился с ошибкой, то проверяем наличие токена в куках

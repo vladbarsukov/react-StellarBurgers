@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect} from 'react';
 import styles from './ingredient-details.module.css';
 import {useParams} from "react-router-dom";
-import {getIngredientsRequest, onResponse} from "../../utils/api";
+import {checkResponse, getIngredientsRequest, onResponse} from "../../utils/api";
 import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
 import {useDispatch, useSelector} from "../../services/hooks";
+import {TIngredientResponse} from "../../services/types/Data";
 
 const IngredientDetails = () => {
   const dispatch = useDispatch();

@@ -34,7 +34,7 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
    return (ArrIng.length - ingToShow)
   }
   return (
-    <div onClick={() =>onClick(order.number)} className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
+    order ?    <div onClick={() =>onClick(order.number)} className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
       <div className={`${style.orderNumber} mb-6`}>
         <p className="text text_type_digits-default" >{`# ${order.number}`}</p>
         <p className="text text_type_main-small text_color_inactive" >{order.createdAt.substring(0, 19)}</p>
@@ -47,15 +47,15 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
             let ingredient = findIngredient(ing, items)
             let counter = otherItemCounter(order.ingredients, maxIngredientsToShow)
             if (index === 5 && counter >= 1) {
-            return  (
-              <div key={index}>
-                 <img className={`${counter >= 1 ? style.orderIngredientsLastItem : style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient?.type}/>
-                 <p className={`${style.orderIngredientsLastItemData} text text_type_main-small`}>{`+${counter}`}</p>
-               </div>
+              return  (
+                  <div key={index}>
+                    <img className={`${counter >= 1 ? style.orderIngredientsLastItem : style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient?.type}/>
+                    <p className={`${style.orderIngredientsLastItemData} text text_type_main-small`}>{`+${counter}`}</p>
+                  </div>
               )
             }
-           return (
-              <img key={index} className={`${style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient?.name}/>
+            return (
+                <img key={index} className={`${style.orderIngredientsItem} `} src={ingredient?.image_mobile} alt={ingredient?.name}/>
             )
           })}
         </ul>
@@ -64,7 +64,7 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </div>
+    </div> : <></>
   );
 };
 

@@ -1,6 +1,6 @@
-import {onResponse, request} from "../../utils/api";
+import {checkResponse, onResponse, request} from "../../utils/api";
 import {BASE_URL} from "../../utils/constants";
-import {TIngredient} from "../types/Data";
+import {TIngredient, TIngredientResponse} from "../types/Data";
 import {IPostOrderSuccess} from "./BurgerConstructor";
 import {AppDispatch} from "../types";
 
@@ -38,7 +38,7 @@ export const getItems = () =>
       type: GET_ITEMS_REQUEST
     });
     request(`${BASE_URL}/ingredients`)
-      .then(onResponse)
+      .then(checkResponse<TIngredientResponse>)
       .then(res => {
         dispatch({
           type: GET_ITEMS_SUCCESS,

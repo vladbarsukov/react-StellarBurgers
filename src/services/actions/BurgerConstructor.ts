@@ -1,7 +1,7 @@
-import {onResponse, request} from "../../utils/api";
+import {checkResponse, onResponse, request} from "../../utils/api";
 import {BASE_URL} from "../../utils/constants";
 import {getCookie} from "../../utils/auth";
-import {TIngredient, TOrderDetails} from "../types/Data";
+import {TIngredient, TOrderDetails, TPostOrderResponse} from "../types/Data";
 import {AppDispatch} from "../types";
 
 export const POST_ORDER_REQUEST: 'POST_ORDER_REQUEST'= 'POST_ORDER_REQUEST';
@@ -56,7 +56,7 @@ export const pushData = (ingredients: string[]) =>
       },
       body: JSON.stringify({'ingredients': ingredients})
     })
-      .then(onResponse)
+      .then(checkResponse<TPostOrderResponse>)
       .then(res => {
         dispatch({
           type: POST_ORDER_SUCCESS,
@@ -70,62 +70,3 @@ export const pushData = (ingredients: string[]) =>
         });
       })
   };
-
-
-// export const pushData: AppThunk = (ingredients: string[]) => {
-//     return function(dispatch: AppDispatch):void {
-//         dispatch({
-//             type: POST_ORDER_REQUEST
-//         });
-//         request(`${BASE_URL}/orders`,{
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Authorization: `Bearer ${getCookie("accessToken")}`,
-//             },
-//             body: JSON.stringify({'ingredients': ingredients})
-//         })
-//             .then(onResponse)
-//             .then(res => {
-//                 dispatch({
-//                     type: POST_ORDER_SUCCESS,
-//                     orderDetails: res
-//                 });
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//                 dispatch({
-//                     type: POST_ORDER_FAILED
-//                 });
-//             })
-//     };
-// }
-
-// export function pushData (ingredients)  {
-//     return function(dispatch):void {
-//         dispatch({
-//             type: POST_ORDER_REQUEST
-//         });
-//         request(`${BASE_URL}/orders`,{
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Authorization: `Bearer ${getCookie("accessToken")}`,
-//             },
-//             body: JSON.stringify({'ingredients': ingredients})
-//         })
-//             .then(onResponse)
-//             .then(res => {
-//                 dispatch({
-//                     type: POST_ORDER_SUCCESS,
-//                     orderDetails: res
-//                 });
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//                 dispatch({
-//                     type: POST_ORDER_FAILED
-//                 });
-//             })
-//     };
-// }

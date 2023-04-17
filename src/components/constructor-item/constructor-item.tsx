@@ -39,7 +39,8 @@ const ConstructorItem: FC<TConstructorItemProps> = ({ing, index, moveToppingItem
   })
 
   const ref = useRef<HTMLLIElement>(null)
-  const dragDropRef: any = dragRef(dropRef(ref))
+  dragRef(dropRef(ref))
+  // const dragDropRef: any = dragRef(dropRef(ref))
   const removeIngredient = (ing: TIngredient): void => {
     dispatch({
       type: DECREASE_ITEM,
@@ -51,7 +52,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({ing, index, moveToppingItem
     }, );
   }
   return (
-    <li ref={dragDropRef} className={`${styles.list_item} mb-4`}>
+    <li ref={ref} className={`${styles.list_item} mb-4`}>
       <div className={"mr-1"}>
         <DragIcon type={"primary"} />
       </div>

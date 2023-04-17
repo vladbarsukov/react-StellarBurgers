@@ -1,6 +1,5 @@
-// import { useDispatch} from "react-redux";
 import {
-  changeUserDataRequest,
+  changeUserDataRequest, checkResponse,
   forgotPasswordRequest,
   getUserRequest,
   loginRequest, logoutRequest,
@@ -34,33 +33,37 @@ import {
 } from "./actions/form";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "./hooks";
-type FormValues = Record<string, string>;
-
+import {
+  TChangeUserDataRequest, TChangeUserDataResponse,
+  TForgotPasswordRequest,
+  TRegistrationRequest,
+  TResetPasswordRequest, TSignInRequest, TSignInResponse, TUserRequest
+} from "./types/Data";
 
 type AuthProvider = {
   getUser: () => Promise<void>;
-  signIn: (form: FormValues) => Promise<void>;
-  registration: (form: FormValues) => Promise<void>;
-  resetPassword: (form: FormValues) => Promise<void>;
-  forgotPassword: (form: FormValues) => Promise<void>;
-  resetUserData: (form: FormValues) => Promise<void>;
+  signIn: (form: TSignInRequest) => Promise<void>;
+  registration: (form: TRegistrationRequest) => Promise<void>;
+  resetPassword: (form: TResetPasswordRequest) => Promise<void>;
+  forgotPassword: (form: TForgotPasswordRequest) => Promise<void>;
+  resetUserData: (form: TChangeUserDataRequest) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
 export function useProvideAuth(): AuthProvider {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const registration = async (form: FormValues): Promise<void> => {
+  const registration = async (form: TRegistrationRequest): Promise<void> => {
     dispatch({
       type: PARTICIPANT_REGISTER_FORM_SUBMIT
     });
     return await registrationRequest(form)
-      .then(onResponse)
+      .then(checkResponse)
       .then(data => {
         dispatch({
           type: PARTICIPANT_REGISTER_FORM_SUBMIT_SUCCESS,
-          data
         });
+        navigate('/login')
       })
       .catch(err => {
         dispatch({
@@ -68,12 +71,12 @@ export function useProvideAuth(): AuthProvider {
         });
       })
   };
-  const forgotPassword = async (form: FormValues): Promise<void> => {
+  const forgotPassword = async (form: TForgotPasswordRequest): Promise<void> => {
     dispatch({
       type: PARTICIPANT_FORGOT_PASS_FORM_SUBMIT
     });
     return await forgotPasswordRequest(form)
-      .then(onResponse)
+      .then(checkResponse)
       .then(data => {
         if (data.success) {
           navigate('/reset-password')
@@ -89,12 +92,12 @@ export function useProvideAuth(): AuthProvider {
       })
 
   };
-  const resetPassword = async (form: FormValues): Promise<void> => {
+  const resetPassword = async (form: TResetPasswordRequest): Promise<void> => {
     dispatch({
       type: PARTICIPANT_RESET_PASS_FORM_SUBMIT
     });
     return await resetPasswordRequest(form)
-      .then(onResponse)
+      .then(checkResponse)
       .then(data => {
         if (data.success) {
           navigate('/login')
@@ -111,12 +114,12 @@ export function useProvideAuth(): AuthProvider {
         });
       })
   };
-  const resetUserData = async (form: FormValues): Promise<void> => {
+  const resetUserData = async (form: TChangeUserDataRequest): Promise<void> => {
     dispatch({
       type: PARTICIPANT_PROFILE_FORM_SUBMIT
     });
     return await changeUserDataRequest(form)
-      .then(onResponse)
+      .then(checkResponse<TChangeUserDataResponse>)
       .then(data => {
         dispatch({
           type: PARTICIPANT_PROFILE_FORM_SUBMIT_SUCCESS,
@@ -130,28 +133,31 @@ export function useProvideAuth(): AuthProvider {
         });
       })
   };
-  const signIn = async (form: FormValues): Promise<void> => {
+  const signIn = async (form: TSignInRequest): Promise<void> => {
     dispatch({
       type: PARTICIPANT_LOGIN_FORM_SUBMIT,
     });
-    const data = await loginRequest(form)
-      .then(onResponse)
-      .then((data) => data)
+    return await loginRequest(form)
+      .then(checkResponse<TSignInResponse>)
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: GET_USER_SUCCESS,
+            user: data.user,
+          });
+          let authToken;
+          authToken = data.accessToken.split("Bearer ")[1];
+          setCookie("accessToken", authToken, 120);
+          setCookie("refreshToken", data.refreshToken);
+          console.log(data)
+        }
+      })
       .catch((err) => {
         dispatch({
           type: PARTICIPANT_LOGIN_FORM_SUBMIT_FAILED,
         });
       });
-    if (data.success) {
-      dispatch({
-        type: GET_USER_SUCCESS,
-        user: data.user,
-      });
-      let authToken;
-      authToken = data.accessToken.split("Bearer ")[1];
-      setCookie("accessToken", authToken, 120);
-      setCookie("refreshToken", data.refreshToken);
-    }
+
   };
   const getUser = async () => {
     dispatch({
@@ -159,14 +165,13 @@ export function useProvideAuth(): AuthProvider {
     });
     return await getUserRequest()
       .then(onResponse)
-      .then((data) => {
+      .then(data => {
         if (data.success) {
           dispatch({
             type: GET_USER_SUCCESS,
             user: data.user,
           });
         }
-        return data.success;
       })
       .catch((error) => {
         console.log(error);
@@ -180,7 +185,7 @@ export function useProvideAuth(): AuthProvider {
       type: LOGOUT_USER_REQUEST,
     });
     return await logoutRequest()
-      .then(onResponse)
+      .then(checkResponse)
       .then(() => {
         dispatch({
           type: LOGOUT_USER_SUCCESS,

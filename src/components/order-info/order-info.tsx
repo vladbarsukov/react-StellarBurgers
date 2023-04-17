@@ -58,7 +58,7 @@ const OrderInfo: FC<TOrderInfoProps> = ({orders, type})=> {
   }, [counts]);
 
   return (
-  orders.orders && items && currentOrder ?
+  orders && items && currentOrder ?
     <div className={`${style.container} pt-10 pb-10 pr-10 pl-10`}>
      <p className={`${type ? style.orderNumber : ""} text text_type_digits-default`}>{`#${currentOrder.number}`}</p>
       <h2 className={`${style.orderName} text text_type_main-medium mt-10`}>{currentOrder.name}</h2>

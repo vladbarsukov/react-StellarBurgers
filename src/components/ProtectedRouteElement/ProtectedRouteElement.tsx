@@ -11,7 +11,7 @@ type TProtectedRouteElementProps = {
   element: React.ReactNode;
   navigate: any;
 }
-const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({ element, navigate}): any => {
+const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({ element, navigate}) => {
   const location = useLocation();
   const navigation = useNavigate();
   const { isUserLoaded, user} = useSelector(
