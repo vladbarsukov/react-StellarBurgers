@@ -30,7 +30,7 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
   }
   }
 
-  const otherItemCounter = (ArrIng: any, ingToShow: any) => {
+  const otherItemCounter = (ArrIng: string[], ingToShow: number) => {
    return (ArrIng.length - ingToShow)
   }
   return (
