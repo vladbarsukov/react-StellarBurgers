@@ -1,4 +1,4 @@
-import {checkResponse, onResponse, request} from "../../utils/api";
+import {checkResponse, request} from "../../utils/api";
 import {BASE_URL} from "../../utils/constants";
 import {getCookie} from "../../utils/auth";
 import {TIngredient, TOrderDetails, TPostOrderResponse} from "../types/Data";

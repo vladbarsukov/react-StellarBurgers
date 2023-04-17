@@ -10,15 +10,10 @@ import {
 type RequestOptions = RequestInit & {
   headers?: Record<string, string>;
 };
-export const onResponse = (res: any) => {
-  return res.ok ? res.json() : Promise.reject(res);
-};
 export const checkResponse = <T>(res: Response) => {
     return res.ok ? res.json().then(data => data as TResponse<T>) : Promise.reject(res.status);
 };
-// export const checkResponse = <T>(res: Response): Promise<T> => {
-//     return res.ok ? res.json() : Promise.reject(res.status);
-// };
+
 
 export function request(url: string, options?: RequestOptions) {
   // принимает два аргумента: урл и объект опций, как и `fetch`

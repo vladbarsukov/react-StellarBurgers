@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect} from 'react';
 import styles from './ingredient-details.module.css';
 import {useParams} from "react-router-dom";
-import {checkResponse, getIngredientsRequest, onResponse} from "../../utils/api";
-import {ADD_INGREDIENT_DETAILS, IAddIngredientDetails} from "../../services/actions/IngredientDetails";
+import {checkResponse, getIngredientsRequest} from "../../utils/api";
+import {ADD_INGREDIENT_DETAILS} from "../../services/actions/IngredientDetails";
 import {useDispatch, useSelector} from "../../services/hooks";
 import {TIngredientResponse} from "../../services/types/Data";
 
@@ -17,10 +17,14 @@ const IngredientDetails = () => {
       getIngredientsRequest()
           .then(checkResponse<TIngredientResponse>)
           .then((ingredients => {
-            dispatch({
-              type: ADD_INGREDIENT_DETAILS,
-              item: ingredients.data.find(({ _id }) => _id === id),
-            } as IAddIngredientDetails);
+              let item = ingredients.data.find(({ _id }) => _id === id)
+              if (item) {
+                  dispatch({
+                      type: ADD_INGREDIENT_DETAILS,
+                      item: item
+                  });
+              }
+
       }));
     },
     [id]

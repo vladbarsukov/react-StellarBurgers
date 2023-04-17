@@ -3,7 +3,6 @@ import {
   forgotPasswordRequest,
   getUserRequest,
   loginRequest, logoutRequest,
-  onResponse,
   registrationRequest,
   resetPasswordRequest
 } from "../utils/api";
