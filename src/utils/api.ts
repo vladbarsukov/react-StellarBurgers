@@ -4,7 +4,7 @@ import {
     TChangeUserDataRequest,
     TForgotPasswordRequest,
     TRegistrationRequest,
-    TResetPasswordRequest, TResponse, TSignInRequest
+    TResetPasswordRequest, TResponse, TSignInRequest, TTokenResponse
 } from "../services/types/Data";
 
 type RequestOptions = RequestInit & {
@@ -16,6 +16,9 @@ export const onResponse = (res: any) => {
 export const checkResponse = <T>(res: Response) => {
     return res.ok ? res.json().then(data => data as TResponse<T>) : Promise.reject(res.status);
 };
+// export const checkResponse = <T>(res: Response): Promise<T> => {
+//     return res.ok ? res.json() : Promise.reject(res.status);
+// };
 
 export function request(url: string, options?: RequestOptions) {
   // принимает два аргумента: урл и объект опций, как и `fetch`
@@ -128,8 +131,9 @@ export const refreshAccessToken = async () => {
       token: getCookie("refreshToken"),
     })
   },)
-    .then(onResponse)
+    .then(checkResponse<TTokenResponse>)
     .then((data) => {
+        console.log(data)
       let authToken;
       authToken = data.accessToken.split("Bearer ")[1];
       setCookie("accessToken", authToken, 120);

@@ -94,7 +94,7 @@ export type TSignInResponse = {
     refreshToken: string
 }
 
-export type TUserRequest = {
+export type TUserResponce = {
     user: TUser;
 }
 
@@ -123,4 +123,8 @@ export type TPostOrder = {
 export type TPostOrderResponse = {
     name: string
     order: TPostOrder
+}
+
+export type TTokenResponse = {
+    accessToken: string
 }

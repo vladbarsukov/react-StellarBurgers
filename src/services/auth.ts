@@ -37,7 +37,7 @@ import {
   TChangeUserDataRequest, TChangeUserDataResponse,
   TForgotPasswordRequest,
   TRegistrationRequest,
-  TResetPasswordRequest, TSignInRequest, TSignInResponse, TUserRequest
+  TResetPasswordRequest, TSignInRequest, TSignInResponse, TUserResponce
 } from "./types/Data";
 
 type AuthProvider = {
@@ -149,7 +149,6 @@ export function useProvideAuth(): AuthProvider {
           authToken = data.accessToken.split("Bearer ")[1];
           setCookie("accessToken", authToken, 120);
           setCookie("refreshToken", data.refreshToken);
-          console.log(data)
         }
       })
       .catch((err) => {
@@ -164,7 +163,8 @@ export function useProvideAuth(): AuthProvider {
       type: GET_USER_REQUEST,
     });
     return await getUserRequest()
-      .then(onResponse)
+        // .then(onResponse)
+        .then((res) => checkResponse<TUserResponce>(res))
       .then(data => {
         if (data.success) {
           dispatch({

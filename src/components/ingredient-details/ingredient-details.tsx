@@ -14,10 +14,13 @@ const IngredientDetails = () => {
   );
   const loadIngredientInfo = useCallback(
     (): void => {
-      getIngredientsRequest().then(onResponse).then((ingredients => {
+      getIngredientsRequest()
+          // .then(onResponse)
+          .then(checkResponse<TIngredientResponse>)
+          .then((ingredients => {
         dispatch({
           type: ADD_INGREDIENT_DETAILS,
-          item: ingredients.data.find(({ _id }: {_id: string}): boolean => _id === id),
+          item: ingredients.data.find(({ _id }: {_id}) => _id === id),
         });
       }));
     },
