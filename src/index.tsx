@@ -21,6 +21,7 @@ import {socketMiddleware} from "./services/middlewares/socket-middleware";
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 const wsUrlUser = 'wss://norma.nomoreparties.space/orders';
 
+
 const wsActions = {
     wsInit: WS_CONNECTION_START,
     onOpen: WS_CONNECTION_SUCCESS,
@@ -39,11 +40,10 @@ declare global {
         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     }
 }
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl,wsUrlUser, wsActions)));
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
