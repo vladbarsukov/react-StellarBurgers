@@ -17,7 +17,7 @@ const IngredientDetails = () => {
       getIngredientsRequest()
           .then(checkResponse<TIngredientResponse>)
           .then((ingredients => {
-              let item = ingredients.data.find(({ _id }) => _id === id)
+              const item = ingredients.data.find(({ _id }) => _id === id)
               if (item) {
                   dispatch({
                       type: ADD_INGREDIENT_DETAILS,

@@ -30,11 +30,14 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
   }
   }
 
-  const otherItemCounter = (ArrIng: string[], ingToShow: number) => {
+  const otherItemCounter = (ArrIng: string[], ingToShow: number): number => {
    return (ArrIng.length - ingToShow)
   }
+  if (!order) {
+    return null
+  }
   return (
-    order ?    <div onClick={() =>onClick(order.number)} className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
+    <div onClick={() =>onClick(order.number)} className={`${style.container} pr-6 pl-6 pb-6 pt-6 mb-4`}>
       <div className={`${style.orderNumber} mb-6`}>
         <p className="text text_type_digits-default" >{`# ${order.number}`}</p>
         <p className="text text_type_main-small text_color_inactive" >{order.createdAt.substring(0, 19)}</p>
@@ -64,7 +67,7 @@ const OrderCard: FC<TOrderCardProps> = ({order, onClick}) => {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </div> : <></>
+    </div>
   );
 };
 

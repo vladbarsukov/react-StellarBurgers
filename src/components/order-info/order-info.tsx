@@ -1,17 +1,11 @@
-import React, {FC, useEffect, useMemo} from 'react';
+import React, {FC, useMemo} from 'react';
 import {useParams} from "react-router-dom";
 import style from './order-info.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {findIngredient, orderPriceCalculator} from "../../utils/find-ingredients-utils";
 import OrderInfoIngredientItem from "../order-info-ingredient-item/order-info-ingredient-item";
-import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_START,
-  WS_USER_CONNECTION_CLOSED,
-  WS_USER_CONNECTION_START
-} from "../../services/actions/wsActions";
 import {TOrder, TOrdersRequest} from "../../services/types/Data";
-import {useDispatch, useSelector} from "../../services/hooks";
+import {useSelector} from "../../services/hooks";
 
 type TOrderInfoProps = {
   orders: TOrdersRequest;
@@ -19,7 +13,6 @@ type TOrderInfoProps = {
 }
 
 const OrderInfo: FC<TOrderInfoProps> = ({orders, type})=> {
-  const dispatch = useDispatch();
   const { id  } = useParams();
   const { items } = useSelector(
     state => state.ingredients

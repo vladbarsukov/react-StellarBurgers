@@ -144,8 +144,7 @@ export function useProvideAuth(): AuthProvider {
             type: GET_USER_SUCCESS,
             user: data.user,
           });
-          let authToken;
-          authToken = data.accessToken.split("Bearer ")[1];
+          let authToken = data.accessToken.split("Bearer ")[1];
           setCookie("accessToken", authToken, 120);
           setCookie("refreshToken", data.refreshToken);
         }
@@ -162,7 +161,6 @@ export function useProvideAuth(): AuthProvider {
       type: GET_USER_REQUEST,
     });
     return await getUserRequest()
-        // .then(onResponse)
         .then((res) => checkResponse<TUserResponce>(res))
       .then(data => {
         if (data.success) {
