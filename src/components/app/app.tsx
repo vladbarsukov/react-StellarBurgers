@@ -57,6 +57,8 @@ const App: FC = () => {
               :
               <Route path="/" element={<Home />} />
             }
+            <Route path="/react-StellarBurgers/" element={<Home />}/>
+
             <Route path="*" element={<NotFound404/>}/>
             <Route path="/ingredients/:id" element={<IngredientsDetailsPage/>} />
             <Route path="/profile" element={<ProtectedRouteElement  navigate={<Navigate to="/login" replace/>} element={<Profile />}/>} >
